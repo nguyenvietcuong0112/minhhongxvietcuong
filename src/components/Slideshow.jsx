@@ -3,27 +3,32 @@ import { RoyalCornerOrnament } from './Ornaments';
 
 /**
  * Slideshow: Cinematic Love Story Photo Album with Ken Burns effect.
- * Perfect for projecting during welcoming guests or dinner party.
+ * Can be driven by Master Auto-Loop or controlled manually.
  */
-const Slideshow = ({ data, theme }) => {
+const Slideshow = ({ data, activePhotoIndex }) => {
   const photos = data.photos || [];
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [internalIndex, setInternalIndex] = useState(0);
+
+  // Sync with activePhotoIndex if provided by master auto-loop
+  const currentIndex =
+    typeof activePhotoIndex === 'number' && activePhotoIndex >= 0
+      ? activePhotoIndex % photos.length
+      : internalIndex;
 
   useEffect(() => {
-    if (!isPlaying || photos.length <= 1) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % photos.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [isPlaying, photos.length]);
+    if (typeof activePhotoIndex === 'number') {
+      setInternalIndex(activePhotoIndex % photos.length);
+    }
+  }, [activePhotoIndex, photos.length]);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % photos.length);
+  const handleNext = (e) => {
+    e && e.stopPropagation();
+    setInternalIndex((prev) => (prev + 1) % photos.length);
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  const handlePrev = (e) => {
+    e && e.stopPropagation();
+    setInternalIndex((prev) => (prev - 1 + photos.length) % photos.length);
   };
 
   if (!photos.length) {
@@ -34,7 +39,7 @@ const Slideshow = ({ data, theme }) => {
     );
   }
 
-  const currentPhoto = photos[currentIndex];
+  const currentPhoto = photos[currentIndex] || photos[0];
 
   return (
     <div className="slideshow-stage">
@@ -67,6 +72,7 @@ const Slideshow = ({ data, theme }) => {
                   src={photo.url}
                   alt={photo.caption || `Ảnh ${index + 1}`}
                   className="slideshow-image"
+                  loading="eager"
                 />
               </div>
             ))}
@@ -75,7 +81,7 @@ const Slideshow = ({ data, theme }) => {
           {/* Photo Info Banner */}
           <div className="slideshow-caption-bar">
             <div className="slideshow-couple-tag">
-              {data.groomName} & {data.brideName}
+              {data.groomName} <span className="ampersand">&</span> {data.brideName}
             </div>
             {currentPhoto.caption && (
               <div className="slideshow-caption-text">
@@ -105,19 +111,14 @@ const Slideshow = ({ data, theme }) => {
 
         {/* Slideshow Indicators & Status */}
         <div className="slideshow-footer-controls">
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="slideshow-play-pause-btn"
-            title={isPlaying ? 'Tạm dừng tự động chạy' : 'Tiếp tục tự động chạy'}
-          >
-            {isPlaying ? '⏸ Tự động phát' : '▶ Tiếp tục'}
-          </button>
-
           <div className="slideshow-dots">
             {photos.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentIndex(index)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setInternalIndex(index);
+                }}
                 className={`slideshow-dot ${index === currentIndex ? 'active' : ''}`}
                 aria-label={`Đi tới ảnh ${index + 1}`}
               />

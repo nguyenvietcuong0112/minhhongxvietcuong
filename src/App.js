@@ -1,23 +1,165 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
+import {
+  THEMES,
+  loadWeddingData,
+  saveWeddingData,
+  DEFAULT_WEDDING_DATA,
+} from './config/weddingData';
+import CeremonyStage from './components/CeremonyStage';
+import AudioPlayer from './components/AudioPlayer';
+import ControlBar from './components/ControlBar';
+import SettingsModal from './components/SettingsModal';
 
 function App() {
+  const [data, setData] = useState(() => loadWeddingData());
+  const [themeId, setThemeId] = useState(() => data.theme || 'deepRose');
+  const [layoutMode, setLayoutMode] = useState(() => data.layoutMode || 'center');
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [hasStartedInteracting, setHasStartedInteracting] = useState(false);
+
+  const activeTheme = THEMES[themeId] || THEMES.deepRose;
+
+  // Toggle between themes (deepRose <-> royalRed <-> ivoryLotus)
+  const toggleTheme = useCallback(() => {
+    const themeKeys = Object.keys(THEMES);
+    const nextIdx = (themeKeys.indexOf(themeId) + 1) % themeKeys.length;
+    const nextThemeId = themeKeys[nextIdx];
+    setThemeId(nextThemeId);
+    const updated = { ...data, theme: nextThemeId };
+    setData(updated);
+    saveWeddingData(updated);
+  }, [themeId, data]);
+
+  // Toggle layout mode between 'center' and 'duo'
+  const toggleLayoutMode = useCallback(() => {
+    const nextMode = layoutMode === 'center' ? 'duo' : 'center';
+    setLayoutMode(nextMode);
+    const updated = { ...data, layoutMode: nextMode };
+    setData(updated);
+    saveWeddingData(updated);
+  }, [layoutMode, data]);
+
+  // Auto-alternate layout every 14 seconds if autoAlternate is enabled
+  useEffect(() => {
+    if (!data.autoAlternate) return;
+    const interval = setInterval(() => {
+      setLayoutMode((prev) => (prev === 'center' ? 'duo' : 'center'));
+    }, 14000);
+    return () => clearInterval(interval);
+  }, [data.autoAlternate]);
+
+  // 1-Click Launch Fullscreen & YouTube Audio for TV
+  const handleStartPresentation = () => {
+    setHasStartedInteracting(true);
+    setAudioPlaying(true);
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  };
+
+  // Keyboard shortcuts: T for theme, V for view mode, M for music, F for fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+      if (e.key === 't' || e.key === 'T') {
+        toggleTheme();
+      } else if (e.key === 'v' || e.key === 'V') {
+        toggleLayoutMode();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleTheme, toggleLayoutMode]);
+
+  const handleSaveData = (newData) => {
+    setData(newData);
+    if (newData.theme && newData.theme !== themeId) {
+      setThemeId(newData.theme);
+    }
+    saveWeddingData(newData);
+  };
+
+  const handleResetData = () => {
+    setData(DEFAULT_WEDDING_DATA);
+    setThemeId(DEFAULT_WEDDING_DATA.theme);
+    setLayoutMode(DEFAULT_WEDDING_DATA.layoutMode);
+    saveWeddingData(DEFAULT_WEDDING_DATA);
+  };
+
+  const handleThemeChange = (newThemeId) => {
+    setThemeId(newThemeId);
+    const updated = { ...data, theme: newThemeId };
+    setData(updated);
+    saveWeddingData(updated);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className={`app-container theme-${themeId}`}
+      style={{
+        background: activeTheme.bg,
+        color: activeTheme.textColor,
+      }}
+      onClick={() => {
+        if (!hasStartedInteracting) {
+          handleStartPresentation();
+        }
+      }}
+    >
+      {/* Ambient Warm Center Spotlight */}
+      <div className="modern-ambient-light" />
+
+      {/* Modern Wedding Ceremony Stage */}
+      <CeremonyStage
+        data={data}
+        theme={activeTheme}
+        layoutMode={layoutMode}
+      />
+
+      {/* YouTube Wedding Music Player */}
+      <AudioPlayer
+        isPlaying={audioPlaying}
+        musicUrl={data.musicUrl}
+      />
+
+      {/* TV Screen 1-Click Launch Overlay */}
+      {!hasStartedInteracting && (
+        <div className="launch-tv-overlay" onClick={handleStartPresentation}>
+          <div className="launch-tv-card modern-launch-card">
+            <div className="launch-tv-icon">🌸</div>
+            <div className="launch-tv-title">LỄ DẠM NGÕ • VIỆT CƯỜNG & MINH HỒNG</div>
+            <div className="launch-tv-desc">
+              Chạm hoặc click bất kỳ để Bật Toàn Màn Hình TV & Nhạc YouTube
+            </div>
+            <button className="launch-tv-btn modern-launch-btn">
+              Bắt Đầu Trình Chiếu
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Auto-Hiding Bottom Floating Control Dock */}
+      <ControlBar
+        currentThemeId={themeId}
+        setThemeId={handleThemeChange}
+        onToggleTheme={toggleTheme}
+        layoutMode={layoutMode}
+        onToggleLayout={toggleLayoutMode}
+        audioPlaying={audioPlaying}
+        setAudioPlaying={setAudioPlaying}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+      />
+
+      {/* Live Customization Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        data={data}
+        onSave={handleSaveData}
+        onReset={handleResetData}
+      />
     </div>
   );
 }

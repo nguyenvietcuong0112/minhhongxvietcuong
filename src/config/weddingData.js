@@ -1,47 +1,44 @@
-// Wedding Data & Themes Configuration
+// Modern Wedding Configuration - Việt Cường & Minh Hồng (Lễ Dạm Ngõ)
 
 export const THEMES = {
+  deepRose: {
+    id: 'deepRose',
+    name: 'Hồng Đậm Hiện Đại',
+    bg: 'radial-gradient(ellipse at 50% 35%, #7a1534 0%, #4a091c 60%, #20020b 100%)',
+    textColor: '#FFF4F7',
+    subTextColor: '#F8C2D0',
+    accentColor: '#F5D061',
+    knotColor: '#F5D061',
+    titleColor: '#FFF2B2',
+    nameColor: '#FFFFFF',
+    tagBg: 'rgba(245, 208, 97, 0.15)',
+    lotusOpacity: 0.5,
+  },
   royalRed: {
     id: 'royalRed',
-    name: 'Đỏ Hoàng Gia',
-    accentColor: '#DFB15B',
-    bgGradient: 'radial-gradient(ellipse at 50% 45%, #7a091d 0%, #42030d 55%, #1f0106 100%)',
-    silkPatternOpacity: 0.15,
-    goldGlow: 'rgba(255, 215, 0, 0.45)',
+    name: 'Đỏ Rượu Vang (Ảnh 1)',
+    bg: 'radial-gradient(ellipse at 50% 35%, #6a0817 0%, #3d030c 60%, #1a0104 100%)',
     textColor: '#FFF4D4',
-    secondaryText: '#F5D08A',
-    borderColor: 'rgba(223, 177, 91, 0.4)',
-    tagBg: 'rgba(218, 165, 32, 0.18)',
-    fontFamilyHeading: "'Playfair Display', serif",
-    fontFamilyScript: "'Great Vibes', cursive",
+    subTextColor: '#F5D08A',
+    accentColor: '#F5D061',
+    knotColor: '#F5D061',
+    titleColor: '#FFF4B8',
+    nameColor: '#FFFFFF',
+    tagBg: 'rgba(245, 208, 97, 0.18)',
+    lotusOpacity: 0.45,
   },
-  blushPink: {
-    id: 'blushPink',
-    name: 'Hồng Lãng Mạn',
-    accentColor: '#D48872',
-    bgGradient: 'radial-gradient(ellipse at 50% 45%, #4a1525 0%, #2b0b15 55%, #140409 100%)',
-    silkPatternOpacity: 0.12,
-    goldGlow: 'rgba(244, 182, 193, 0.45)',
-    textColor: '#FFF0F3',
-    secondaryText: '#E8B4B8',
-    borderColor: 'rgba(232, 180, 184, 0.4)',
-    tagBg: 'rgba(232, 180, 184, 0.18)',
-    fontFamilyHeading: "'Playfair Display', serif",
-    fontFamilyScript: "'Alex Brush', cursive",
-  },
-  emeraldGreen: {
-    id: 'emeraldGreen',
-    name: 'Xanh Ngọc Bảo',
-    accentColor: '#DFB15B',
-    bgGradient: 'radial-gradient(ellipse at 50% 45%, #0e3d32 0%, #06221c 55%, #02120e 100%)',
-    silkPatternOpacity: 0.15,
-    goldGlow: 'rgba(255, 215, 0, 0.4)',
-    textColor: '#F2F9F6',
-    secondaryText: '#DFB15B',
-    borderColor: 'rgba(223, 177, 91, 0.4)',
-    tagBg: 'rgba(223, 177, 91, 0.18)',
-    fontFamilyHeading: "'Playfair Display', serif",
-    fontFamilyScript: "'Great Vibes', cursive",
+  ivoryLotus: {
+    id: 'ivoryLotus',
+    name: 'Kem Sen Tinh Khôi (Ảnh 2 & 3)',
+    bg: 'radial-gradient(ellipse at 50% 35%, #faf8f5 0%, #f4f0eb 55%, #e8e2d8 100%)',
+    textColor: '#293d30', // Deep Forest Pine
+    subTextColor: '#476352',
+    accentColor: '#344e3d',
+    knotColor: '#344e3d',
+    titleColor: '#24362a',
+    nameColor: '#203326',
+    tagBg: 'rgba(52, 78, 61, 0.12)',
+    lotusOpacity: 0.95,
   },
 };
 
@@ -49,34 +46,29 @@ export const DEFAULT_WEDDING_DATA = {
   ceremonyTitle: 'LỄ DẠM NGÕ',
   groomName: 'Việt Cường',
   brideName: 'Minh Hồng',
-  dateSolar: '28 . 10 . 2026',
-  dateLunar: 'Ngày 19 Tháng 09 Năm Bính Ngọ',
-  time: '09:00',
-  location: 'Tư Gia Nhà Gái',
-  meaningfulQuote: 'Trăm Năm Tình Viên Mãn • Bạc Đầu Nghĩa Phu Thê',
-  targetDate: '2026-10-28T09:00:00',
-  theme: 'royalRed',
+  dateSolar: '18 09 2026',
+  dateLunar: '(08.08 Bính ngọ)',
+  theme: 'deepRose',
+  musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
+  layoutMode: 'center', // 'center' (Toàn cảnh chữ như ảnh 2) hoặc 'duo' (Kết hợp ảnh như ảnh 3)
+  autoAlternate: true,  // Tự động chuyển đổi giữa 2 kiểu bố cục cho sống động
+  // Lời cảm ơn và câu chúc chuyển động mượt mà
+  messages: [
+    'Chúng con xin cảm ơn hai bên gia đình đã yêu thương và vun đắp cho chúng con ạ!',
+    '“Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê”',
+    '“Duyên thắm trầu cau • Khởi đầu cho một hành trình hạnh phúc mới”',
+    '“Nguyện cùng nhau đi qua bao năm tháng, trọn đời yêu thương gắn kết bền lâu”',
+  ],
+  // 4 ảnh của cặp đôi
   photos: [
-    {
-      url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80',
-      caption: 'Khoảnh khắc bắt đầu một hành trình mới',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1600&q=80',
-      caption: 'Ánh mắt trao nhau trọn vẹn yêu thương',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1600&q=80',
-      caption: 'Nắm chặt tay nhau qua từng năm tháng',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=1600&q=80',
-      caption: 'Hạnh phúc đong đầy trong ngày vui trọn vẹn',
-    },
+    { url: process.env.PUBLIC_URL + '/anh1.jpg', caption: 'Việt Cường & Minh Hồng' },
+    { url: process.env.PUBLIC_URL + '/anh2.jpg', caption: 'Khởi Đầu Duyên Lành' },
+    { url: process.env.PUBLIC_URL + '/anh3.jpg', caption: 'Nắm Chặt Tay Nhau' },
+    { url: process.env.PUBLIC_URL + '/anh4.jpg', caption: 'Trọn Vẹn Hạnh Phúc' },
   ],
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_config_v1';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v6';
 
 export const loadWeddingData = () => {
   try {

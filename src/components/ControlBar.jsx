@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { THEMES } from '../config/weddingData';
 
 /**
- * ControlBar: Floating glassmorphic dock at the bottom of the screen.
- * Auto-hides when mouse is idle so the backdrop remains completely pristine for projection.
+ * ControlBar: Modern minimalist floating dock for switching themes and layout modes.
  */
 const ControlBar = ({
-  currentMode,
-  setMode,
   currentThemeId,
   setThemeId,
-  particlesEnabled,
-  setParticlesEnabled,
+  layoutMode,
+  onToggleLayout,
   audioPlaying,
   setAudioPlaying,
   onOpenSettings,
@@ -39,24 +36,16 @@ const ControlBar = ({
     };
   }, []);
 
-  // Keyboard shortcuts (F for fullscreen, H to toggle bar, M for music, 1/2/3 for modes)
+  // Keyboard shortcuts (F: fullscreen, H: bar, M: music)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Don't trigger shortcuts if user is typing in an input
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
-
       if (e.key === 'h' || e.key === 'H') {
         setIsVisible((prev) => !prev);
       } else if (e.key === 'f' || e.key === 'F') {
         toggleFullscreen();
       } else if (e.key === 'm' || e.key === 'M') {
         setAudioPlaying((prev) => !prev);
-      } else if (e.key === '1') {
-        setMode('backdrop');
-      } else if (e.key === '2') {
-        setMode('slideshow');
-      } else if (e.key === '3') {
-        setMode('countdown');
       }
     };
 
@@ -88,11 +77,11 @@ const ControlBar = ({
 
   return (
     <>
-      {/* Mini toggle button when bar is hidden */}
+      {/* Mini reveal button when dock is hidden */}
       {!isVisible && (
         <button
           onClick={() => setIsVisible(true)}
-          className="dock-reveal-btn"
+          className="modern-reveal-btn"
           title="Mở thanh điều khiển (Phím H)"
           aria-label="Hiện thanh điều khiển"
         >
@@ -100,75 +89,46 @@ const ControlBar = ({
         </button>
       )}
 
-      {/* Floating Dock */}
-      <div className={`control-dock-wrapper ${isVisible ? 'visible' : 'hidden'}`}>
-        <div className="control-dock">
-          {/* Mode Switcher */}
-          <div className="dock-group mode-group">
-            <button
-              onClick={() => setMode('backdrop')}
-              className={`dock-btn ${currentMode === 'backdrop' ? 'active' : ''}`}
-              title="Phím tắt: 1"
-            >
-              <span className="dock-icon">🎎</span>
-              <span className="dock-label">Backdrop Lễ</span>
-            </button>
-            <button
-              onClick={() => setMode('slideshow')}
-              className={`dock-btn ${currentMode === 'slideshow' ? 'active' : ''}`}
-              title="Phím tắt: 2"
-            >
-              <span className="dock-icon">📸</span>
-              <span className="dock-label">Album Ảnh</span>
-            </button>
-            <button
-              onClick={() => setMode('countdown')}
-              className={`dock-btn ${currentMode === 'countdown' ? 'active' : ''}`}
-              title="Phím tắt: 3"
-            >
-              <span className="dock-icon">⏳</span>
-              <span className="dock-label">Đếm Ngược</span>
-            </button>
-          </div>
-
-          <div className="dock-divider" />
-
+      {/* Floating Modern Dock */}
+      <div className={`modern-dock-wrapper ${isVisible ? 'visible' : 'hidden'}`}>
+        <div className="modern-dock">
           {/* Theme Switcher */}
-          <div className="dock-group theme-group">
+          <div className="dock-group">
             {Object.values(THEMES).map((t) => (
               <button
                 key={t.id}
                 onClick={() => setThemeId(t.id)}
-                className={`theme-dot-btn ${currentThemeId === t.id ? 'active' : ''}`}
+                className={`modern-dock-btn ${currentThemeId === t.id ? 'active' : ''}`}
                 title={t.name}
               >
-                <span
-                  className="theme-circle-preview"
-                  style={{ background: t.accentColor }}
-                />
+                <span className="dock-icon">
+                  {t.id === 'deepRose' ? '🌸' : t.id === 'royalRed' ? '🏮' : '🌿'}
+                </span>
+                <span className="dock-label">{t.name.split(' (')[0]}</span>
               </button>
             ))}
           </div>
 
           <div className="dock-divider" />
 
-          {/* Quick Toggles */}
-          <div className="dock-group toggle-group">
-            {/* Particles Toggle */}
+          {/* Layout Mode Toggle */}
+          <div className="dock-group">
             <button
-              onClick={() => setParticlesEnabled(!particlesEnabled)}
-              className={`dock-btn small ${particlesEnabled ? 'active' : ''}`}
-              title="Bật/Tắt hiệu ứng hoa rơi & bụi vàng"
+              onClick={onToggleLayout}
+              className="modern-dock-btn"
+              title="Đổi kiểu hiển thị: Toàn cảnh chữ hoặc Kèm ảnh chân dung (Phím V)"
             >
-              <span className="dock-icon">✨</span>
-              <span className="dock-label">{particlesEnabled ? 'Hoa rơi: BẬT' : 'Hoa rơi: TẮT'}</span>
+              <span className="dock-icon">{layoutMode === 'center' ? '🖼️' : '🎎'}</span>
+              <span className="dock-label">
+                {layoutMode === 'center' ? 'Xem Kèm Ảnh' : 'Xem Toàn Cảnh'}
+              </span>
             </button>
 
             {/* Audio Toggle */}
             <button
               onClick={() => setAudioPlaying(!audioPlaying)}
-              className={`dock-btn small ${audioPlaying ? 'active' : ''}`}
-              title="Bật/Tắt nhạc nền lãng mạn (Phím M)"
+              className={`modern-dock-btn ${audioPlaying ? 'active' : ''}`}
+              title="Bật/Tắt nhạc YouTube đám cưới (Phím M)"
             >
               <span className="dock-icon">{audioPlaying ? '🔊' : '🔇'}</span>
               <span className="dock-label">{audioPlaying ? 'Nhạc: BẬT' : 'Nhạc: TẮT'}</span>
@@ -177,18 +137,18 @@ const ControlBar = ({
             {/* Fullscreen Toggle */}
             <button
               onClick={toggleFullscreen}
-              className={`dock-btn small ${isFullscreen ? 'active' : ''}`}
-              title="Toàn màn hình trình chiếu (Phím F)"
+              className={`modern-dock-btn ${isFullscreen ? 'active' : ''}`}
+              title="Toàn màn hình TV (Phím F)"
             >
-              <span className="dock-icon">{isFullscreen ? '⛶' : '⛶'}</span>
+              <span className="dock-icon">⛶</span>
               <span className="dock-label">{isFullscreen ? 'Thu nhỏ' : 'Toàn màn hình'}</span>
             </button>
 
             {/* Settings Button */}
             <button
               onClick={onOpenSettings}
-              className="dock-btn settings-btn"
-              title="Tuỳ chỉnh tên, ngày, câu chúc, hình ảnh..."
+              className="modern-dock-btn settings"
+              title="Tuỳ chỉnh nội dung..."
             >
               <span className="dock-icon">⚙</span>
               <span className="dock-label">Tuỳ Chỉnh</span>

@@ -24,9 +24,9 @@ const ParticleCanvas = ({ enabled = true, themeId = 'royalRed' }) => {
     window.addEventListener('resize', handleResize);
 
     // Color palettes based on theme
-    const isPink = themeId === 'blushPink';
+    const isPink = themeId === 'blushPastel' || themeId === 'softRose' || themeId === 'blushPink';
     const petalColors = isPink
-      ? ['rgba(255, 192, 203, 0.75)', 'rgba(255, 182, 193, 0.65)', 'rgba(244, 143, 177, 0.6)']
+      ? ['rgba(255, 192, 203, 0.8)', 'rgba(255, 182, 193, 0.7)', 'rgba(250, 218, 221, 0.75)', 'rgba(244, 143, 177, 0.65)']
       : ['rgba(255, 218, 185, 0.75)', 'rgba(255, 182, 193, 0.7)', 'rgba(240, 128, 128, 0.55)', 'rgba(255, 235, 160, 0.65)'];
 
     // 1. Golden Dust / Sparkles

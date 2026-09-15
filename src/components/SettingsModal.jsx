@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { THEMES } from '../config/weddingData';
 
 /**
- * SettingsModal: Allows live editing of couple names, dates, quotes, themes, and photo URLs.
+ * SettingsModal: Allows live editing of couple names, dates, quotes, themes, and slide durations.
  */
 const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
   const [formData, setFormData] = useState({ ...data });
-  const [newPhotoUrl, setNewPhotoUrl] = useState('');
-  const [newPhotoCaption, setNewPhotoCaption] = useState('');
 
   if (!isOpen) return null;
 
@@ -15,20 +13,12 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleAddPhoto = () => {
-    if (!newPhotoUrl.trim()) return;
-    const updatedPhotos = [
-      ...(formData.photos || []),
-      { url: newPhotoUrl.trim(), caption: newPhotoCaption.trim() },
-    ];
-    setFormData((prev) => ({ ...prev, photos: updatedPhotos }));
-    setNewPhotoUrl('');
-    setNewPhotoCaption('');
-  };
-
-  const handleRemovePhoto = (index) => {
-    const updatedPhotos = formData.photos.filter((_, i) => i !== index);
-    setFormData((prev) => ({ ...prev, photos: updatedPhotos }));
+  const handleSlideChange = (index, field, value) => {
+    const updatedSlides = [...(formData.slides || [])];
+    if (updatedSlides[index]) {
+      updatedSlides[index] = { ...updatedSlides[index], [field]: value };
+      setFormData((prev) => ({ ...prev, slides: updatedSlides }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -38,10 +28,10 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-backdrop pastel-modal-backdrop" onClick={onClose}>
+      <div className="modal-dialog pastel-modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h3 className="modal-title">⚙ Tuỳ Chỉnh Thông Tin Lễ Dạm Ngõ</h3>
+          <h3 className="modal-title">🌸 Tuỳ Chỉnh Lễ Dạm Ngõ (Hồng Pastel)</h3>
           <button className="modal-close-btn" onClick={onClose} aria-label="Đóng">
             ✕
           </button>
@@ -54,9 +44,9 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
             <input
               type="text"
               className="form-input"
-              value={formData.ceremonyTitle}
+              value={formData.ceremonyTitle || ''}
               onChange={(e) => handleChange('ceremonyTitle', e.target.value)}
-              placeholder="VD: LỄ DẠM NGÕ, LỄ ĐÍNH HÔN, LỄ ĂN HỎI..."
+              placeholder="VD: LỄ DẠM NGÕ"
               required
             />
           </div>
@@ -64,22 +54,20 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
           {/* Couple Names */}
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Tên Chú Rể</label>
               <input
                 type="text"
                 className="form-input"
-                value={formData.groomName}
+                value={formData.groomName || ''}
                 onChange={(e) => handleChange('groomName', e.target.value)}
                 placeholder="VD: Việt Cường"
                 required
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Tên Cô Dâu</label>
               <input
                 type="text"
                 className="form-input"
-                value={formData.brideName}
+                value={formData.brideName || ''}
                 onChange={(e) => handleChange('brideName', e.target.value)}
                 placeholder="VD: Minh Hồng"
                 required
@@ -87,16 +75,16 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
             </div>
           </div>
 
-          {/* Dates & Location */}
+          {/* Dates */}
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">Ngày Dương Lịch</label>
               <input
                 type="text"
                 className="form-input"
-                value={formData.dateSolar}
+                value={formData.dateSolar || ''}
                 onChange={(e) => handleChange('dateSolar', e.target.value)}
-                placeholder="VD: 28 . 10 . 2026"
+                placeholder="VD: 18 . 09 . 2026"
                 required
               />
             </div>
@@ -105,62 +93,98 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
               <input
                 type="text"
                 className="form-input"
-                value={formData.dateLunar}
+                value={formData.dateLunar || ''}
                 onChange={(e) => handleChange('dateLunar', e.target.value)}
-                placeholder="VD: Ngày 19 Tháng 09 Năm Bính Ngọ"
+                placeholder="VD: 08 . 08 . 2026 (Tức Ngày 08 Tháng 08 Năm Bính Ngọ)"
                 required
               />
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Địa Điểm / Nhà Trai/Gái</label>
-              <input
-                type="text"
-                className="form-input"
-                value={formData.location}
-                onChange={(e) => handleChange('location', e.target.value)}
-                placeholder="VD: Tư Gia Nhà Gái"
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Thời Gian Đếm Ngược</label>
-              <input
-                type="datetime-local"
-                className="form-input"
-                value={formData.targetDate ? formData.targetDate.slice(0, 16) : ''}
-                onChange={(e) => handleChange('targetDate', e.target.value)}
-              />
-            </div>
+          {/* Slide Duration */}
+          <div className="form-group">
+            <label className="form-label">Thời Gian Mỗi Trang / Slide (Giây)</label>
+            <input
+              type="number"
+              min="5"
+              max="60"
+              className="form-input"
+              value={formData.slideDuration || 12}
+              onChange={(e) => handleChange('slideDuration', parseInt(e.target.value, 10) || 12)}
+            />
           </div>
 
-          {/* Meaningful Quote */}
+          {/* Music Configuration */}
           <div className="form-group">
-            <label className="form-label">Câu Chúc / Điểm Nhấn</label>
+            <label className="form-label">🎵 Nhạc Nền Trình Chiếu (Link MP3 hoặc Chọn File từ máy)</label>
             <input
               type="text"
               className="form-input"
-              value={formData.meaningfulQuote}
-              onChange={(e) => handleChange('meaningfulQuote', e.target.value)}
-              placeholder="VD: Trăm Năm Tình Viên Mãn • Bạc Đầu Nghĩa Phu Thê"
+              value={formData.musicUrl || ''}
+              onChange={(e) => handleChange('musicUrl', e.target.value)}
+              placeholder="Dán link file MP3 online (hoặc để trống để dùng nhạc êm dịu mặc định)"
             />
+            <div className="music-helper-row" style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <label className="file-upload-label" style={{
+                cursor: 'pointer',
+                background: 'rgba(201, 136, 66, 0.15)',
+                border: '1px solid rgba(201, 136, 66, 0.4)',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                fontSize: '0.85rem',
+                color: '#6a1a2b',
+                fontWeight: '600',
+              }}>
+                📂 Chọn File MP3 từ máy tính
+                <input
+                  type="file"
+                  accept="audio/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const objectUrl = URL.createObjectURL(file);
+                      handleChange('musicUrl', objectUrl);
+                    }
+                  }}
+                />
+              </label>
+              {formData.musicUrl && (
+                <button
+                  type="button"
+                  onClick={() => handleChange('musicUrl', '')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#8c3b4a',
+                    fontSize: '0.8rem',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Xóa link (Dùng nhạc mặc định)
+                </button>
+              )}
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#8c3b4a', marginTop: '4px' }}>
+              💡 Gợi ý: Bạn có thể sao chép file nhạc vào thư mục <code>public/nhac.mp3</code> và điền <code>/nhac.mp3</code>, hoặc dán link MP3 từ web.
+            </div>
           </div>
 
           {/* Theme selection */}
           <div className="form-group">
-            <label className="form-label">Tông Màu Giao Diện</label>
+            <label className="form-label">Tông Màu Giao Diện (Hồng Pastel)</label>
             <div className="theme-options">
               {Object.values(THEMES).map((t) => (
                 <button
                   key={t.id}
                   type="button"
                   onClick={() => handleChange('theme', t.id)}
-                  className={`theme-badge-btn ${formData.theme === t.id ? 'selected' : ''}`}
+                  className={`theme-badge-btn pastel-theme-btn ${formData.theme === t.id ? 'selected' : ''}`}
                 >
                   <span
                     className="theme-color-dot"
-                    style={{ background: t.accentColor }}
+                    style={{ background: t.roseColor || t.accentColor }}
                   />
                   {t.name}
                 </button>
@@ -168,51 +192,34 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
             </div>
           </div>
 
-          {/* Photos Management */}
+          {/* 4 Slides Content Preview & Edit */}
           <div className="form-group">
-            <label className="form-label">Danh Sách Ảnh Album Slideshow</label>
-            <div className="photo-list-preview">
-              {(formData.photos || []).map((p, idx) => (
-                <div key={idx} className="photo-item-card">
-                  <img src={p.url} alt="" className="photo-thumbnail" />
-                  <div className="photo-caption-info">
-                    <span className="photo-caption-label">{p.caption || '(Không chú thích)'}</span>
+            <label className="form-label">Nội Dung 4 Trang Trình Chiếu Kèm Ảnh</label>
+            <div className="slides-edit-list">
+              {(formData.slides || []).map((slide, idx) => (
+                <div key={slide.id || idx} className="slide-edit-item">
+                  <div className="slide-edit-header">
+                    <span className="slide-num">Trang {idx + 1}</span>
+                    <span className="slide-badge-tag">{slide.badge}</span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleRemovePhoto(idx)}
-                    className="photo-remove-btn"
-                    title="Xóa ảnh này"
-                  >
-                    ✕
-                  </button>
+                  <div className="slide-edit-inputs">
+                    <input
+                      type="text"
+                      className="form-input small"
+                      value={slide.badge || ''}
+                      onChange={(e) => handleSlideChange(idx, 'badge', e.target.value)}
+                      placeholder="Huy hiệu đầu trang"
+                    />
+                    <input
+                      type="text"
+                      className="form-input small"
+                      value={slide.quote || ''}
+                      onChange={(e) => handleSlideChange(idx, 'quote', e.target.value)}
+                      placeholder="Câu thơ / Câu chúc"
+                    />
+                  </div>
                 </div>
               ))}
-            </div>
-
-            {/* Add Photo Inputs */}
-            <div className="add-photo-inputs">
-              <input
-                type="url"
-                className="form-input"
-                value={newPhotoUrl}
-                onChange={(e) => setNewPhotoUrl(e.target.value)}
-                placeholder="Dán link ảnh (URL https://...)"
-              />
-              <input
-                type="text"
-                className="form-input"
-                value={newPhotoCaption}
-                onChange={(e) => setNewPhotoCaption(e.target.value)}
-                placeholder="Lời tựa ảnh (tuỳ chọn)"
-              />
-              <button
-                type="button"
-                onClick={handleAddPhoto}
-                className="btn-add-photo"
-              >
-                + Thêm ảnh
-              </button>
             </div>
           </div>
 
@@ -221,7 +228,7 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
             <button
               type="button"
               onClick={onReset}
-              className="btn-secondary"
+              className="btn-secondary pastel-btn-sec"
             >
               Đặt Lại Mặc Định
             </button>
@@ -229,13 +236,13 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="btn-cancel"
+                className="btn-cancel pastel-btn-cancel"
               >
                 Hủy
               </button>
               <button
                 type="submit"
-                className="btn-primary"
+                className="btn-primary pastel-btn-pri"
               >
                 ✓ Lưu Thay Đổi
               </button>

@@ -45,7 +45,6 @@ const Backdrop = ({ data, theme }) => {
         {/* Couple Names Presentation */}
         <div className="couple-names-container">
           <div className="groom-name-block">
-            <span className="name-role">CHÚ RỂ</span>
             <span className="person-name">{data.groomName}</span>
           </div>
 
@@ -54,7 +53,6 @@ const Backdrop = ({ data, theme }) => {
           </div>
 
           <div className="bride-name-block">
-            <span className="name-role">CÔ DÂU</span>
             <span className="person-name">{data.brideName}</span>
           </div>
         </div>

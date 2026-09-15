@@ -1,38 +1,677 @@
-.App {
-  text-align: center;
+/* =========================================================
+   MODERN MINIMALIST WEDDING BACKDROP - VIỆT CƯỜNG & MINH HỒNG
+   LỄ DẠM NGÕ (18.09.2026 / 08.08.2026 ÂM LỊCH)
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
 }
 
-.App-logo {
-  height: 40vmin;
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================================
+   APP ROOT CONTAINER & THEMES
+   ========================================================= */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.8s ease-in-out, color 0.5s ease-in-out;
+}
+
+/* Ambient Soft Lighting */
+.modern-ambient-light {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  filter: blur(60px);
   pointer-events: none;
+  z-index: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Watermark Chữ Hỷ in Background (Matching Reference 4) */
+.bg-watermark-happiness {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* =========================================================
+   STAGE CONTAINER (OPEN, AIRY, NO TACKY BORDERS)
+   ========================================================= */
+.modern-stage-container {
+  position: relative;
+  z-index: 3;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 40px;
+}
+
+/* =========================================================
+   MODE 1: CENTERED SIGNATURE LANDSCAPE
+   (Exact Match to Reference 2: Đình Kiên - Thu Hường)
+   ========================================================= */
+.modern-center-stage {
+  position: relative;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  max-height: 86vh;
 }
 
-.App-link {
-  color: #61dafb;
+/* Top Title: LỄ DẠM NGÕ (Oswald, Modern Condensed) */
+.modern-title-header {
+  margin-bottom: clamp(12px, 2.5vh, 28px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.modern-ceremony-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.4rem, 4.4vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: inherit;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Centerpiece Row: Groom Name — 囍 Knot — Bride Name */
+.modern-names-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3.5vw, 45px);
+  width: 100%;
+  margin: clamp(10px, 2vh, 24px) 0;
+}
+
+.modern-groom-name,
+.modern-bride-name {
+  font-family: 'Dancing Script', 'Alex Brush', cursive;
+  font-size: clamp(3.6rem, 6.5vw, 6.8rem);
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+  color: #ffffff;
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+}
+
+/* For Ivory Lotus Theme: Deep Pine Dark Color */
+.theme-ivoryLotus .modern-groom-name,
+.theme-ivoryLotus .modern-bride-name {
+  color: #203326;
+  filter: drop-shadow(0 2px 4px rgba(32, 51, 38, 0.15));
+}
+
+.modern-knot-symbol {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: floatGentle 4s ease-in-out infinite alternate;
+}
+
+/* Animated Message Section (Delicate Italic Script) */
+.modern-message-wrapper {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 860px;
+  margin: clamp(10px, 2.2vh, 24px) 0;
+  padding: 0 20px;
+}
+
+.modern-message-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 1.75vw, 1.75rem);
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  opacity: 0.95;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.modern-message-text.visible {
+  opacity: 0.95;
+  transform: translateY(0);
+}
+
+.modern-message-text.fading {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Bottom Date: Oswald Modern Condensed */
+.modern-date-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: clamp(8px, 1.8vh, 20px);
+}
+
+.modern-solar-date {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+.modern-lunar-date {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+
+/* =========================================================
+   MODE 2: EDITORIAL DUO WITH ARCH PHOTO
+   (Exact Match to Reference 3)
+   ========================================================= */
+.modern-duo-stage {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  max-height: 84vh;
+  gap: clamp(24px, 4vw, 56px);
+  padding: 0 20px;
+}
+
+.modern-duo-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  justify-content: center;
+}
+
+.modern-stacked-names {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stacked-groom,
+.stacked-bride {
+  font-family: 'Dancing Script', 'Alex Brush', cursive;
+  font-size: clamp(3.8rem, 6.2vw, 6.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: #ffffff;
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+}
+
+.theme-ivoryLotus .stacked-groom,
+.theme-ivoryLotus .stacked-bride {
+  color: #203326;
+  filter: drop-shadow(0 2px 4px rgba(32, 51, 38, 0.15));
+}
+
+.stacked-ampersand {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1;
+  color: #f5d061;
+  margin: 4px 0;
+  transform: translateX(12px);
+}
+
+.theme-ivoryLotus .stacked-ampersand {
+  color: #344e3d;
+}
+
+.modern-duo-message {
+  margin-top: 24px;
+  max-width: 520px;
+}
+
+.modern-duo-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Minimalist Modern Arch Frame */
+.modern-arch-frame {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: min(70vh, 580px);
+  border-radius: 220px 220px 24px 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  background: #24362a;
+}
+
+.modern-arch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.6s ease;
+  animation: subtleZoom 12s ease-in-out infinite alternate;
+}
+
+.modern-arch-img.fading {
+  opacity: 0.2;
+}
+
+/* Corner Tag inside Arch */
+.modern-arch-tag {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.arch-tag-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.arch-tag-symbol {
+  margin: 6px 0;
+}
+
+.arch-tag-date {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  opacity: 0.9;
+}
+
+/* =========================================================
+   MODERN FLOATING DOCK (MINIMALIST GLASS)
+   ========================================================= */
+.modern-dock-wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.modern-dock-wrapper.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.modern-dock-wrapper.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(20px);
+}
+
+.modern-dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 18, 18, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 40px;
+  padding: 6px 14px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.dock-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.modern-dock-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.modern-dock-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.modern-dock-btn.active {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-weight: 600;
+}
+
+.modern-dock-btn.settings {
+  background: rgba(245, 208, 97, 0.15);
+  border-color: rgba(245, 208, 97, 0.35);
+  color: #f5d061;
+}
+
+.dock-icon {
+  font-size: 0.95rem;
+}
+
+.dock-hide-btn {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+}
+
+.modern-reveal-btn {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(18, 18, 18, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  z-index: 99;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================================
+   TV 1-CLICK LAUNCH OVERLAY (MINIMALIST)
+   ========================================================= */
+.launch-tv-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.launch-tv-card.modern-launch-card {
+  text-align: center;
+  background: rgba(25, 25, 25, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  padding: 40px 52px;
+  max-width: 560px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+  color: #fff;
+}
+
+.launch-tv-icon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+}
+
+.launch-tv-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+}
+
+.launch-tv-desc {
+  font-size: 0.92rem;
+  color: #ccc;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.launch-tv-btn.modern-launch-btn {
+  background: #ffffff;
+  border: none;
+  color: #111111;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 12px 34px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.launch-tv-btn.modern-launch-btn:hover {
+  transform: scale(1.05);
+}
+
+/* =========================================================
+   SETTINGS MODAL
+   ========================================================= */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-dialog {
+  background: #1c1c1e;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 24px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ddd;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #fff;
+}
+
+.theme-options {
+  display: flex;
+  gap: 10px;
+}
+
+.theme-badge-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.theme-badge-btn.selected {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 14px;
+  margin-top: 16px;
+}
+
+.btn-primary {
+  background: #fff;
+  border: none;
+  color: #111;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ccc;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =========================================================
+   KEYFRAME ANIMATIONS
+   ========================================================= */
+@keyframes floatGentle {
+  0% {
+    transform: translateY(0);
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes subtleZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.06);
   }
 }
