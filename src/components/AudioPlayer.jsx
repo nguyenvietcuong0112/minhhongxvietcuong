@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 /**
  * Extracts YouTube Video ID from standard YouTube URLs
@@ -12,128 +12,49 @@ export const getYouTubeVideoId = (url) => {
 };
 
 /**
- * AudioPlayer: Seamlessly plays YouTube music (with loop support) or direct MP3 files,
- * with fallbacks and volume control.
+ * AudioPlayer: Single-instance audio player.
+ * Eliminates duplicate playing/echoing by maintaining strictly ONE player.
  */
 const AudioPlayer = ({ isPlaying, musicUrl }) => {
-  const [isYTReady, setIsYTReady] = useState(false);
-  const ytPlayerRef = useRef(null);
-  const audioElemRef = useRef(null);
-  const ytIframeRef = useRef(null);
-  const isPlayingRef = useRef(isPlaying);
-
-  useEffect(() => {
-    isPlayingRef.current = isPlaying;
-  }, [isPlaying]);
-
   const ytVideoId = getYouTubeVideoId(musicUrl);
+  const iframeRef = useRef(null);
+  const audioRef = useRef(null);
 
-  // 1. YouTube IFrame API Integration
+  // Control YouTube playback via postMessage
   useEffect(() => {
-    if (!ytVideoId) return;
-
-    // Load YouTube API script if not already present
-    if (!window.YT) {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.body.appendChild(tag);
-    }
-
-    const initPlayer = () => {
-      if (!window.YT || !window.YT.Player) return;
-      try {
-        ytPlayerRef.current = new window.YT.Player('yt-player-container', {
-          height: '10',
-          width: '10',
-          videoId: ytVideoId,
-          playerVars: {
-            autoplay: isPlayingRef.current ? 1 : 0,
-            loop: 1,
-            playlist: ytVideoId,
-            controls: 0,
-            showinfo: 0,
-            modestbranding: 1,
-          },
-          events: {
-            onReady: (event) => {
-              setIsYTReady(true);
-              event.target.setVolume(80);
-              if (isPlayingRef.current) {
-                event.target.playVideo();
-              }
-            },
-          },
-        });
-      } catch (e) {
-        console.warn('YT init error:', e);
-      }
-    };
-
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-    } else {
-      window.onYouTubeIframeAPIReady = initPlayer;
-    }
-
-    return () => {
-      if (ytPlayerRef.current && ytPlayerRef.current.destroy) {
-        try {
-          ytPlayerRef.current.destroy();
-        } catch (e) {}
-      }
-    };
-  }, [ytVideoId]);
-
-  // Sync isPlaying with YouTube player
-  useEffect(() => {
-    if (!ytVideoId) return;
-
-    if (ytPlayerRef.current && isYTReady && ytPlayerRef.current.playVideo) {
-      try {
-        if (isPlaying) {
-          ytPlayerRef.current.playVideo();
-        } else {
-          ytPlayerRef.current.pauseVideo();
-        }
-      } catch (e) {
-        console.warn('YT play/pause error:', e);
-      }
-    }
-
-    // Also send postMessage to fallback iframe
-    if (ytIframeRef.current && ytIframeRef.current.contentWindow) {
-      const func = isPlaying ? 'playVideo' : 'pauseVideo';
-      ytIframeRef.current.contentWindow.postMessage(
-        JSON.stringify({ event: 'command', func, args: '' }),
+    if (!ytVideoId || !iframeRef.current) return;
+    const action = isPlaying ? 'playVideo' : 'pauseVideo';
+    try {
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: action, args: [] }),
         '*'
       );
+    } catch (e) {
+      console.warn('Audio postMessage error:', e);
     }
-  }, [isPlaying, ytVideoId, isYTReady]);
+  }, [isPlaying, ytVideoId]);
 
-  // 2. Direct MP3 Audio Element (if musicUrl is not a YouTube URL)
+  // MP3 fallback if not YouTube URL
   useEffect(() => {
-    if (ytVideoId || !musicUrl || !musicUrl.trim()) return;
-
-    if (!audioElemRef.current) {
-      const audio = new Audio();
-      audio.loop = true;
-      audioElemRef.current = audio;
+    if (ytVideoId || !musicUrl) return;
+    if (!audioRef.current) {
+      audioRef.current = new Audio(musicUrl);
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.7;
     }
-
-    const audio = audioElemRef.current;
-    audio.src = musicUrl;
-    audio.volume = 0.6;
-
     if (isPlaying) {
-      audio.play().catch((err) => console.warn('MP3 play prevented:', err));
+      audioRef.current.play().catch(() => {});
     } else {
-      audio.pause();
+      audioRef.current.pause();
     }
-
     return () => {
-      audio.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     };
-  }, [musicUrl, isPlaying, ytVideoId]);
+  }, [isPlaying, musicUrl, ytVideoId]);
+
+  if (!musicUrl) return null;
 
   return (
     <div
@@ -148,13 +69,9 @@ const AudioPlayer = ({ isPlaying, musicUrl }) => {
         overflow: 'hidden',
       }}
     >
-      {/* YouTube Player Container */}
-      <div id="yt-player-container" />
-
-      {/* Fallback Direct Iframe for YouTube if API script is delayed */}
       {ytVideoId && (
         <iframe
-          ref={ytIframeRef}
+          ref={iframeRef}
           src={`https://www.youtube.com/embed/${ytVideoId}?enablejsapi=1&autoplay=${isPlaying ? 1 : 0}&loop=1&playlist=${ytVideoId}&controls=0`}
           title="YouTube Wedding Music"
           allow="autoplay"

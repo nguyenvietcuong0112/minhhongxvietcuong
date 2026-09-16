@@ -12,14 +12,28 @@ import ControlBar from './components/ControlBar';
 import SettingsModal from './components/SettingsModal';
 
 function App() {
-  const [data, setData] = useState(() => loadWeddingData());
-  const [themeId, setThemeId] = useState(() => data.theme || 'deepRose');
-  const [layoutMode, setLayoutMode] = useState(() => data.layoutMode || 'center');
+  const [data, setData] = useState(() => {
+    const loaded = loadWeddingData();
+    const params = new URLSearchParams(window.location.search);
+    const qTheme = params.get('theme');
+    const qMode = params.get('mode');
+    if (qTheme && THEMES[qTheme]) loaded.theme = qTheme;
+    if (qMode) loaded.layoutMode = qMode;
+    return loaded;
+  });
+  const [themeId, setThemeId] = useState(() => {
+    const qTheme = new URLSearchParams(window.location.search).get('theme');
+    return (qTheme && THEMES[qTheme]) ? qTheme : (data.theme || 'ivoryLotus');
+  });
+  const [layoutMode, setLayoutMode] = useState(() => {
+    const qMode = new URLSearchParams(window.location.search).get('mode');
+    return qMode || data.layoutMode || 'center';
+  });
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [hasStartedInteracting, setHasStartedInteracting] = useState(false);
 
-  const activeTheme = THEMES[themeId] || THEMES.deepRose;
+  const activeTheme = THEMES[themeId] || THEMES.ivoryLotus;
 
   // Toggle between themes (deepRose <-> royalRed <-> ivoryLotus)
   const toggleTheme = useCallback(() => {
@@ -124,19 +138,12 @@ function App() {
         musicUrl={data.musicUrl}
       />
 
-      {/* TV Screen 1-Click Launch Overlay */}
+      {/* TV Screen 1-Click Launch Floating Badge (Does not block backdrop) */}
       {!hasStartedInteracting && (
-        <div className="launch-tv-overlay" onClick={handleStartPresentation}>
-          <div className="launch-tv-card modern-launch-card">
-            <div className="launch-tv-icon">🌸</div>
-            <div className="launch-tv-title">LỄ DẠM NGÕ • VIỆT CƯỜNG & MINH HỒNG</div>
-            <div className="launch-tv-desc">
-              Chạm hoặc click bất kỳ để Bật Toàn Màn Hình TV & Nhạc YouTube
-            </div>
-            <button className="launch-tv-btn modern-launch-btn">
-              Bắt Đầu Trình Chiếu
-            </button>
-          </div>
+        <div className="launch-tv-badge" onClick={handleStartPresentation}>
+          <span className="badge-pulse-icon">✨</span>
+          <span className="badge-text">Chạm bất kỳ để Bật Toàn Màn Hình TV & Nhạc Nền</span>
+          <button className="badge-action-btn">Bắt Đầu 🎵</button>
         </div>
       )}
 

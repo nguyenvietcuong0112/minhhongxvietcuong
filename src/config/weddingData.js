@@ -47,11 +47,11 @@ export const DEFAULT_WEDDING_DATA = {
   groomName: 'Việt Cường',
   brideName: 'Minh Hồng',
   dateSolar: '18 09 2026',
-  dateLunar: '(08.08 Bính ngọ)',
-  theme: 'deepRose',
+  dateLunar: '(08.08 Bính Ngọ)',
+  theme: 'ivoryLotus',
   musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
   layoutMode: 'center', // 'center' (Toàn cảnh chữ như ảnh 2) hoặc 'duo' (Kết hợp ảnh như ảnh 3)
-  autoAlternate: true,  // Tự động chuyển đổi giữa 2 kiểu bố cục cho sống động
+  autoAlternate: false, // Giữ cố định bố cục người dùng chọn, không tự nhảy loạn xạ
   // Lời cảm ơn và câu chúc chuyển động mượt mà
   messages: [
     'Chúng con xin cảm ơn hai bên gia đình đã yêu thương và vun đắp cho chúng con ạ!',
@@ -68,7 +68,7 @@ export const DEFAULT_WEDDING_DATA = {
   ],
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v6';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v8';
 
 export const loadWeddingData = () => {
   try {

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ModernKnotHappinessSymbol, WatercolorLotusCorner } from './ModernLotusOrnaments';
+import {
+  ModernKnotHappinessSymbol,
+  RoyalHappinessMedallion,
+  WatercolorLotusCorner,
+  GoldenBotanicalCorner,
+} from './ModernLotusOrnaments';
 
 /**
  * CeremonyStage: Modern, minimalist, aesthetic wedding backdrop
@@ -9,14 +14,14 @@ import { ModernKnotHappinessSymbol, WatercolorLotusCorner } from './ModernLotusO
  */
 const CeremonyStage = ({ data, theme, layoutMode }) => {
   const [messageIndex, setMessageIndex] = useState(0);
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const [activePhotoIdx, setActivePhotoIdx] = useState(0);
+  const [incomingPhotoIdx, setIncomingPhotoIdx] = useState(null);
   const [isTextFading, setIsTextFading] = useState(false);
-  const [isPhotoFading, setIsPhotoFading] = useState(false);
 
   const messages = data.messages || [];
   const photos = data.photos || [];
 
-  // 1. Text Animation: Cycle through thank you & blessings every 6.5s
+  // 1. Text Animation: Cycle through thank you & blessings every 6.5s with silky dissolve
   useEffect(() => {
     if (messages.length <= 1) return;
     const interval = setInterval(() => {
@@ -24,38 +29,60 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
       setTimeout(() => {
         setMessageIndex((prev) => (prev + 1) % messages.length);
         setIsTextFading(false);
-      }, 500);
+      }, 700);
     }, 6500);
     return () => clearInterval(interval);
   }, [messages.length]);
 
-  // 2. Photo Animation: Cycle through photos in duo layout every 8s
+  // 2. Photo Animation: Dual-layer smooth cinematic crossfade every 8s
   useEffect(() => {
     if (photos.length <= 1) return;
     const interval = setInterval(() => {
-      setIsPhotoFading(true);
+      const nextIdx = (activePhotoIdx + 1) % photos.length;
+      setIncomingPhotoIdx(nextIdx);
       setTimeout(() => {
-        setPhotoIndex((prev) => (prev + 1) % photos.length);
-        setIsPhotoFading(false);
-      }, 600);
+        setActivePhotoIdx(nextIdx);
+        setIncomingPhotoIdx(null);
+      }, 1600); // 1.6s smooth crossfade
     }, 8000);
     return () => clearInterval(interval);
-  }, [photos.length]);
+  }, [photos.length, activePhotoIdx]);
 
   const currentMessage = messages[messageIndex] || messages[0];
-  const currentPhoto = photos[photoIndex] || photos[0];
-
   const isDuo = layoutMode === 'duo';
+  const isRoyal = theme.id === 'royalRed';
+
+  // Render happiness emblem depending on theme
+  const renderEmblem = (size = 110) => {
+    if (isRoyal) {
+      return <RoyalHappinessMedallion size={size} color={theme.accentColor} />;
+    }
+    return (
+      <ModernKnotHappinessSymbol
+        size={size}
+        color={theme.knotColor || theme.accentColor}
+      />
+    );
+  };
 
   return (
     <div className={`modern-stage-container ${isDuo ? 'layout-duo' : 'layout-center'}`}>
-      {/* Watercolor Lotus Leaves & White Lotus Blossoms at bottom corners */}
-      <WatercolorLotusCorner position="bottom-left" />
-      <WatercolorLotusCorner position="bottom-right" />
+      {/* Corner Botanicals: Gold filigree for Royal Red (ref 1), 3D Sculpted Lotus for Ivory/Rose (ref 2,3) */}
+      {isRoyal ? (
+        <>
+          <GoldenBotanicalCorner position="bottom-left" />
+          <GoldenBotanicalCorner position="top-right" />
+        </>
+      ) : (
+        <>
+          <WatercolorLotusCorner position="bottom-left" />
+          <WatercolorLotusCorner position="bottom-right" />
+        </>
+      )}
 
       {/* Subtle Background Watermark 囍 (Faint & Elegant) */}
       <div className="bg-watermark-happiness">
-        <ModernKnotHappinessSymbol size={380} color="currentColor" />
+        <ModernKnotHappinessSymbol size={420} color="currentColor" />
       </div>
 
       {/* MAIN PRESENTATION CONTENT */}
@@ -64,26 +91,23 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
            MODE 1: CENTERED SIGNATURE LANDSCAPE (Exact match to Reference 2: Đình Kiên - Thu Hường)
            ========================================================================= */
         <div className="modern-center-stage">
-          {/* Top Title */}
+          {/* Top Title: Condensed modern Oswald */}
           <div className="modern-title-header">
             <h1 className="modern-ceremony-title">{data.ceremonyTitle}</h1>
           </div>
 
-          {/* Centerpiece: Groom Name — 囍 Endless Knot — Bride Name */}
+          {/* Centerpiece: Groom Name — 囍 Knot / Medallion — Bride Name */}
           <div className="modern-names-row">
             <div className="modern-groom-name">{data.groomName}</div>
 
             <div className="modern-knot-symbol">
-              <ModernKnotHappinessSymbol
-                size={110}
-                color={theme.knotColor || theme.accentColor}
-              />
+              {renderEmblem(115)}
             </div>
 
             <div className="modern-bride-name">{data.brideName}</div>
           </div>
 
-          {/* Animated Thank-you & Blessing message in delicate italic */}
+          {/* Animated Thank-you & Blessing message in delicate italic with silky blur dissolve */}
           <div className="modern-message-wrapper">
             <div className={`modern-message-text ${isTextFading ? 'fading' : 'visible'}`}>
               {currentMessage}
@@ -98,7 +122,7 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
         </div>
       ) : (
         /* =========================================================================
-           MODE 2: EDITORIAL DUO WITH ARCH PHOTO (Exact match to Reference 3)
+           MODE 2: EDITORIAL DUO WITH ARCH PHOTO + INFO DOWN UNDER THE PHOTO
            ========================================================================= */
         <div className="modern-duo-stage">
           {/* Left Column: Stacked Signature Names & Animated Message */}
@@ -116,21 +140,35 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
             </div>
           </div>
 
-          {/* Right Column: Modern Minimalist Arch holding couple photo */}
+          {/* Right Column: Arch Frame + Info placed DOWN UNDER THE PHOTO */}
           <div className="modern-duo-right">
-            <div className="modern-arch-frame">
-              <img
-                src={currentPhoto.url}
-                alt={currentPhoto.caption || 'Việt Cường & Minh Hồng'}
-                className={`modern-arch-img ${isPhotoFading ? 'fading' : ''}`}
-                loading="eager"
-              />
-              <div className="modern-arch-tag">
-                <div className="arch-tag-title">{data.ceremonyTitle}</div>
-                <div className="arch-tag-symbol">
-                  <ModernKnotHappinessSymbol size={48} color="#FFFFFF" />
+            <div className="modern-duo-card-wrapper">
+              {/* Modern Minimalist Arch holding couple photo with dual-layer crossfade */}
+              <div className="modern-arch-frame">
+                <img
+                  src={photos[activePhotoIdx]?.url || '/anh1.jpg'}
+                  alt="Việt Cường & Minh Hồng"
+                  className="modern-arch-img base-layer"
+                />
+                {incomingPhotoIdx !== null && (
+                  <img
+                    src={photos[incomingPhotoIdx]?.url}
+                    alt="Việt Cường & Minh Hồng"
+                    className="modern-arch-img incoming-layer"
+                  />
+                )}
+              </div>
+
+              {/* Placed DOWN UNDER THE PHOTO as requested ("đặt nó xuống dưới ảnh ý cho đẹp") */}
+              <div className="modern-below-photo-info">
+                <div className="below-info-title">{data.ceremonyTitle}</div>
+                <div className="below-info-emblem">
+                  {renderEmblem(46)}
                 </div>
-                <div className="arch-tag-date">{data.dateSolar}</div>
+                <div className="below-info-date">
+                  <span className="below-solar-date">{data.dateSolar}</span>
+                  <span className="below-lunar-date">{data.dateLunar}</span>
+                </div>
               </div>
             </div>
           </div>
