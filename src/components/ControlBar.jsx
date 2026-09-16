@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { THEMES } from '../config/weddingData';
+import { THEMES, ORNAMENTS } from '../config/weddingData';
 
 /**
  * ControlBar: Modern minimalist floating dock for switching themes and layout modes.
@@ -9,6 +9,10 @@ const ControlBar = ({
   setThemeId,
   layoutMode,
   onToggleLayout,
+  fontFamily,
+  onToggleFont,
+  ornament,
+  onToggleOrnament,
   audioPlaying,
   setAudioPlaying,
   onOpenSettings,
@@ -121,6 +125,32 @@ const ControlBar = ({
               <span className="dock-icon">{layoutMode === 'center' ? '🖼️' : '🎎'}</span>
               <span className="dock-label">
                 {layoutMode === 'center' ? 'Xem Kèm Ảnh' : 'Xem Toàn Cảnh'}
+              </span>
+            </button>
+
+            {/* Font Style Toggle */}
+            <button
+              onClick={onToggleFont}
+              className="modern-dock-btn"
+              title="Đổi kiểu chữ: Nét thanh thoát / Nét đậm đà (Phím P)"
+            >
+              <span className="dock-icon">🔤</span>
+              <span className="dock-label">
+                {fontFamily === 'charm' ? 'Chữ Nét Đậm' : 'Chữ Ký Uốn'}
+              </span>
+            </button>
+
+            {/* Ornament Motif Toggle */}
+            <button
+              onClick={onToggleOrnament}
+              className="modern-dock-btn"
+              title="Đổi họa tiết góc: Lan Hồ Điệp / Quạt Xếp / Kim Tuyến / Tối Giản / Hoa Sen (Phím O)"
+            >
+              <span className="dock-icon">
+                {ORNAMENTS[ornament]?.icon || '🌸'}
+              </span>
+              <span className="dock-label">
+                {ORNAMENTS[ornament]?.name?.split(' ')[0] + ' ' + (ORNAMENTS[ornament]?.name?.split(' ')[1] || '')}
               </span>
             </button>
 

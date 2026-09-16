@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import {
   THEMES,
+  ORNAMENTS,
   loadWeddingData,
   saveWeddingData,
   DEFAULT_WEDDING_DATA,
@@ -17,8 +18,12 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const qTheme = params.get('theme');
     const qMode = params.get('mode');
+    const qFont = params.get('font');
+    const qOrnament = params.get('ornament');
     if (qTheme && THEMES[qTheme]) loaded.theme = qTheme;
     if (qMode) loaded.layoutMode = qMode;
+    if (qFont) loaded.fontFamily = qFont;
+    if (qOrnament && ORNAMENTS[qOrnament]) loaded.ornament = qOrnament;
     return loaded;
   });
   const [themeId, setThemeId] = useState(() => {
@@ -73,7 +78,30 @@ function App() {
     }
   };
 
-  // Keyboard shortcuts: T for theme, V for view mode, M for music, F for fullscreen
+  // Toggle Font: Dancing Script <-> Charm
+  const toggleFont = useCallback(() => {
+    setData((prev) => {
+      const nextFont = prev.fontFamily === 'charm' ? 'dancing' : 'charm';
+      const updated = { ...prev, fontFamily: nextFont };
+      saveWeddingData(updated);
+      return updated;
+    });
+  }, []);
+
+  // Toggle Ornament: Orchids <-> Fans <-> Botanical <-> Minimal <-> Lotus
+  const toggleOrnament = useCallback(() => {
+    const keys = Object.keys(ORNAMENTS);
+    setData((prev) => {
+      const current = prev.ornament || 'orchids';
+      const nextIdx = (keys.indexOf(current) + 1) % keys.length;
+      const nextOrnament = keys[nextIdx];
+      const updated = { ...prev, ornament: nextOrnament };
+      saveWeddingData(updated);
+      return updated;
+    });
+  }, []);
+
+  // Keyboard shortcuts: T for theme, V for view mode, P for font, O for ornament, M for music, F for fullscreen
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
@@ -81,11 +109,15 @@ function App() {
         toggleTheme();
       } else if (e.key === 'v' || e.key === 'V') {
         toggleLayoutMode();
+      } else if (e.key === 'p' || e.key === 'P') {
+        toggleFont();
+      } else if (e.key === 'o' || e.key === 'O') {
+        toggleOrnament();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [toggleTheme, toggleLayoutMode]);
+  }, [toggleTheme, toggleLayoutMode, toggleFont, toggleOrnament]);
 
   const handleSaveData = (newData) => {
     setData(newData);
@@ -154,6 +186,10 @@ function App() {
         onToggleTheme={toggleTheme}
         layoutMode={layoutMode}
         onToggleLayout={toggleLayoutMode}
+        fontFamily={data.fontFamily || 'dancing'}
+        onToggleFont={toggleFont}
+        ornament={data.ornament || 'orchids'}
+        onToggleOrnament={toggleOrnament}
         audioPlaying={audioPlaying}
         setAudioPlaying={setAudioPlaying}
         onOpenSettings={() => setIsSettingsOpen(true)}

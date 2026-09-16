@@ -92,18 +92,29 @@ body, html {
 
 /* Top Title: LỄ DẠM NGÕ (Oswald, Modern Condensed) */
 .modern-title-header {
-  margin-bottom: clamp(12px, 2.5vh, 28px);
+  margin-bottom: clamp(14px, 2.5vh, 28px);
 }
 
 .modern-ceremony-title {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(2.4rem, 4.4vw, 4.5rem);
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-size: clamp(3.2rem, 5.8vw, 6.2rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   line-height: 1.1;
   color: inherit;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+}
+
+.theme-ivoryLotus .modern-ceremony-title {
+  color: #0c2013;
+  text-shadow: 0 3px 12px rgba(12, 32, 19, 0.22), 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.theme-royalRed .modern-ceremony-title,
+.theme-deepRose .modern-ceremony-title {
+  color: #fff6d1;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 208, 97, 0.45);
 }
 
 /* Centerpiece Row: Groom Name — 囍 Knot — Bride Name */
@@ -111,27 +122,38 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(16px, 3.5vw, 45px);
+  gap: clamp(16px, 2.8vw, 40px);
   width: 100%;
-  margin: clamp(10px, 2vh, 24px) 0;
+  margin: clamp(8px, 1.8vh, 20px) 0;
+  padding: 0 clamp(10px, 3vw, 40px);
+  box-sizing: border-box;
 }
 
 .modern-groom-name,
 .modern-bride-name {
   font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-size: clamp(3.6rem, 6.5vw, 6.8rem);
-  font-weight: 600;
-  line-height: 1.15;
+  font-size: clamp(3.8rem, 6.8vw, 7.6rem);
+  font-weight: 700;
+  line-height: 1.1;
   white-space: nowrap;
   color: #ffffff;
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 35px rgba(245, 208, 97, 0.45));
 }
 
-/* For Ivory Lotus Theme: Deep Pine Dark Color */
+/* For Ivory Lotus Theme: Deepest Emerald Pine with Crisp Shadow */
 .theme-ivoryLotus .modern-groom-name,
 .theme-ivoryLotus .modern-bride-name {
-  color: #203326;
-  filter: drop-shadow(0 2px 4px rgba(32, 51, 38, 0.15));
+  color: #0b1f12;
+  filter: drop-shadow(0 4px 14px rgba(11, 31, 18, 0.25)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Font Charm Support */
+.font-charm .modern-groom-name,
+.font-charm .modern-bride-name,
+.font-charm .stacked-groom,
+.font-charm .stacked-bride {
+  font-family: 'Charm', cursive !important;
+  font-weight: 700 !important;
 }
 
 .modern-knot-symbol {
@@ -142,39 +164,105 @@ body, html {
   animation: floatGentle 4s ease-in-out infinite alternate;
 }
 
-/* Animated Message Section (Delicate Italic Script) */
+/* Animated Message Section (Delicate Italic Script) - LOCKED HEIGHT TO ELIMINATE JITTER */
 .modern-message-wrapper {
-  min-height: 52px;
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: clamp(74px, 10vh, 92px);
+  min-height: clamp(74px, 10vh, 92px);
+  max-height: clamp(74px, 10vh, 92px);
+  margin: clamp(12px, 2vh, 24px) 0;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 860px;
-  margin: clamp(10px, 2.2vh, 24px) 0;
-  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.modern-message-stage-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.message-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.align-center .message-layer {
+  justify-content: center;
+  text-align: center;
+}
+
+.align-left .message-layer {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.message-layer.base.active {
+  opacity: 0.98;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+.message-layer.base.fading-out {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(-8px);
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1),
+              filter 1s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.message-layer.incoming {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  animation: messageDissolveIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes messageDissolveIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 0.98;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 .modern-message-text {
+  margin: 0;
+  padding: 0;
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: clamp(1.2rem, 1.75vw, 1.75rem);
-  line-height: 1.5;
-  letter-spacing: 0.03em;
-  opacity: 0.95;
-  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
-              transform 0.7s cubic-bezier(0.25, 1, 0.5, 1),
-              filter 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.1vw, 2.3rem);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
 }
 
-.modern-message-text.visible {
-  opacity: 0.95;
-  transform: translateY(0);
-  filter: blur(0);
+.theme-ivoryLotus .modern-message-text {
+  color: #152f1e;
+  text-shadow: 0 2px 8px rgba(21, 47, 30, 0.15);
 }
 
-.modern-message-text.fading {
-  opacity: 0;
-  transform: translateY(8px);
-  filter: blur(8px);
+.theme-royalRed .modern-message-text,
+.theme-deepRose .modern-message-text {
+  color: #fff4d4;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 /* Bottom Date: Oswald Modern Condensed */
@@ -182,23 +270,32 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: clamp(8px, 1.8vh, 20px);
+  gap: 18px;
+  margin-top: clamp(10px, 2vh, 22px);
 }
 
 .modern-solar-date {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.4rem, 2.2vw, 2.2rem);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: clamp(2rem, 3.2vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.theme-ivoryLotus .modern-solar-date {
+  color: #0c2013;
+  text-shadow: 0 2px 8px rgba(12, 32, 19, 0.15);
 }
 
 .modern-lunar-date {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
-  font-weight: 400;
+  font-size: clamp(1.5rem, 2.3vw, 2.4rem);
+  font-weight: 500;
   letter-spacing: 0.08em;
-  opacity: 0.85;
+  opacity: 0.9;
+}
+
+.theme-ivoryLotus .modern-lunar-date {
+  color: #244b2f;
 }
 
 /* =========================================================
@@ -213,11 +310,11 @@ body, html {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1560px;
   height: 100%;
-  max-height: 84vh;
-  gap: clamp(24px, 4vw, 56px);
-  padding: 0 20px;
+  max-height: 86vh;
+  gap: clamp(32px, 5vw, 70px);
+  padding: 0 30px;
 }
 
 .modern-duo-left {
@@ -231,41 +328,52 @@ body, html {
 .modern-stacked-names {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
 .stacked-groom,
 .stacked-bride {
   font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-size: clamp(3.8rem, 6.2vw, 6.5rem);
-  font-weight: 600;
-  line-height: 1.1;
+  font-size: clamp(3.8rem, 6.2vw, 7.0rem);
+  font-weight: 700;
+  line-height: 1.05;
+  white-space: nowrap;
   color: #ffffff;
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(245, 208, 97, 0.45));
 }
 
 .theme-ivoryLotus .stacked-groom,
 .theme-ivoryLotus .stacked-bride {
-  color: #203326;
-  filter: drop-shadow(0 2px 4px rgba(32, 51, 38, 0.15));
+  color: #0b1f12;
+  filter: drop-shadow(0 4px 14px rgba(11, 31, 18, 0.25)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 }
 
 .stacked-ampersand {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-size: clamp(3.2rem, 5.2vw, 5.5rem);
+  font-weight: 700;
   line-height: 1;
   color: #f5d061;
-  margin: 4px 0;
-  transform: translateX(12px);
+  margin: -6px 0 -6px 28px;
+  transform: none;
 }
 
 .theme-ivoryLotus .stacked-ampersand {
-  color: #344e3d;
+  color: #254d2f;
+  text-shadow: 0 2px 8px rgba(37, 77, 47, 0.2);
 }
 
 .modern-duo-message {
-  margin-top: 24px;
-  max-width: 520px;
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: clamp(74px, 10vh, 92px);
+  min-height: clamp(74px, 10vh, 92px);
+  max-height: clamp(74px, 10vh, 92px);
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .modern-duo-right {
@@ -329,36 +437,47 @@ body, html {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 24px;
-  border-radius: 36px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(12px);
+  padding: 14px 30px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1.5px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(16px);
   box-sizing: border-box;
+}
+
+.theme-ivoryLotus .modern-below-photo-info {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .theme-royalRed .modern-below-photo-info,
 .theme-deepRose .modern-below-photo-info {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  background: rgba(20, 3, 7, 0.75);
+  border: 1.5px solid rgba(245, 208, 97, 0.4);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
 }
 
 .below-info-title {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
-  font-weight: 500;
+  font-size: clamp(1.4rem, 2.1vw, 2.2rem);
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: inherit;
   white-space: nowrap;
 }
 
+.theme-ivoryLotus .below-info-title {
+  color: #0b1f12;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .below-info-emblem {
   flex-shrink: 0;
   animation: floatGentle 4s ease-in-out infinite alternate;
-  margin: 0 10px;
+  margin: 0 12px;
 }
 
 .below-info-date {
@@ -371,16 +490,24 @@ body, html {
 }
 
 .below-solar-date {
-  font-size: clamp(1rem, 1.35vw, 1.35rem);
-  font-weight: 500;
+  font-size: clamp(1.35rem, 1.95vw, 2.1rem);
+  font-weight: 600;
   letter-spacing: 0.1em;
 }
 
+.theme-ivoryLotus .below-solar-date {
+  color: #0b1f12;
+}
+
 .below-lunar-date {
-  font-size: clamp(0.82rem, 1vw, 1rem);
-  font-weight: 400;
-  opacity: 0.85;
+  font-size: clamp(1.05rem, 1.4vw, 1.45rem);
+  font-weight: 500;
+  opacity: 0.9;
   letter-spacing: 0.04em;
+}
+
+.theme-ivoryLotus .below-lunar-date {
+  color: #244b2f;
 }
 
 /* 3D Floating Lotus Animations */

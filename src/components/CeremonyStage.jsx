@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   ModernKnotHappinessSymbol,
   RoyalHappinessMedallion,
+  LuxuryOrchidCorner,
+  WeddingFansCorner,
   WatercolorLotusCorner,
   GoldenBotanicalCorner,
+  PhotorealisticFloralCorner,
 } from './ModernLotusOrnaments';
 
 /**
@@ -13,26 +16,27 @@ import {
  * and smooth animated thank-you messages.
  */
 const CeremonyStage = ({ data, theme, layoutMode }) => {
-  const [messageIndex, setMessageIndex] = useState(0);
+  const [activeMsgIdx, setActiveMsgIdx] = useState(0);
+  const [incomingMsgIdx, setIncomingMsgIdx] = useState(null);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
   const [incomingPhotoIdx, setIncomingPhotoIdx] = useState(null);
-  const [isTextFading, setIsTextFading] = useState(false);
 
   const messages = data.messages || [];
   const photos = data.photos || [];
 
-  // 1. Text Animation: Cycle through thank you & blessings every 6.5s with silky dissolve
+  // 1. Dual-Layer Smooth Text Crossfade (Locked Height, Zero Jitter)
   useEffect(() => {
     if (messages.length <= 1) return;
     const interval = setInterval(() => {
-      setIsTextFading(true);
+      const nextIdx = (activeMsgIdx + 1) % messages.length;
+      setIncomingMsgIdx(nextIdx);
       setTimeout(() => {
-        setMessageIndex((prev) => (prev + 1) % messages.length);
-        setIsTextFading(false);
-      }, 700);
+        setActiveMsgIdx(nextIdx);
+        setIncomingMsgIdx(null);
+      }, 1000); // 1.0s silky dissolve
     }, 6500);
     return () => clearInterval(interval);
-  }, [messages.length]);
+  }, [messages.length, activeMsgIdx]);
 
   // 2. Photo Animation: Dual-layer smooth cinematic crossfade every 8s
   useEffect(() => {
@@ -48,7 +52,6 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
     return () => clearInterval(interval);
   }, [photos.length, activePhotoIdx]);
 
-  const currentMessage = messages[messageIndex] || messages[0];
   const isDuo = layoutMode === 'duo';
   const isRoyal = theme.id === 'royalRed';
 
@@ -65,20 +68,71 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
     );
   };
 
-  return (
-    <div className={`modern-stage-container ${isDuo ? 'layout-duo' : 'layout-center'}`}>
-      {/* Corner Botanicals: Gold filigree for Royal Red (ref 1), 3D Sculpted Lotus for Ivory/Rose (ref 2,3) */}
-      {isRoyal ? (
+  // Render animated message with locked container height to eliminate layout shift
+  const renderAnimatedMessage = (alignmentClass = 'align-center') => (
+    <div className={`modern-message-stage-box ${alignmentClass}`}>
+      <div className={`message-layer base ${incomingMsgIdx !== null ? 'fading-out' : 'active'}`}>
+        <p className="modern-message-text">{messages[activeMsgIdx] || ''}</p>
+      </div>
+      {incomingMsgIdx !== null && (
+        <div className="message-layer incoming">
+          <p className="modern-message-text">{messages[incomingMsgIdx] || ''}</p>
+        </div>
+      )}
+    </div>
+  );
+
+  // Dynamic corner ornament rendering
+  const renderCornerOrnaments = () => {
+    const selected = data.ornament || 'real_flowers';
+    if (selected === 'minimal') return null;
+
+    if (selected === 'real_flowers') {
+      return (
+        <>
+          <PhotorealisticFloralCorner position="top-left" theme={data.theme} />
+          <PhotorealisticFloralCorner position="top-right" theme={data.theme} />
+        </>
+      );
+    }
+
+    if (selected === 'fans') {
+      return (
+        <>
+          <WeddingFansCorner position="bottom-left" />
+          <WeddingFansCorner position="bottom-right" />
+        </>
+      );
+    }
+    if (selected === 'botanical') {
+      return (
         <>
           <GoldenBotanicalCorner position="bottom-left" />
           <GoldenBotanicalCorner position="top-right" />
         </>
-      ) : (
+      );
+    }
+    if (selected === 'lotus') {
+      return (
         <>
           <WatercolorLotusCorner position="bottom-left" />
           <WatercolorLotusCorner position="bottom-right" />
         </>
-      )}
+      );
+    }
+    // Luxury Orchids
+    return (
+      <>
+        <LuxuryOrchidCorner position="bottom-left" />
+        <LuxuryOrchidCorner position="bottom-right" />
+      </>
+    );
+  };
+
+  return (
+    <div className={`modern-stage-container ${isDuo ? 'layout-duo' : 'layout-center'} font-${data.fontFamily || 'dancing'}`}>
+      {/* Corner Botanicals: Dynamic modern ornaments (Orchids, Wedding Fans, Gold Botanical, Lotus, or Minimal) */}
+      {renderCornerOrnaments()}
 
       {/* Subtle Background Watermark 囍 (Faint & Elegant) */}
       <div className="bg-watermark-happiness">
@@ -101,17 +155,15 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
             <div className="modern-groom-name">{data.groomName}</div>
 
             <div className="modern-knot-symbol">
-              {renderEmblem(115)}
+              {renderEmblem(135)}
             </div>
 
             <div className="modern-bride-name">{data.brideName}</div>
           </div>
 
-          {/* Animated Thank-you & Blessing message in delicate italic with silky blur dissolve */}
+          {/* Animated Thank-you & Blessing message: Dual-layer zero-shift crossfade */}
           <div className="modern-message-wrapper">
-            <div className={`modern-message-text ${isTextFading ? 'fading' : 'visible'}`}>
-              {currentMessage}
-            </div>
+            {renderAnimatedMessage('align-center')}
           </div>
 
           {/* Bottom Date in Modern Condensed Font */}
@@ -134,9 +186,7 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
             </div>
 
             <div className="modern-duo-message">
-              <div className={`modern-message-text ${isTextFading ? 'fading' : 'visible'}`}>
-                {currentMessage}
-              </div>
+              {renderAnimatedMessage('align-left')}
             </div>
           </div>
 
@@ -163,7 +213,7 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
               <div className="modern-below-photo-info">
                 <div className="below-info-title">{data.ceremonyTitle}</div>
                 <div className="below-info-emblem">
-                  {renderEmblem(46)}
+                  {renderEmblem(56)}
                 </div>
                 <div className="below-info-date">
                   <span className="below-solar-date">{data.dateSolar}</span>

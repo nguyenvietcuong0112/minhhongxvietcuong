@@ -42,6 +42,15 @@ export const THEMES = {
   },
 };
 
+export const ORNAMENTS = {
+  real_flowers: { id: 'real_flowers', name: 'Hoa Tươi Cao Cấp (Thật 100%)', icon: '🌸' },
+  fans: { id: 'fans', name: 'Quạt Xếp Ly & Bạch Quả', icon: '🎋' },
+  orchids: { id: 'orchids', name: 'Lan Hồ Điệp Thư Họa', icon: '💐' },
+  botanical: { id: 'botanical', name: 'Lá Kim Tuyến Ánh Vàng', icon: '✨' },
+  minimal: { id: 'minimal', name: 'Tối Giản Thuần Khiết', icon: '🕊️' },
+  lotus: { id: 'lotus', name: 'Hoa Sen 3D Thủy Mặc', icon: '🪷' },
+};
+
 export const DEFAULT_WEDDING_DATA = {
   ceremonyTitle: 'LỄ DẠM NGÕ',
   groomName: 'Việt Cường',
@@ -66,9 +75,11 @@ export const DEFAULT_WEDDING_DATA = {
     { url: process.env.PUBLIC_URL + '/anh3.jpg', caption: 'Nắm Chặt Tay Nhau' },
     { url: process.env.PUBLIC_URL + '/anh4.jpg', caption: 'Trọn Vẹn Hạnh Phúc' },
   ],
+  fontFamily: 'dancing', // 'dancing' (Dancing Script) hoặc 'charm' (Charm)
+  ornament: 'real_flowers', // 'real_flowers' (Hoa tươi thật 100%), 'fans', 'orchids', 'botanical', 'minimal', 'lotus'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v8';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v11';
 
 export const loadWeddingData = () => {
   try {
