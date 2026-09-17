@@ -20,10 +20,12 @@ function App() {
     const qMode = params.get('mode');
     const qFont = params.get('font');
     const qOrnament = params.get('ornament');
+    const qDuration = params.get('duration');
     if (qTheme && THEMES[qTheme]) loaded.theme = qTheme;
     if (qMode) loaded.layoutMode = qMode;
     if (qFont) loaded.fontFamily = qFont;
     if (qOrnament && ORNAMENTS[qOrnament]) loaded.ornament = qOrnament;
+    if (qDuration) loaded.slideDuration = parseFloat(qDuration);
     return loaded;
   });
   const [themeId, setThemeId] = useState(() => {

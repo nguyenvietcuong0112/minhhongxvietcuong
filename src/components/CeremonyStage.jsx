@@ -20,7 +20,10 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
     }
     return 0;
   });
-  const [incomingIdx, setIncomingIdx] = useState(null);
+  const [incomingIdx, setIncomingIdx] = useState(() => {
+    const qTestFlare = new URLSearchParams(window.location.search).get('flare');
+    return qTestFlare === 'true' ? 1 : null;
+  });
 
   const messages = data.messages || [];
   const photos = data.photos || [];
@@ -147,7 +150,10 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
     return <AnimatedWeddingRings size={size} />;
   };
 
-  // Render animated message with locked container height to eliminate layout shift
+  // Distinctive Cinematic Ken Burns motions for each photo
+  const getKenBurnsClass = (idx) => `kenburns-motion-${Math.abs(idx ?? 0) % 4}`;
+
+  // Render animated message with locked container height to eliminate layout shift & golden shimmer reveal
   const renderAnimatedMessage = (alignmentClass = 'align-center') => {
     const activeMsg = photos[activeIdx]?.message || messages[activeIdx] || '';
     const incomingMsg = incomingIdx !== null ? (photos[incomingIdx]?.message || messages[incomingIdx] || '') : null;
@@ -159,7 +165,7 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
         </div>
         {incomingMsg !== null && (
           <div className="message-layer incoming">
-            <p className="modern-message-text">{incomingMsg}</p>
+            <p className="modern-message-text shimmer-reveal">{incomingMsg}</p>
           </div>
         )}
       </div>
@@ -186,6 +192,21 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
 
   return (
     <div className={`modern-stage-container ${isDuo ? 'layout-duo' : 'layout-center'} font-${data.fontFamily || 'dancing'}`}>
+      {/* Stage Transition Golden Light Sweep on scene change */}
+      <div className="stage-transition-light-sweep" key={layoutMode} />
+
+      {/* Ambient Cinematic Golden Bokeh Particles */}
+      <div className="ambient-golden-bokeh" aria-hidden="true">
+        <span className="bokeh-particle p1" />
+        <span className="bokeh-particle p2" />
+        <span className="bokeh-particle p3" />
+        <span className="bokeh-particle p4" />
+        <span className="bokeh-particle p5" />
+        <span className="bokeh-particle p6" />
+        <span className="bokeh-particle p7" />
+        <span className="bokeh-particle p8" />
+      </div>
+
       {/* Corner Botanicals: Dynamic modern ornaments (Orchids, Wedding Fans, Gold Botanical, Lotus, or Minimal) */}
       {renderCornerOrnaments()}
 
@@ -262,20 +283,24 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
           {/* Right Column: Arch Frame + Info placed DOWN UNDER THE PHOTO */}
           <div className="modern-duo-right">
             <div className="modern-duo-card-wrapper">
-              {/* Modern Minimalist Arch holding couple photo with dual-layer crossfade */}
-              <div className="modern-arch-frame">
+              {/* Modern Minimalist Arch holding couple photo with Ken Burns & Light Leak Flare */}
+              <div className={`modern-arch-frame ${incomingIdx !== null ? 'transitioning' : ''}`}>
                 <img
                   src={photos[activeIdx]?.url || '/anh1.jpg'}
                   alt="Việt Cường & Minh Hồng"
-                  className="modern-arch-img base-layer"
+                  className={`modern-arch-img base-layer ${getKenBurnsClass(activeIdx)}`}
                 />
                 {incomingIdx !== null && (
                   <img
                     src={photos[incomingIdx]?.url || '/anh1.jpg'}
                     alt="Việt Cường & Minh Hồng"
-                    className="modern-arch-img incoming-layer"
+                    className={`modern-arch-img incoming-layer ${getKenBurnsClass(incomingIdx)}`}
                   />
                 )}
+
+                {/* Cinematic Golden Light Leak Flare & Frame Glow */}
+                <div className={`cinematic-light-leak ${incomingIdx !== null ? 'active' : ''}`} />
+                <div className={`cinematic-frame-glow ${incomingIdx !== null ? 'active' : ''}`} />
               </div>
 
               {/* Placed DOWN UNDER THE PHOTO as requested ("đặt nó xuống dưới ảnh ý cho đẹp") */}
