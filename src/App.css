@@ -488,13 +488,19 @@ body, html {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 14px 30px;
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.88);
+  padding: 12px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
   border: 1.5px solid rgba(255, 255, 255, 1);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(16px);
   box-sizing: border-box;
+}
+
+.theme-blushSakura .modern-below-photo-info {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 12px 32px rgba(220, 100, 130, 0.16);
 }
 
 .theme-ivoryLotus .modern-below-photo-info {
@@ -512,9 +518,9 @@ body, html {
 
 .below-info-title {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.4rem, 2.1vw, 2.2rem);
+  font-size: clamp(1.2rem, 1.7vw, 1.85rem);
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: inherit;
   white-space: nowrap;
@@ -528,22 +534,23 @@ body, html {
 .below-info-emblem {
   flex-shrink: 0;
   animation: floatGentle 4s ease-in-out infinite alternate;
-  margin: 0 12px;
+  margin: 0 8px;
 }
 
 .below-info-date {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
   font-family: 'Oswald', sans-serif;
   line-height: 1.15;
   white-space: nowrap;
 }
 
 .below-solar-date {
-  font-size: clamp(1.35rem, 1.95vw, 2.1rem);
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: clamp(1.15rem, 1.55vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .theme-ivoryLotus .below-solar-date {
@@ -551,10 +558,11 @@ body, html {
 }
 
 .below-lunar-date {
-  font-size: clamp(1.05rem, 1.4vw, 1.45rem);
-  font-weight: 500;
-  opacity: 0.9;
-  letter-spacing: 0.04em;
+  font-size: clamp(0.85rem, 1.05vw, 1.15rem);
+  font-weight: 600;
+  opacity: 0.92;
+  letter-spacing: 0.03em;
+  margin-top: 2px;
 }
 
 .theme-ivoryLotus .below-lunar-date {

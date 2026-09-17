@@ -69,7 +69,7 @@ export const DEFAULT_WEDDING_DATA = {
   ceremonyTitle: 'LỄ DẠM NGÕ',
   groomName: 'Việt Cường',
   brideName: 'Minh Hồng',
-  dateSolar: '18 09 2026',
+  dateSolar: '18.09.2026',
   dateLunar: '(08.08 Bính Ngọ)',
   theme: 'blushSakura',
   musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
@@ -93,13 +93,17 @@ export const DEFAULT_WEDDING_DATA = {
   ornament: 'sakura', // 'sakura', 'real_flowers', 'fans', 'orchids', 'botanical', 'minimal', 'lotus'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v12';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v13';
 
 export const loadWeddingData = () => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('vietcuong_minhhong_wedding_modern_v12');
     if (saved) {
-      return { ...DEFAULT_WEDDING_DATA, ...JSON.parse(saved) };
+      const parsed = JSON.parse(saved);
+      if (parsed.dateSolar === '18 09 2026' || parsed.dateSolar === '18 . 09 . 2026') {
+        parsed.dateSolar = DEFAULT_WEDDING_DATA.dateSolar;
+      }
+      return { ...DEFAULT_WEDDING_DATA, ...parsed };
     }
   } catch (e) {
     console.warn('Cannot load saved config:', e);

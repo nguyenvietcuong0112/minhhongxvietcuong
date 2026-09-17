@@ -757,20 +757,22 @@ export const PhotorealisticFloralCorner = ({
  * Sakura Blossom & Japanese Glass Windchime Ornaments
  * Exact match to user reference image (Thu Hường & Duy Mạnh pink wedding backdrop)
  */
-export const SakuraOrnaments = () => {
+export const SakuraOrnaments = ({ layoutMode = 'center' }) => {
+  const isDuo = layoutMode === 'duo';
+
   return (
     <>
-      {/* Top-Right Sakura Branch */}
+      {/* Top-Right Sakura Branch (in Duo mode, kept tight to corner and strictly behind arch photo) */}
       <div
         className="sakura-ornament-wrap branch-top-right"
         style={{
           position: 'absolute',
-          top: '-20px',
-          right: '-20px',
-          width: 'clamp(280px, 26vw, 480px)',
-          height: 'clamp(280px, 26vw, 480px)',
+          top: isDuo ? '-10px' : '-20px',
+          right: isDuo ? '-10px' : '-20px',
+          width: isDuo ? 'clamp(180px, 16vw, 280px)' : 'clamp(280px, 26vw, 480px)',
+          height: isDuo ? 'clamp(180px, 16vw, 280px)' : 'clamp(280px, 26vw, 480px)',
           pointerEvents: 'none',
-          zIndex: 12,
+          zIndex: 2, // Always behind .modern-duo-stage (z-index: 4) so it never covers the photo
         }}
       >
         <img
@@ -793,10 +795,10 @@ export const SakuraOrnaments = () => {
           position: 'absolute',
           bottom: '-25px',
           left: '-25px',
-          width: 'clamp(290px, 27vw, 490px)',
-          height: 'clamp(290px, 27vw, 490px)',
+          width: isDuo ? 'clamp(240px, 22vw, 380px)' : 'clamp(290px, 27vw, 490px)',
+          height: isDuo ? 'clamp(240px, 22vw, 380px)' : 'clamp(290px, 27vw, 490px)',
           pointerEvents: 'none',
-          zIndex: 12,
+          zIndex: 2,
         }}
       >
         <img
@@ -822,7 +824,7 @@ export const SakuraOrnaments = () => {
           width: 'clamp(110px, 11vw, 190px)',
           height: 'auto',
           pointerEvents: 'none',
-          zIndex: 12,
+          zIndex: 2,
           animation: 'chimeSway 4.5s ease-in-out infinite alternate',
           transformOrigin: 'top center',
         }}

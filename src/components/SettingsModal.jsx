@@ -84,7 +84,7 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
                 className="form-input"
                 value={formData.dateSolar || ''}
                 onChange={(e) => handleChange('dateSolar', e.target.value)}
-                placeholder="VD: 18 . 09 . 2026"
+                placeholder="VD: 18.09.2026"
                 required
               />
             </div>
@@ -95,7 +95,7 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
                 className="form-input"
                 value={formData.dateLunar || ''}
                 onChange={(e) => handleChange('dateLunar', e.target.value)}
-                placeholder="VD: 08 . 08 . 2026 (Tức Ngày 08 Tháng 08 Năm Bính Ngọ)"
+                placeholder="VD: (08.08 Bính Ngọ)"
                 required
               />
             </div>

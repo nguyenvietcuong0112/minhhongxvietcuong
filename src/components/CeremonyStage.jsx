@@ -25,6 +25,16 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
   const messages = data.messages || [];
   const photos = data.photos || [];
 
+  // Format dateSolar with dots if provided with spaces (e.g. "18 09 2026" -> "18.09.2026")
+  const formatSolarDate = (str) => {
+    if (!str) return '';
+    const trimmed = String(str).trim();
+    if (/^\d{1,2}\s+\d{1,2}\s+\d{4}$/.test(trimmed)) {
+      return trimmed.split(/\s+/).join('.');
+    }
+    return trimmed;
+  };
+
   // When switching into duo layout during slideshow, smoothly advance to next photo
   useEffect(() => {
     if (layoutMode === 'duo' && isSlideshow && photos.length > 1) {
@@ -141,7 +151,7 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
     if (selected === 'minimal') return null;
 
     if (selected === 'sakura' || theme.id === 'blushSakura') {
-      return <SakuraOrnaments />;
+      return <SakuraOrnaments layoutMode={layoutMode} />;
     }
 
     if (selected === 'real_flowers') {
@@ -225,7 +235,7 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
 
           {/* Bottom Date in Modern Condensed Font */}
           <div className="modern-date-footer">
-            <span className="modern-solar-date">{data.dateSolar}</span>
+            <span className="modern-solar-date">{formatSolarDate(data.dateSolar)}</span>
             {theme.id === 'blushSakura' && (
               <img
                 src={process.env.PUBLIC_URL + '/assets/sakura/love_doves.png'}
@@ -284,23 +294,10 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
               <div className="modern-below-photo-info">
                 <div className="below-info-title">{data.ceremonyTitle}</div>
                 <div className="below-info-emblem">
-                  {renderEmblem(56)}
+                  {renderEmblem(46)}
                 </div>
                 <div className="below-info-date">
-                  <span className="below-solar-date">{data.dateSolar}</span>
-                  {theme.id === 'blushSakura' && (
-                    <img
-                      src={process.env.PUBLIC_URL + '/assets/sakura/love_doves.png'}
-                      alt="Đôi chim bồ câu"
-                      style={{
-                        width: '36px',
-                        height: 'auto',
-                        margin: '0 6px',
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 1px 4px rgba(180, 80, 100, 0.25))',
-                      }}
-                    />
-                  )}
+                  <span className="below-solar-date">{formatSolarDate(data.dateSolar)}</span>
                   <span className="below-lunar-date">{data.dateLunar}</span>
                 </div>
               </div>
