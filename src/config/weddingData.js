@@ -107,16 +107,15 @@ export const DEFAULT_WEDDING_DATA = {
   autoAlternate: false,
   slideDuration: 12, // 12 giây chuyển ngẫu nhiên mỗi cảnh / ảnh theo yêu cầu
   slideshowCycleMode: 'alternate', // 'alternate' (12s Toàn Cảnh ⮂ 12s Kèm Ảnh) hoặc 'batch' (12s Toàn Cảnh ➔ Hết 6 Ảnh ➔ Toàn Cảnh)
-  // 6 lời chúc ý nghĩa kèm 6 ảnh
+  centerEmblem: 'rings', // 'rings' (Đôi Nhẫn Cưới Vàng Kim Chuyển Động) hoặc 'knot' (Song Hỷ Truyền Thống)
+  // 4 lời chúc ý nghĩa kèm 4 ảnh cặp đôi (đã loại bỏ anh3, anh4 theo yêu cầu)
   messages: [
     'Xin cảm ơn sự yêu thương của hai bên gia đình và tình cảm quý báu của cả nhà đã góp mặt trong ngày đặc biệt này 💖',
     'Cảm ơn cha mẹ hai bên đã luôn yêu thương, chở che và vun đắp cho tình yêu của chúng con đơm hoa kết trái 💕',
-    'Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê • Nguyện cùng nhau đi qua bao năm tháng bền lâu 🌸',
-    'Duyên thắm trầu cau gắn kết đôi lứa • Khởi đầu cho một hành trình hôn nhân hạnh phúc vẹn tròn ✨',
     'Hạnh phúc không phải là điểm đến, mà là từng khoảnh khắc chúng con cùng nắm chặt tay nhau đi suốt cuộc đời 💐',
     'Nguyện một đời thương nhau bình yên, sớm tối có nhau, cùng nhau xây đắp tổ ấm ngập tràn yêu thương và tiếng cười 💖',
   ],
-  // 6 ảnh của cặp đôi kèm 6 lời chúc tương ứng
+  // 4 ảnh của cặp đôi kèm 4 lời chúc tương ứng
   photos: [
     {
       url: process.env.PUBLIC_URL + '/anh1.jpg',
@@ -127,16 +126,6 @@ export const DEFAULT_WEDDING_DATA = {
       url: process.env.PUBLIC_URL + '/anh2.jpg',
       caption: 'Khởi Đầu Duyên Lành',
       message: 'Cảm ơn cha mẹ hai bên đã luôn yêu thương, chở che và vun đắp cho tình yêu của chúng con đơm hoa kết trái 💕',
-    },
-    {
-      url: process.env.PUBLIC_URL + '/anh3.jpg',
-      caption: 'Nắm Chặt Tay Nhau',
-      message: 'Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê • Nguyện cùng nhau đi qua bao năm tháng bền lâu 🌸',
-    },
-    {
-      url: process.env.PUBLIC_URL + '/anh4.jpg',
-      caption: 'Trọn Vẹn Hạnh Phúc',
-      message: 'Duyên thắm trầu cau gắn kết đôi lứa • Khởi đầu cho một hành trình hôn nhân hạnh phúc vẹn tròn ✨',
     },
     {
       url: process.env.PUBLIC_URL + '/anh5.jpg',
@@ -153,7 +142,7 @@ export const DEFAULT_WEDDING_DATA = {
   ornament: 'lotus', // 'lotus', 'real_flowers', 'minimal'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v16';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v17';
 
 export const loadWeddingData = () => {
   try {
@@ -166,10 +155,10 @@ export const loadWeddingData = () => {
       if (!ORNAMENTS[parsed.ornament]) {
         parsed.ornament = 'lotus';
       }
-      if (!parsed.photos || parsed.photos.length < 6) {
+      if (!parsed.photos || parsed.photos.length < 4) {
         parsed.photos = DEFAULT_WEDDING_DATA.photos;
       }
-      if (!parsed.messages || parsed.messages.length < 6) {
+      if (!parsed.messages || parsed.messages.length < 4) {
         parsed.messages = DEFAULT_WEDDING_DATA.messages;
       }
       if (!parsed.slideDuration || parsed.slideDuration < 10) {

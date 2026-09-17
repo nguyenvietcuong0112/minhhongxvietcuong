@@ -131,8 +131,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
           position: 'absolute',
           bottom: isDuo ? '-10px' : '-15px',
           right: isDuo ? '-10px' : '-15px',
-          width: isDuo ? 'clamp(175px, 16vw, 280px)' : 'clamp(260px, 25vw, 440px)',
-          height: isDuo ? 'clamp(195px, 18vw, 315px)' : 'clamp(286px, 27vw, 495px)',
+          width: isDuo ? 'clamp(210px, 19vw, 300px)' : 'clamp(260px, 25vw, 400px)',
+          height: isDuo ? 'clamp(235px, 21vw, 380px)' : 'clamp(286px, 27vw, 495px)',
           pointerEvents: 'none',
           zIndex: 2, // Behind .modern-duo-stage (z-index: 4)
         }}
@@ -144,8 +144,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
             width: '100%',
             height: '100%',
             objectFit: 'contain',
-            transformOrigin: 'bottom right',
-            transform: 'scaleX(-1) scale(1.05, 1.15)',
+            transformOrigin: 'center',
+            transform: 'scaleX(-1) scale(0.85, 0.95)',
             filter: 'drop-shadow(0 14px 34px rgba(0, 0, 0, 0.28))',
             display: 'block',
           }}

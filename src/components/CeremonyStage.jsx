@@ -129,7 +129,15 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
   const isDuo = layoutMode === 'duo';
 
   // Render centerpiece emblem: Luxury Animated 18k Gold Interlocking Wedding Rings with sparkles & floating motion
-  const renderEmblem = (size = 140) => {
+  const renderEmblem = (size = 175) => {
+    if (data.centerEmblem === 'knot') {
+      return (
+        <ModernKnotHappinessSymbol
+          size={size}
+          color={theme.knotColor || theme.accentColor}
+        />
+      );
+    }
     return <AnimatedWeddingRings size={size} />;
   };
 
@@ -196,7 +204,7 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
             <div className="modern-groom-name">{data.groomName}</div>
 
             <div className="modern-knot-symbol">
-              {renderEmblem(135)}
+              {renderEmblem(175)}
             </div>
 
             <div className="modern-bride-name">{data.brideName}</div>

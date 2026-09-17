@@ -132,7 +132,34 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
                   checked={formData.slideshowCycleMode === 'batch'}
                   onChange={() => handleChange('slideshowCycleMode', 'batch')}
                 />
-                <span>🎞️ <strong>1 Toàn Cảnh (12s) ➔ Chiếu trọn 6 ảnh (12s/ảnh) ➔ Toàn Cảnh</strong></span>
+                <span>🎞️ <strong>1 Toàn Cảnh (12s) ➔ Chiếu trọn 4 ảnh (12s/ảnh) ➔ Toàn Cảnh</strong></span>
+              </label>
+            </div>
+          </div>
+
+          {/* Center Emblem Selection */}
+          <div className="form-group">
+            <label className="form-label">Biểu Tượng Chính Giữa Tên Dâu Rể</label>
+            <div style={{ display: 'flex', gap: '16px', marginTop: '6px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.88rem', color: '#4a091c', fontWeight: '500' }}>
+                <input
+                  type="radio"
+                  name="centerEmblem"
+                  value="rings"
+                  checked={(formData.centerEmblem || 'rings') === 'rings'}
+                  onChange={() => handleChange('centerEmblem', 'rings')}
+                />
+                <span>💍 <strong>Đôi Nhẫn Cưới Vàng Kim Lấp Lánh (Có Chuyển Động)</strong></span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.88rem', color: '#4a091c', fontWeight: '500' }}>
+                <input
+                  type="radio"
+                  name="centerEmblem"
+                  value="knot"
+                  checked={formData.centerEmblem === 'knot'}
+                  onChange={() => handleChange('centerEmblem', 'knot')}
+                />
+                <span>囍 <strong>Nút Thắt Song Hỷ Truyền Thống</strong></span>
               </label>
             </div>
           </div>
