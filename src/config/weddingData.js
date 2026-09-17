@@ -1,23 +1,14 @@
 // Modern Wedding Configuration - Việt Cường & Minh Hồng (Lễ Dạm Ngõ)
 
 export const THEMES = {
-  blushSakura: {
-    id: 'blushSakura',
-    name: 'Hồng Phấn Anh Đào (Mới)',
-    bg: 'radial-gradient(ellipse at 50% 40%, #FFF0F4 0%, #FDCBD6 55%, #F9ADC0 100%)',
-    textColor: '#721327',
-    subTextColor: '#831b32',
-    accentColor: '#e84370',
-    knotColor: '#e84370',
-    titleColor: '#7a152d',
-    nameColor: '#6a0f23',
-    tagBg: 'rgba(232, 67, 112, 0.14)',
-    lotusOpacity: 0.9,
-  },
   ivoryLotus: {
     id: 'ivoryLotus',
     name: 'Kem Sen Tinh Khôi (Ảnh 2 & 3)',
+    shortName: 'Kem Sen',
+    desc: 'Nhã nhặn, thanh khiết (chuẩn ảnh 2 & 3)',
+    icon: '🌿',
     bg: 'radial-gradient(ellipse at 50% 35%, #faf8f5 0%, #f4f0eb 55%, #e8e2d8 100%)',
+    swatchGradient: 'linear-gradient(135deg, #faf8f5, #e8e2d8)',
     textColor: '#293d30', // Deep Forest Pine
     subTextColor: '#476352',
     accentColor: '#344e3d',
@@ -30,7 +21,11 @@ export const THEMES = {
   royalRed: {
     id: 'royalRed',
     name: 'Đỏ Rượu Vang (Ảnh 1)',
+    shortName: 'Đỏ Rượu',
+    desc: 'Trang trọng, quý phái lễ gia tiên',
+    icon: '🏮',
     bg: 'radial-gradient(ellipse at 50% 35%, #6a0817 0%, #3d030c 60%, #1a0104 100%)',
+    swatchGradient: 'linear-gradient(135deg, #8a0c20, #3d030c)',
     textColor: '#FFF4D4',
     subTextColor: '#F5D08A',
     accentColor: '#F5D061',
@@ -40,10 +35,31 @@ export const THEMES = {
     tagBg: 'rgba(245, 208, 97, 0.18)',
     lotusOpacity: 0.45,
   },
+  blushSakura: {
+    id: 'blushSakura',
+    name: 'Hồng Phấn Ngọt Ngào',
+    shortName: 'Hồng Phấn',
+    desc: 'Dịu dàng, tươi sáng, trẻ trung',
+    icon: '🌸',
+    bg: 'radial-gradient(ellipse at 50% 40%, #FFF0F4 0%, #FDCBD6 55%, #F9ADC0 100%)',
+    swatchGradient: 'linear-gradient(135deg, #FFF0F4, #F9ADC0)',
+    textColor: '#721327',
+    subTextColor: '#831b32',
+    accentColor: '#e84370',
+    knotColor: '#e84370',
+    titleColor: '#7a152d',
+    nameColor: '#6a0f23',
+    tagBg: 'rgba(232, 67, 112, 0.14)',
+    lotusOpacity: 0.9,
+  },
   deepRose: {
     id: 'deepRose',
     name: 'Hồng Đậm Hiện Đại',
+    shortName: 'Hồng Đậm',
+    desc: 'Nổi bật, rực rỡ, phong cách',
+    icon: '🌺',
     bg: 'radial-gradient(ellipse at 50% 35%, #7a1534 0%, #4a091c 60%, #20020b 100%)',
+    swatchGradient: 'linear-gradient(135deg, #961b40, #4a091c)',
     textColor: '#FFF4F7',
     subTextColor: '#F8C2D0',
     accentColor: '#F5D061',
@@ -56,13 +72,27 @@ export const THEMES = {
 };
 
 export const ORNAMENTS = {
-  sakura: { id: 'sakura', name: 'Hoa Anh Đào & Chuông Gió', icon: '🌸' },
-  real_flowers: { id: 'real_flowers', name: 'Hoa Tươi Cao Cấp (Thật 100%)', icon: '🌺' },
-  fans: { id: 'fans', name: 'Quạt Xếp Ly & Bạch Quả', icon: '🎋' },
-  orchids: { id: 'orchids', name: 'Lan Hồ Điệp Thư Họa', icon: '💐' },
-  botanical: { id: 'botanical', name: 'Lá Kim Tuyến Ánh Vàng', icon: '✨' },
-  minimal: { id: 'minimal', name: 'Tối Giản Thuần Khiết', icon: '🕊️' },
-  lotus: { id: 'lotus', name: 'Hoa Sen 3D Thủy Mặc', icon: '🪷' },
+  lotus: {
+    id: 'lotus',
+    name: 'Hoa Sen Hai Bên (Mẫu Thật)',
+    shortName: 'Hoa Sen',
+    desc: 'Tranh sen màu nước nở rộ 2 góc thật 100%',
+    icon: '🪷',
+  },
+  real_flowers: {
+    id: 'real_flowers',
+    name: 'Hoa Tươi Góc (Thật 100%)',
+    shortName: 'Hoa Tươi',
+    desc: 'Cụm hoa tươi góc phong cách sang trọng',
+    icon: '🌺',
+  },
+  minimal: {
+    id: 'minimal',
+    name: 'Tối Giản Thuần Khiết',
+    shortName: 'Tối Giản',
+    desc: 'Không hoa góc, phông trơn thanh lịch',
+    icon: '🕊️',
+  },
 };
 
 export const DEFAULT_WEDDING_DATA = {
@@ -71,37 +101,75 @@ export const DEFAULT_WEDDING_DATA = {
   brideName: 'Minh Hồng',
   dateSolar: '18.09.2026',
   dateLunar: '(08.08 Bính Ngọ)',
-  theme: 'blushSakura',
+  theme: 'deepRose', // Mặc định nền Hồng Đậm theo yêu cầu
   musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
-  layoutMode: 'center', // 'center' (Toàn cảnh chữ như ảnh 2) hoặc 'duo' (Kết hợp ảnh như ảnh 3)
-  autoAlternate: false, // Giữ cố định bố cục người dùng chọn, không tự nhảy loạn xạ
-  // Lời cảm ơn và câu chúc chuyển động mượt mà
+  layoutMode: 'duo', // 'duo' (Kèm Ảnh) hoặc 'center' (Chữ Lớn Toàn Cảnh)
+  autoAlternate: false,
+  slideDuration: 7, // 7 giây chuyển ngẫu nhiên mỗi ảnh kèm lời chúc
+  // 6 lời chúc ý nghĩa kèm 6 ảnh
   messages: [
-    'Chúng con xin cảm ơn hai bên gia đình đã yêu thương và vun đắp cho chúng con ạ!',
-    '“Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê”',
-    '“Duyên thắm trầu cau • Khởi đầu cho một hành trình hạnh phúc mới”',
-    '“Nguyện cùng nhau đi qua bao năm tháng, trọn đời yêu thương gắn kết bền lâu”',
+    'Xin cảm ơn sự yêu thương của hai bên gia đình và tình cảm quý báu của cả nhà đã góp mặt trong ngày đặc biệt này 💖',
+    'Cảm ơn cha mẹ hai bên đã luôn yêu thương, chở che và vun đắp cho tình yêu của chúng con đơm hoa kết trái 💕',
+    'Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê • Nguyện cùng nhau đi qua bao năm tháng bền lâu 🌸',
+    'Duyên thắm trầu cau gắn kết đôi lứa • Khởi đầu cho một hành trình hôn nhân hạnh phúc vẹn tròn ✨',
+    'Hạnh phúc không phải là điểm đến, mà là từng khoảnh khắc chúng con cùng nắm chặt tay nhau đi suốt cuộc đời 💐',
+    'Nguyện một đời thương nhau bình yên, sớm tối có nhau, cùng nhau xây đắp tổ ấm ngập tràn yêu thương và tiếng cười 💖',
   ],
-  // 4 ảnh của cặp đôi
+  // 6 ảnh của cặp đôi kèm 6 lời chúc tương ứng
   photos: [
-    { url: process.env.PUBLIC_URL + '/anh1.jpg', caption: 'Việt Cường & Minh Hồng' },
-    { url: process.env.PUBLIC_URL + '/anh2.jpg', caption: 'Khởi Đầu Duyên Lành' },
-    { url: process.env.PUBLIC_URL + '/anh3.jpg', caption: 'Nắm Chặt Tay Nhau' },
-    { url: process.env.PUBLIC_URL + '/anh4.jpg', caption: 'Trọn Vẹn Hạnh Phúc' },
+    {
+      url: process.env.PUBLIC_URL + '/anh1.jpg',
+      caption: 'Việt Cường & Minh Hồng',
+      message: 'Xin cảm ơn sự yêu thương của hai bên gia đình và tình cảm quý báu của cả nhà đã góp mặt trong ngày đặc biệt này 💖',
+    },
+    {
+      url: process.env.PUBLIC_URL + '/anh2.jpg',
+      caption: 'Khởi Đầu Duyên Lành',
+      message: 'Cảm ơn cha mẹ hai bên đã luôn yêu thương, chở che và vun đắp cho tình yêu của chúng con đơm hoa kết trái 💕',
+    },
+    {
+      url: process.env.PUBLIC_URL + '/anh3.jpg',
+      caption: 'Nắm Chặt Tay Nhau',
+      message: 'Trăm năm tình viên mãn • Bạc đầu nghĩa phu thê • Nguyện cùng nhau đi qua bao năm tháng bền lâu 🌸',
+    },
+    {
+      url: process.env.PUBLIC_URL + '/anh4.jpg',
+      caption: 'Trọn Vẹn Hạnh Phúc',
+      message: 'Duyên thắm trầu cau gắn kết đôi lứa • Khởi đầu cho một hành trình hôn nhân hạnh phúc vẹn tròn ✨',
+    },
+    {
+      url: process.env.PUBLIC_URL + '/anh5.jpg',
+      caption: 'Khoảnh Khắc Ngọt Ngào',
+      message: 'Hạnh phúc không phải là điểm đến, mà là từng khoảnh khắc chúng con cùng nắm chặt tay nhau đi suốt cuộc đời 💐',
+    },
+    {
+      url: process.env.PUBLIC_URL + '/anh6.jpg',
+      caption: 'Chung Đôi Hạnh Phúc',
+      message: 'Nguyện một đời thương nhau bình yên, sớm tối có nhau, cùng nhau xây đắp tổ ấm ngập tràn yêu thương và tiếng cười 💖',
+    },
   ],
   fontFamily: 'dancing', // 'dancing' (Dancing Script) hoặc 'charm' (Charm)
-  ornament: 'sakura', // 'sakura', 'real_flowers', 'fans', 'orchids', 'botanical', 'minimal', 'lotus'
+  ornament: 'lotus', // 'lotus', 'real_flowers', 'minimal'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v13';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v15';
 
 export const loadWeddingData = () => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('vietcuong_minhhong_wedding_modern_v12');
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.dateSolar === '18 09 2026' || parsed.dateSolar === '18 . 09 . 2026') {
         parsed.dateSolar = DEFAULT_WEDDING_DATA.dateSolar;
+      }
+      if (!ORNAMENTS[parsed.ornament]) {
+        parsed.ornament = 'lotus';
+      }
+      if (!parsed.photos || parsed.photos.length < 6) {
+        parsed.photos = DEFAULT_WEDDING_DATA.photos;
+      }
+      if (!parsed.messages || parsed.messages.length < 6) {
+        parsed.messages = DEFAULT_WEDDING_DATA.messages;
       }
       return { ...DEFAULT_WEDDING_DATA, ...parsed };
     }

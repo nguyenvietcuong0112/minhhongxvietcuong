@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { THEMES, ORNAMENTS } from '../config/weddingData';
 
 /**
  * ControlBar: Modern minimalist floating dock for switching themes and layout modes.
+ * Features unified popover menus for Theme and Ornament selection.
  */
 const ControlBar = ({
   currentThemeId,
@@ -14,6 +15,7 @@ const ControlBar = ({
   fontFamily,
   onToggleFont,
   ornament,
+  onSelectOrnament,
   onToggleOrnament,
   audioPlaying,
   setAudioPlaying,
@@ -21,32 +23,57 @@ const ControlBar = ({
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showThemeMenu, setShowThemeMenu] = useState(() => {
+    return new URLSearchParams(window.location.search).get('menu') === 'theme';
+  });
+  const [showOrnamentMenu, setShowOrnamentMenu] = useState(() => {
+    return new URLSearchParams(window.location.search).get('menu') === 'ornament';
+  });
 
-  // Auto-hide control bar after 4 seconds of idle mouse
+  const dockRef = useRef(null);
+
+  // Close menus when clicking outside
   useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dockRef.current && !dockRef.current.contains(e.target)) {
+        setShowThemeMenu(false);
+        setShowOrnamentMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Auto-hide control bar after 5 seconds of idle mouse (only when menus are closed)
+  useEffect(() => {
+    if (showThemeMenu || showOrnamentMenu) return;
+
     let timeoutId;
     const handleMouseMove = () => {
       setIsVisible(true);
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         setIsVisible(false);
-      }, 4000);
+      }, 5000);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    timeoutId = setTimeout(() => setIsVisible(false), 4000);
+    timeoutId = setTimeout(() => setIsVisible(false), 5000);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [showThemeMenu, showOrnamentMenu]);
 
-  // Keyboard shortcuts (F: fullscreen, H: bar, M: music)
+  // Keyboard shortcuts (F: fullscreen, H: bar, M: music, T: theme menu, O: ornament menu, Esc: close menu)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
-      if (e.key === 'h' || e.key === 'H') {
+      if (e.key === 'Escape') {
+        setShowThemeMenu(false);
+        setShowOrnamentMenu(false);
+      } else if (e.key === 'h' || e.key === 'H') {
         setIsVisible((prev) => !prev);
       } else if (e.key === 'f' || e.key === 'F') {
         toggleFullscreen();
@@ -54,12 +81,18 @@ const ControlBar = ({
         setAudioPlaying((prev) => !prev);
       } else if (e.key === 's' || e.key === 'S') {
         if (onToggleSlideshow) onToggleSlideshow();
+      } else if (e.key === 't' || e.key === 'T') {
+        setShowThemeMenu((prev) => !prev);
+        setShowOrnamentMenu(false);
+      } else if (e.key === 'o' || e.key === 'O') {
+        setShowOrnamentMenu((prev) => !prev);
+        setShowThemeMenu(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  });
+  }, [setAudioPlaying, onToggleSlideshow]);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -83,6 +116,9 @@ const ControlBar = ({
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
+  const activeTheme = THEMES[currentThemeId] || THEMES.ivoryLotus;
+  const activeOrnament = ORNAMENTS[ornament] || ORNAMENTS.lotus;
+
   return (
     <>
       {/* Mini reveal button when dock is hidden */}
@@ -98,28 +134,122 @@ const ControlBar = ({
       )}
 
       {/* Floating Modern Dock */}
-      <div className={`modern-dock-wrapper ${isVisible ? 'visible' : 'hidden'}`}>
+      <div
+        ref={dockRef}
+        className={`modern-dock-wrapper ${isVisible ? 'visible' : 'hidden'}`}
+      >
         <div className="modern-dock">
-          {/* Theme Switcher */}
+          {/* Group 1: Appearance Controls (Theme & Ornaments with Popover Pickers) */}
           <div className="dock-group">
-            {Object.values(THEMES).map((t) => (
+            {/* Unified Theme Button with Popover */}
+            <div className="dock-popover-anchor">
               <button
-                key={t.id}
-                onClick={() => setThemeId(t.id)}
-                className={`modern-dock-btn ${currentThemeId === t.id ? 'active' : ''}`}
-                title={t.name}
+                onClick={() => {
+                  setShowThemeMenu((prev) => !prev);
+                  setShowOrnamentMenu(false);
+                }}
+                className={`modern-dock-btn theme-dock-btn ${showThemeMenu ? 'active' : ''}`}
+                title="Chọn phông nền màu sắc (Phím T)"
               >
-                <span className="dock-icon">
-                  {t.id === 'blushSakura' ? '🌸' : t.id === 'ivoryLotus' ? '🌿' : t.id === 'royalRed' ? '🏮' : '🌺'}
-                </span>
-                <span className="dock-label">{t.name.split(' (')[0]}</span>
+                <span className="dock-icon">{activeTheme.icon}</span>
+                <span className="dock-label">{activeTheme.shortName || 'Màu Nền'}</span>
+                <span className="dock-chevron">{showThemeMenu ? '▲' : '▼'}</span>
               </button>
-            ))}
+
+              {/* Theme Popover Picker */}
+              {showThemeMenu && (
+                <div className="dock-popover-menu theme-popover">
+                  <div className="popover-header">🎨 Chọn Màu Phông Nền</div>
+                  <div className="popover-items">
+                    {Object.values(THEMES).map((t) => {
+                      const isSelected = currentThemeId === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          className={`popover-item ${isSelected ? 'selected' : ''}`}
+                          onClick={() => {
+                            setThemeId(t.id);
+                            setShowThemeMenu(false);
+                          }}
+                        >
+                          <div
+                            className="item-swatch-circle"
+                            style={{
+                              background: t.swatchGradient || t.bg,
+                            }}
+                          />
+                          <div className="item-text">
+                            <div className="item-title">
+                              <span className="item-icon-inline">{t.icon}</span>
+                              {t.name.split(' (')[0]}
+                            </div>
+                            <div className="item-desc">{t.desc}</div>
+                          </div>
+                          {isSelected && <span className="item-check">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Unified Ornament Button with Popover */}
+            <div className="dock-popover-anchor">
+              <button
+                onClick={() => {
+                  setShowOrnamentMenu((prev) => !prev);
+                  setShowThemeMenu(false);
+                }}
+                className={`modern-dock-btn ornament-dock-btn ${showOrnamentMenu ? 'active' : ''}`}
+                title="Chọn họa tiết trang trí (Phím O)"
+              >
+                <span className="dock-icon">{activeOrnament.icon}</span>
+                <span className="dock-label">{activeOrnament.shortName || 'Họa Tiết'}</span>
+                <span className="dock-chevron">{showOrnamentMenu ? '▲' : '▼'}</span>
+              </button>
+
+              {/* Ornament Popover Picker */}
+              {showOrnamentMenu && (
+                <div className="dock-popover-menu ornament-popover">
+                  <div className="popover-header">🪷 Chọn Họa Tiết Trang Trí</div>
+                  <div className="popover-items">
+                    {Object.values(ORNAMENTS).map((o) => {
+                      const isSelected = ornament === o.id;
+                      return (
+                        <button
+                          key={o.id}
+                          className={`popover-item ${isSelected ? 'selected' : ''}`}
+                          onClick={() => {
+                            if (onSelectOrnament) {
+                              onSelectOrnament(o.id);
+                            } else if (onToggleOrnament) {
+                              onToggleOrnament();
+                            }
+                            setShowOrnamentMenu(false);
+                          }}
+                        >
+                          <span className="item-icon-large">{o.icon}</span>
+                          <div className="item-text">
+                            <div className="item-title">
+                              {o.name}
+                              {o.id === 'lotus' && <span className="item-badge">Đẹp nhất</span>}
+                            </div>
+                            <div className="item-desc">{o.desc}</div>
+                          </div>
+                          {isSelected && <span className="item-check">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="dock-divider" />
 
-          {/* Layout Mode & Slideshow Group */}
+          {/* Group 2: Display, Typography & Audio Controls */}
           <div className="dock-group">
             {/* Slideshow Presentation Button */}
             <button
@@ -154,20 +284,6 @@ const ControlBar = ({
               <span className="dock-icon">🔤</span>
               <span className="dock-label">
                 {fontFamily === 'charm' ? 'Chữ Nét Đậm' : 'Chữ Ký Uốn'}
-              </span>
-            </button>
-
-            {/* Ornament Motif Toggle */}
-            <button
-              onClick={onToggleOrnament}
-              className="modern-dock-btn"
-              title="Đổi họa tiết góc: Lan Hồ Điệp / Quạt Xếp / Kim Tuyến / Tối Giản / Hoa Sen (Phím O)"
-            >
-              <span className="dock-icon">
-                {ORNAMENTS[ornament]?.icon || '🌸'}
-              </span>
-              <span className="dock-label">
-                {ORNAMENTS[ornament]?.name?.split(' ')[0] + ' ' + (ORNAMENTS[ornament]?.name?.split(' ')[1] || '')}
               </span>
             </button>
 

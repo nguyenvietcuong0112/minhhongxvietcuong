@@ -87,266 +87,98 @@ export const ModernKnotHappinessSymbol = ({ size = 110, color = '#F5D061' }) => 
 };
 
 /**
-/**
- * 3D Sculpted Lotus Flowers & Botanical Leaves
- * Features realistic 3D layered petals, dewdrops, golden receptacle, and graceful buds.
+ * Realistic Botanical Watercolor Lotus Ornaments (Sen 2 Bên)
+ * - Bottom-Left: Blooming pink lotus blossom, budding lotus on stem, and dewy pads
+ * - Bottom-Right: Blooming pink lotus blossom, budding lotus on stem, and dewy pads (mirrored)
  */
-export const WatercolorLotusCorner = ({ position = 'bottom-left' }) => {
-  const isLeft = position === 'bottom-left';
-  const style = {
-    position: 'absolute',
-    bottom: 0,
-    [isLeft ? 'left' : 'right']: 0,
-    width: 'clamp(320px, 34vw, 540px)',
-    height: 'clamp(220px, 28vh, 380px)',
-    pointerEvents: 'none',
-    zIndex: 2,
-    transform: isLeft ? 'none' : 'scaleX(-1)',
-  };
+export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
+  const isDuo = layoutMode === 'duo';
 
   return (
-    <div style={style} className="lotus-corner-decor">
-      <svg
-        viewBox="0 0 650 480"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ width: '100%', height: '100%', overflow: 'visible' }}
+    <>
+      {/* Bottom-Left Blooming Lotus Blossom & Leaves (đầm sen góc trái) */}
+      <div
+        className="lotus-ornament-wrap lotus-blossom-left-decor"
+        style={{
+          position: 'absolute',
+          bottom: isDuo ? '-10px' : '-15px',
+          left: isDuo ? '-10px' : '-15px',
+          width: isDuo ? 'clamp(180px, 16vw, 290px)' : 'clamp(220px, 21vw, 380px)',
+          height: isDuo ? 'clamp(180px, 16vw, 290px)' : 'clamp(220px, 21vw, 380px)',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
       >
-        <defs>
-          {/* 3D Soft Depth Filters */}
-          <filter id={`petalGlow_${position}`} x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="5" stdDeviation="6" floodColor="#14331e" floodOpacity="0.22"/>
-          </filter>
-          <filter id={`leafGlow_${position}`} x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="8" stdDeviation="12" floodColor="#0a1f12" floodOpacity="0.28"/>
-          </filter>
+        <img
+          src={process.env.PUBLIC_URL + '/assets/lotus/lotus_blooming_corner.png'}
+          alt="Hoa sen hồng nở rộ góc trái"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 14px 34px rgba(0, 0, 0, 0.28))',
+            display: 'block',
+          }}
+        />
+      </div>
 
-          {/* 3D Lotus Petal Gradients (Celadon Base -> Porcelain White -> Blush Lotus Pink Tip) */}
-          <linearGradient id={`petalCenter_${position}`} x1="50%" y1="100%" x2="50%" y2="0%">
-            <stop offset="0%" stopColor="#91cda2"/>
-            <stop offset="25%" stopColor="#e2f3e7"/>
-            <stop offset="60%" stopColor="#ffffff"/>
-            <stop offset="88%" stopColor="#f8b6c4"/>
-            <stop offset="100%" stopColor="#ea6584"/>
-          </linearGradient>
+      {/* Bottom-Right Blooming Lotus Blossom & Leaves (đầm sen góc phải) */}
+      <div
+        className="lotus-ornament-wrap lotus-blossom-right-decor"
+        style={{
+          position: 'absolute',
+          bottom: isDuo ? '-10px' : '-15px',
+          right: isDuo ? '-10px' : '-15px',
+          width: isDuo ? 'clamp(150px, 14vw, 240px)' : 'clamp(220px, 21vw, 380px)',
+          height: isDuo ? 'clamp(150px, 14vw, 240px)' : 'clamp(220px, 21vw, 380px)',
+          pointerEvents: 'none',
+          zIndex: 2, // Behind .modern-duo-stage (z-index: 4)
+        }}
+      >
+        <img
+          src={process.env.PUBLIC_URL + '/assets/lotus/lotus_blooming_corner.png'}
+          alt="Hoa sen hồng nở rộ góc phải"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            transform: 'scaleX(-1)',
+            filter: 'drop-shadow(0 14px 34px rgba(0, 0, 0, 0.28))',
+            display: 'block',
+          }}
+        />
+      </div>
+    </>
+  );
+};
 
-          <linearGradient id={`petalLeft_${position}`} x1="20%" y1="100%" x2="80%" y2="0%">
-            <stop offset="0%" stopColor="#7eb88e"/>
-            <stop offset="25%" stopColor="#ddede1"/>
-            <stop offset="60%" stopColor="#ffffff"/>
-            <stop offset="85%" stopColor="#f6a9b9"/>
-            <stop offset="100%" stopColor="#e85b7c"/>
-          </linearGradient>
-
-          <linearGradient id={`petalRight_${position}`} x1="80%" y1="100%" x2="20%" y2="0%">
-            <stop offset="0%" stopColor="#7eb88e"/>
-            <stop offset="25%" stopColor="#ddede1"/>
-            <stop offset="60%" stopColor="#ffffff"/>
-            <stop offset="85%" stopColor="#f6a9b9"/>
-            <stop offset="100%" stopColor="#e85b7c"/>
-          </linearGradient>
-
-          <linearGradient id={`petalDip_${position}`} x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" stopColor="#80bc90"/>
-            <stop offset="35%" stopColor="#ebf7ef"/>
-            <stop offset="70%" stopColor="#ffffff"/>
-            <stop offset="90%" stopColor="#fbbecb"/>
-            <stop offset="100%" stopColor="#ea6988"/>
-          </linearGradient>
-
-          {/* Golden Lotus Pod */}
-          <radialGradient id={`lotusPod_${position}`} cx="45%" cy="35%" r="60%">
-            <stop offset="0%" stopColor="#fef08a"/>
-            <stop offset="45%" stopColor="#eab308"/>
-            <stop offset="80%" stopColor="#b45309"/>
-            <stop offset="100%" stopColor="#713f12"/>
-          </radialGradient>
-
-          {/* Leaf Shading */}
-          <radialGradient id={`leafBowl_${position}`} cx="35%" cy="60%" r="65%">
-            <stop offset="0%" stopColor="#183d23"/>
-            <stop offset="30%" stopColor="#245934"/>
-            <stop offset="65%" stopColor="#3c8251"/>
-            <stop offset="88%" stopColor="#60a875"/>
-            <stop offset="100%" stopColor="#85c699"/>
-          </radialGradient>
-
-          <radialGradient id={`leafSmall_${position}`} cx="40%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="#1d472a"/>
-            <stop offset="35%" stopColor="#2d6e41"/>
-            <stop offset="70%" stopColor="#4d9462"/>
-            <stop offset="100%" stopColor="#79ba8d"/>
-          </radialGradient>
-
-          {/* Stalk Cylinder */}
-          <linearGradient id={`stalkCyl_${position}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#20472c"/>
-            <stop offset="35%" stopColor="#559166"/>
-            <stop offset="70%" stopColor="#82bf93"/>
-            <stop offset="100%" stopColor="#295736"/>
-          </linearGradient>
-        </defs>
-
-        {/* 1. STALKS */}
-        <path d="M 285 480 Q 280 320 270 240" stroke={`url(#stalkCyl_${position})`} strokeWidth="8" strokeLinecap="round"/>
-        <circle cx="282" cy="390" r="1.8" fill="#14331e"/>
-        <circle cx="277" cy="330" r="1.8" fill="#14331e"/>
-        <circle cx="273" cy="280" r="1.8" fill="#14331e"/>
-
-        <path d="M 470 480 Q 480 300 450 170" stroke={`url(#stalkCyl_${position})`} strokeWidth="6" strokeLinecap="round"/>
-        <circle cx="474" cy="370" r="1.4" fill="#14331e"/>
-        <circle cx="468" cy="270" r="1.4" fill="#14331e"/>
-
-        {/* 2. LARGE 3D LOTUS LEAF */}
-        <g filter={`url(#leafGlow_${position})`}>
-          <path d="M -70 500 C -50 300 70 250 220 280 C 340 305 400 400 330 480 C 230 500 -20 510 -70 500 Z"
-                fill={`url(#leafBowl_${position})`}/>
-          <path d="M -50 330 C 55 270 180 270 260 295 C 320 320 360 370 350 425"
-                stroke="#bbf7d0" strokeWidth="2.5" strokeLinecap="round" opacity="0.65"/>
-
-          <circle cx="140" cy="375" r="9" fill="#0d2414"/>
-          <circle cx="140" cy="375" r="4.5" fill="#07140b"/>
-
-          {/* 3D Veins */}
-          <path d="M 140 375 Q 85 320 15 295" stroke="#86c697" strokeWidth="3" opacity="0.6" strokeLinecap="round"/>
-          <path d="M 140 375 Q 125 300 115 265" stroke="#86c697" strokeWidth="3" opacity="0.6" strokeLinecap="round"/>
-          <path d="M 140 375 Q 185 310 230 285" stroke="#86c697" strokeWidth="3" opacity="0.6" strokeLinecap="round"/>
-          <path d="M 140 375 Q 240 340 305 330" stroke="#86c697" strokeWidth="3" opacity="0.6" strokeLinecap="round"/>
-          <path d="M 140 375 Q 235 410 295 440" stroke="#86c697" strokeWidth="2.5" opacity="0.55" strokeLinecap="round"/>
-          <path d="M 140 375 Q 110 420 60 450" stroke="#86c697" strokeWidth="2.5" opacity="0.55" strokeLinecap="round"/>
-
-          <path d="M 70 315 Q 40 290 5 280" stroke="#a7deb4" strokeWidth="1.4" opacity="0.45"/>
-          <path d="M 130 300 Q 165 285 200 278" stroke="#a7deb4" strokeWidth="1.4" opacity="0.45"/>
-          <path d="M 205 300 Q 255 295 285 305" stroke="#a7deb4" strokeWidth="1.4" opacity="0.45"/>
-          <path d="M 260 340 Q 295 365 315 390" stroke="#a7deb4" strokeWidth="1.4" opacity="0.45"/>
-
-          {/* 3D Dewdrops */}
-          <g transform="translate(185, 340)">
-            <ellipse cx="0" cy="3" rx="8" ry="3.5" fill="#08170d" opacity="0.5"/>
-            <ellipse cx="0" cy="0" rx="9" ry="7" fill="#bbf7d0" opacity="0.6"/>
-            <ellipse cx="0" cy="0" rx="8" ry="6" fill="#ffffff" opacity="0.35"/>
-            <circle cx="-3" cy="-2.5" r="2.5" fill="#ffffff" opacity="0.95"/>
-            <circle cx="2.5" cy="2.5" r="1.2" fill="#ffffff" opacity="0.75"/>
-          </g>
-          <g transform="translate(90, 355)">
-            <ellipse cx="0" cy="2.5" rx="5.5" ry="2.5" fill="#08170d" opacity="0.45"/>
-            <circle cx="0" cy="0" r="5.5" fill="#a7deb4" opacity="0.65"/>
-            <circle cx="-1.8" cy="-1.8" r="1.6" fill="#ffffff" opacity="0.95"/>
-          </g>
-          <g transform="translate(245, 375)">
-            <ellipse cx="0" cy="2" rx="4.5" ry="2" fill="#08170d" opacity="0.4"/>
-            <circle cx="0" cy="0" r="4.2" fill="#ffffff" opacity="0.45"/>
-            <circle cx="-1.2" cy="-1.2" r="1.4" fill="#ffffff" opacity="0.95"/>
-          </g>
-        </g>
-
-        {/* 3. SECONDARY FLOATING LEAF */}
-        <g filter={`url(#leafGlow_${position})`}>
-          <path d="M 350 260 C 390 170 510 180 575 235 C 620 280 595 370 520 380 C 435 390 360 325 350 260 Z"
-                fill={`url(#leafSmall_${position})`}/>
-          <circle cx="475" cy="285" r="6" fill="#112918"/>
-          <path d="M 475 285 Q 420 230 380 220" stroke="#8ece9e" strokeWidth="2.2" opacity="0.55"/>
-          <path d="M 475 285 Q 495 220 530 205" stroke="#8ece9e" strokeWidth="2.2" opacity="0.55"/>
-          <path d="M 475 285 Q 550 265 580 280" stroke="#8ece9e" strokeWidth="2.2" opacity="0.55"/>
-          <path d="M 475 285 Q 520 340 545 360" stroke="#8ece9e" strokeWidth="2" opacity="0.55"/>
-        </g>
-
-        {/* 4. LOTUS BUD (BÚP SEN 3D) */}
-        <g transform="translate(446, 125)" filter={`url(#petalGlow_${position})`}>
-          <path d="M 0 75 C -30 50 -26 15 4 -22 C 8 -15 15 28 0 75 Z" fill={`url(#petalLeft_${position})`}/>
-          <path d="M 8 75 C 38 50 34 15 4 -22 C 0 -15 -7 28 8 75 Z" fill={`url(#petalRight_${position})`}/>
-          <path d="M -10 70 C -15 35 -7 5 4 -25 C 16 5 24 35 18 70 C 5 76 -3 76 -10 70 Z" fill={`url(#petalCenter_${position})`}/>
-          <path d="M 0 -8 C 2 -18 4 -25 4 -25 C 4 -25 6 -18 8 -8 C 4 -4 4 -4 0 -8 Z" fill="#c9385c"/>
-        </g>
-
-        {/* 5. FULLY BLOOMED 3D LOTUS BLOSSOM */}
-        <g transform="translate(270, 175)" filter={`url(#petalGlow_${position})`}>
-          {/* Back Tier */}
-          <path d="M -20 15 C -85 25 -135 -15 -115 -55 C -90 -75 -50 -35 -20 15 Z"
-                fill={`url(#petalLeft_${position})`}/>
-          <path d="M 20 15 C 85 25 135 -15 115 -55 C 90 -75 50 -35 20 15 Z"
-                fill={`url(#petalRight_${position})`}/>
-          <path d="M -25 5 C -75 -35 -75 -105 -35 -135 C -5 -90 -10 -40 -25 5 Z"
-                fill={`url(#petalLeft_${position})`}/>
-          <path d="M 25 5 C 75 -35 75 -105 35 -135 C 5 -90 10 -40 25 5 Z"
-                fill={`url(#petalRight_${position})`}/>
-          <path d="M -18 -5 C -30 -70 -18 -145 0 -160 C 18 -145 30 -70 18 -5 Z"
-                fill={`url(#petalCenter_${position})`}/>
-
-          {/* Mid Tier */}
-          <path d="M -30 20 C -95 10 -90 -60 -45 -95 C -15 -55 -15 -15 -30 20 Z"
-                fill={`url(#petalLeft_${position})`} filter={`url(#petalGlow_${position})`}/>
-          <path d="M -30 15 C -65 -20 -65 -65 -45 -90" stroke="#ffffff" strokeWidth="2" opacity="0.6"/>
-
-          <path d="M 30 20 C 95 10 90 -60 45 -95 C 15 -55 15 -15 30 20 Z"
-                fill={`url(#petalRight_${position})`} filter={`url(#petalGlow_${position})`}/>
-          <path d="M 30 15 C 65 -20 65 -65 45 -90" stroke="#ffffff" strokeWidth="2" opacity="0.6"/>
-
-          <path d="M -22 10 C -45 -45 -35 -110 -10 -130 C 5 -95 0 -40 -22 10 Z"
-                fill={`url(#petalCenter_${position})`}/>
-          <path d="M 22 10 C 45 -45 35 -110 10 -130 C -5 -95 0 -40 22 10 Z"
-                fill={`url(#petalCenter_${position})`}/>
-
-          {/* Front Cupping Tier */}
-          <path d="M -45 28 C -85 20 -75 -35 -30 -60 C -10 -30 -15 15 -45 28 Z"
-                fill={`url(#petalLeft_${position})`} filter={`url(#petalGlow_${position})`}/>
-          <path d="M 45 28 C 85 20 75 -35 30 -60 C 10 -30 15 15 45 28 Z"
-                fill={`url(#petalRight_${position})`} filter={`url(#petalGlow_${position})`}/>
-
-          {/* Front Dipping Petal revealing Pod */}
-          <path d="M -40 32 C -50 70 -15 85 0 80 C 15 85 50 70 40 32 C 15 38 -15 38 -40 32 Z"
-                fill={`url(#petalDip_${position})`} filter={`url(#petalGlow_${position})`}/>
-          <path d="M 0 35 L 0 75" stroke="#ffffff" strokeWidth="2" opacity="0.65" strokeLinecap="round"/>
-
-          <path d="M -50 30 C -80 50 -45 65 -15 50 C -25 35 -40 30 -50 30 Z"
-                fill={`url(#petalLeft_${position})`}/>
-          <path d="M 50 30 C 80 50 45 65 15 50 C 25 35 40 30 50 30 Z"
-                fill={`url(#petalRight_${position})`}/>
-
-          {/* 3D GOLDEN RECEPTACLE & STAMENS */}
-          <g transform="translate(0, 0)">
-            <ellipse cx="0" cy="5" rx="22" ry="16" fill={`url(#lotusPod_${position})`}/>
-            <ellipse cx="0" cy="3" rx="19" ry="13" fill="#fef08a" opacity="0.45"/>
-
-            <circle cx="-9" cy="0" r="2.2" fill="#713f12"/>
-            <circle cx="-9" cy="0" r="1" fill="#fef08a"/>
-            <circle cx="0" cy="-2" r="2.2" fill="#713f12"/>
-            <circle cx="0" cy="-2" r="1" fill="#fef08a"/>
-            <circle cx="9" cy="0" r="2.2" fill="#713f12"/>
-            <circle cx="9" cy="0" r="1" fill="#fef08a"/>
-            <circle cx="-10" cy="7" r="2.2" fill="#713f12"/>
-            <circle cx="-10" cy="7" r="1" fill="#fef08a"/>
-            <circle cx="-1" cy="7" r="2.4" fill="#713f12"/>
-            <circle cx="-1" cy="7" r="1.1" fill="#fef08a"/>
-            <circle cx="8" cy="7" r="2.2" fill="#713f12"/>
-            <circle cx="8" cy="7" r="1" fill="#fef08a"/>
-
-            <g stroke="#eab308" strokeWidth="1.4" opacity="0.95">
-              <line x1="-18" y1="2" x2="-28" y2="-6"/>
-              <line x1="-16" y1="8" x2="-26" y2="2"/>
-              <line x1="-20" y1="-3" x2="-30" y2="-12"/>
-              <line x1="-14" y1="12" x2="-22" y2="8"/>
-              <line x1="-12" y1="-7" x2="-18" y2="-17"/>
-              <line x1="18" y1="2" x2="28" y2="-6"/>
-              <line x1="16" y1="8" x2="26" y2="2"/>
-              <line x1="20" y1="-3" x2="30" y2="-12"/>
-              <line x1="14" y1="12" x2="22" y2="8"/>
-              <line x1="12" y1="-7" x2="18" y2="-17"/>
-            </g>
-
-            <circle cx="-28" cy="-6" r="1.8" fill="#fef08a"/>
-            <circle cx="-26" cy="2" r="1.8" fill="#fef08a"/>
-            <circle cx="-30" cy="-12" r="1.8" fill="#fef08a"/>
-            <circle cx="-22" cy="8" r="1.8" fill="#fef08a"/>
-            <circle cx="-18" cy="-17" r="1.8" fill="#fef08a"/>
-            <circle cx="28" cy="-6" r="1.8" fill="#fef08a"/>
-            <circle cx="26" cy="2" r="1.8" fill="#fef08a"/>
-            <circle cx="30" cy="-12" r="1.8" fill="#fef08a"/>
-            <circle cx="22" cy="8" r="1.8" fill="#fef08a"/>
-            <circle cx="18" cy="-17" r="1.8" fill="#fef08a"/>
-          </g>
-        </g>
-      </svg>
+export const WatercolorLotusCorner = ({ position = 'bottom-left' }) => {
+  const isLeft = position === 'bottom-left';
+  return (
+    <div
+      className={`lotus-corner-decor ${isLeft ? 'lotus-blossom-left-decor' : 'lotus-blossom-right-decor'}`}
+      style={{
+        position: 'absolute',
+        bottom: '-12px',
+        [isLeft ? 'left' : 'right']: '-12px',
+        width: 'clamp(220px, 21vw, 380px)',
+        height: 'clamp(220px, 21vw, 380px)',
+        pointerEvents: 'none',
+        zIndex: 2,
+      }}
+    >
+      <img
+        src={process.env.PUBLIC_URL + '/assets/lotus/lotus_blooming_corner.png'}
+        alt={isLeft ? 'Hoa sen hồng góc trái' : 'Hoa sen hồng góc phải'}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          transform: isLeft ? 'none' : 'scaleX(-1)',
+          filter: 'drop-shadow(0 14px 32px rgba(0, 0, 0, 0.25))',
+          display: 'block',
+        }}
+      />
     </div>
   );
 };

@@ -13,13 +13,6 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSlideChange = (index, field, value) => {
-    const updatedSlides = [...(formData.slides || [])];
-    if (updatedSlides[index]) {
-      updatedSlides[index] = { ...updatedSlides[index], [field]: value };
-      setFormData((prev) => ({ ...prev, slides: updatedSlides }));
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -192,30 +185,26 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
             </div>
           </div>
 
-          {/* 4 Slides Content Preview & Edit */}
+          {/* Modern Animated Thank-you & Blessing Messages Edit */}
           <div className="form-group">
-            <label className="form-label">Nội Dung 4 Trang Trình Chiếu Kèm Ảnh</label>
+            <label className="form-label">Lời Cảm Ơn & Câu Chúc (Tự Động Chuyển Động Mượt)</label>
             <div className="slides-edit-list">
-              {(formData.slides || []).map((slide, idx) => (
-                <div key={slide.id || idx} className="slide-edit-item">
+              {(formData.messages || []).map((msg, idx) => (
+                <div key={idx} className="slide-edit-item" style={{ marginBottom: '8px' }}>
                   <div className="slide-edit-header">
-                    <span className="slide-num">Trang {idx + 1}</span>
-                    <span className="slide-badge-tag">{slide.badge}</span>
+                    <span className="slide-num">Thông điệp {idx + 1}</span>
                   </div>
                   <div className="slide-edit-inputs">
                     <input
                       type="text"
-                      className="form-input small"
-                      value={slide.badge || ''}
-                      onChange={(e) => handleSlideChange(idx, 'badge', e.target.value)}
-                      placeholder="Huy hiệu đầu trang"
-                    />
-                    <input
-                      type="text"
-                      className="form-input small"
-                      value={slide.quote || ''}
-                      onChange={(e) => handleSlideChange(idx, 'quote', e.target.value)}
-                      placeholder="Câu thơ / Câu chúc"
+                      className="form-input"
+                      value={msg || ''}
+                      onChange={(e) => {
+                        const nextMsgs = [...(formData.messages || [])];
+                        nextMsgs[idx] = e.target.value;
+                        handleChange('messages', nextMsgs);
+                      }}
+                      placeholder={`Nội dung câu chúc / cảm ơn ${idx + 1}`}
                     />
                   </div>
                 </div>

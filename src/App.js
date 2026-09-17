@@ -28,11 +28,11 @@ function App() {
   });
   const [themeId, setThemeId] = useState(() => {
     const qTheme = new URLSearchParams(window.location.search).get('theme');
-    return (qTheme && THEMES[qTheme]) ? qTheme : (data.theme || 'ivoryLotus');
+    return (qTheme && THEMES[qTheme]) ? qTheme : (data.theme || 'deepRose');
   });
   const [layoutMode, setLayoutMode] = useState(() => {
     const qMode = new URLSearchParams(window.location.search).get('mode');
-    return qMode || data.layoutMode || 'center';
+    return qMode || data.layoutMode || 'duo';
   });
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -78,16 +78,6 @@ function App() {
     });
   }, [data]);
 
-  // Auto-alternate layout every slideDuration (default 12s) if isSlideshow is active
-  useEffect(() => {
-    if (!isSlideshow) return;
-    const duration = (data.slideDuration || 12) * 1000;
-    const interval = setInterval(() => {
-      setLayoutMode((prev) => (prev === 'center' ? 'duo' : 'center'));
-    }, duration);
-    return () => clearInterval(interval);
-  }, [isSlideshow, data.slideDuration]);
-
   // 1-Click Launch Fullscreen, YouTube Audio & Auto-Slideshow for TV
   const handleStartPresentation = () => {
     setHasStartedInteracting(true);
@@ -108,14 +98,23 @@ function App() {
     });
   }, []);
 
-  // Toggle Ornament: Orchids <-> Fans <-> Botanical <-> Minimal <-> Lotus
+  // Toggle Ornament: Lotus <-> Real Flowers <-> Minimal
   const toggleOrnament = useCallback(() => {
     const keys = Object.keys(ORNAMENTS);
     setData((prev) => {
-      const current = prev.ornament || 'real_flowers';
+      const current = prev.ornament || 'lotus';
       const nextIdx = (keys.indexOf(current) + 1) % keys.length;
       const nextOrnament = keys[nextIdx];
       const updated = { ...prev, ornament: nextOrnament };
+      saveWeddingData(updated);
+      return updated;
+    });
+  }, []);
+
+  const handleOrnamentChange = useCallback((newOrnament) => {
+    if (!ORNAMENTS[newOrnament]) return;
+    setData((prev) => {
+      const updated = { ...prev, ornament: newOrnament };
       saveWeddingData(updated);
       return updated;
     });
@@ -213,7 +212,8 @@ function App() {
         onToggleSlideshow={toggleSlideshow}
         fontFamily={data.fontFamily || 'dancing'}
         onToggleFont={toggleFont}
-        ornament={data.ornament || 'real_flowers'}
+        ornament={data.ornament || 'lotus'}
+        onSelectOrnament={handleOrnamentChange}
         onToggleOrnament={toggleOrnament}
         audioPlaying={audioPlaying}
         setAudioPlaying={setAudioPlaying}

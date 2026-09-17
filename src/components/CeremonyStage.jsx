@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ModernKnotHappinessSymbol,
   RoyalHappinessMedallion,
-  LuxuryOrchidCorner,
-  WeddingFansCorner,
-  WatercolorLotusCorner,
-  GoldenBotanicalCorner,
   PhotorealisticFloralCorner,
-  SakuraOrnaments,
+  RealisticLotusOrnaments,
 } from './ModernLotusOrnaments';
 
 /**
@@ -17,13 +13,54 @@ import {
  * and smooth animated thank-you messages.
  */
 const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
-  const [activeMsgIdx, setActiveMsgIdx] = useState(0);
-  const [incomingMsgIdx, setIncomingMsgIdx] = useState(null);
-  const [activePhotoIdx, setActivePhotoIdx] = useState(0);
-  const [incomingPhotoIdx, setIncomingPhotoIdx] = useState(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [incomingIdx, setIncomingIdx] = useState(null);
 
   const messages = data.messages || [];
   const photos = data.photos || [];
+  const totalItems = Math.max(photos.length, messages.length);
+
+  // Maintain a randomized shuffle bag queue so all 6 photos/wishes are shown without repeats
+  const shuffleBagRef = useRef([]);
+
+  const getNextRandomIdx = useCallback(() => {
+    if (totalItems <= 1) return 0;
+
+    // Refill the shuffle bag if empty
+    if (!shuffleBagRef.current || shuffleBagRef.current.length === 0) {
+      const bag = Array.from({ length: totalItems }, (_, i) => i);
+      // Fisher-Yates shuffle
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+      // If the first item of new bag matches the currently active index, swap it
+      if (bag[0] === activeIdx && bag.length > 1) {
+        [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+      }
+      shuffleBagRef.current = bag;
+    }
+
+    return shuffleBagRef.current.shift();
+  }, [totalItems, activeIdx]);
+
+  // Synchronized random crossfade for both Photo and Accompanying Wish
+  useEffect(() => {
+    if (totalItems <= 1) return;
+
+    const duration = (data.slideDuration || 7) * 1000;
+    const interval = setInterval(() => {
+      const next = getNextRandomIdx();
+      setIncomingIdx(next);
+
+      setTimeout(() => {
+        setActiveIdx(next);
+        setIncomingIdx(null);
+      }, 1500); // 1.5s smooth crossfade
+    }, duration);
+
+    return () => clearInterval(interval);
+  }, [totalItems, data.slideDuration, getNextRandomIdx]);
 
   // Format dateSolar with dots if provided with spaces (e.g. "18 09 2026" -> "18.09.2026")
   const formatSolarDate = (str) => {
@@ -34,41 +71,6 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
     }
     return trimmed;
   };
-
-  // When switching into duo layout during slideshow, smoothly advance to next photo
-  useEffect(() => {
-    if (layoutMode === 'duo' && isSlideshow && photos.length > 1) {
-      setActivePhotoIdx((prev) => (prev + 1) % photos.length);
-    }
-  }, [layoutMode, isSlideshow, photos.length]);
-
-  // 1. Dual-Layer Smooth Text Crossfade (Locked Height, Zero Jitter)
-  useEffect(() => {
-    if (messages.length <= 1) return;
-    const interval = setInterval(() => {
-      const nextIdx = (activeMsgIdx + 1) % messages.length;
-      setIncomingMsgIdx(nextIdx);
-      setTimeout(() => {
-        setActiveMsgIdx(nextIdx);
-        setIncomingMsgIdx(null);
-      }, 1000); // 1.0s silky dissolve
-    }, 6500);
-    return () => clearInterval(interval);
-  }, [messages.length, activeMsgIdx]);
-
-  // 2. Photo Animation: Dual-layer smooth cinematic crossfade every 8s
-  useEffect(() => {
-    if (photos.length <= 1) return;
-    const interval = setInterval(() => {
-      const nextIdx = (activePhotoIdx + 1) % photos.length;
-      setIncomingPhotoIdx(nextIdx);
-      setTimeout(() => {
-        setActivePhotoIdx(nextIdx);
-        setIncomingPhotoIdx(null);
-      }, 1600); // 1.6s smooth crossfade
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [photos.length, activePhotoIdx]);
 
   const isDuo = layoutMode === 'duo';
   const isRoyal = theme.id === 'royalRed';
@@ -132,27 +134,28 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
   };
 
   // Render animated message with locked container height to eliminate layout shift
-  const renderAnimatedMessage = (alignmentClass = 'align-center') => (
-    <div className={`modern-message-stage-box ${alignmentClass}`}>
-      <div className={`message-layer base ${incomingMsgIdx !== null ? 'fading-out' : 'active'}`}>
-        <p className="modern-message-text">{messages[activeMsgIdx] || ''}</p>
-      </div>
-      {incomingMsgIdx !== null && (
-        <div className="message-layer incoming">
-          <p className="modern-message-text">{messages[incomingMsgIdx] || ''}</p>
+  const renderAnimatedMessage = (alignmentClass = 'align-center') => {
+    const activeMsg = photos[activeIdx]?.message || messages[activeIdx] || '';
+    const incomingMsg = incomingIdx !== null ? (photos[incomingIdx]?.message || messages[incomingIdx] || '') : null;
+
+    return (
+      <div className={`modern-message-stage-box ${alignmentClass}`}>
+        <div className={`message-layer base ${incomingIdx !== null ? 'fading-out' : 'active'}`}>
+          <p className="modern-message-text">{activeMsg}</p>
         </div>
-      )}
-    </div>
-  );
+        {incomingMsg !== null && (
+          <div className="message-layer incoming">
+            <p className="modern-message-text">{incomingMsg}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
-  // Dynamic corner ornament rendering
+  // Dynamic corner ornament rendering (chỉ giữ các type đẹp: Hoa Sen, Hoa Tươi, Tối Giản)
   const renderCornerOrnaments = () => {
-    const selected = data.ornament || (theme.id === 'blushSakura' ? 'sakura' : 'real_flowers');
+    const selected = data.ornament || 'lotus';
     if (selected === 'minimal') return null;
-
-    if (selected === 'sakura' || theme.id === 'blushSakura') {
-      return <SakuraOrnaments layoutMode={layoutMode} />;
-    }
 
     if (selected === 'real_flowers') {
       return (
@@ -163,37 +166,8 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
       );
     }
 
-    if (selected === 'fans') {
-      return (
-        <>
-          <WeddingFansCorner position="bottom-left" />
-          <WeddingFansCorner position="bottom-right" />
-        </>
-      );
-    }
-    if (selected === 'botanical') {
-      return (
-        <>
-          <GoldenBotanicalCorner position="bottom-left" />
-          <GoldenBotanicalCorner position="top-right" />
-        </>
-      );
-    }
-    if (selected === 'lotus') {
-      return (
-        <>
-          <WatercolorLotusCorner position="bottom-left" />
-          <WatercolorLotusCorner position="bottom-right" />
-        </>
-      );
-    }
-    // Luxury Orchids
-    return (
-      <>
-        <LuxuryOrchidCorner position="bottom-left" />
-        <LuxuryOrchidCorner position="bottom-right" />
-      </>
-    );
+    // Default: Hoa Sen Hai Bên (Mẫu Thật)
+    return <RealisticLotusOrnaments layoutMode={layoutMode} />;
   };
 
   return (
@@ -277,13 +251,13 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
               {/* Modern Minimalist Arch holding couple photo with dual-layer crossfade */}
               <div className="modern-arch-frame">
                 <img
-                  src={photos[activePhotoIdx]?.url || '/anh1.jpg'}
+                  src={photos[activeIdx]?.url || '/anh1.jpg'}
                   alt="Việt Cường & Minh Hồng"
                   className="modern-arch-img base-layer"
                 />
-                {incomingPhotoIdx !== null && (
+                {incomingIdx !== null && (
                   <img
-                    src={photos[incomingPhotoIdx]?.url}
+                    src={photos[incomingIdx]?.url || '/anh1.jpg'}
                     alt="Việt Cường & Minh Hồng"
                     className="modern-arch-img incoming-layer"
                   />

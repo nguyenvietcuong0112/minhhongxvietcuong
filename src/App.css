@@ -178,7 +178,7 @@ body, html {
 .modern-groom-name,
 .modern-bride-name {
   font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-size: clamp(3.8rem, 6.8vw, 7.6rem);
+  font-size: clamp(4.4rem, 8.0vw, 9.4rem);
   font-weight: 700;
   line-height: 1.1;
   white-space: nowrap;
@@ -215,10 +215,10 @@ body, html {
   position: relative;
   width: 100%;
   max-width: 1100px;
-  height: clamp(74px, 10vh, 92px);
-  min-height: clamp(74px, 10vh, 92px);
-  max-height: clamp(74px, 10vh, 92px);
-  margin: clamp(12px, 2vh, 24px) 0;
+  height: clamp(95px, 13vh, 140px);
+  min-height: clamp(95px, 13vh, 140px);
+  max-height: clamp(95px, 13vh, 140px);
+  margin: clamp(10px, 1.8vh, 22px) 0;
   padding: 0 20px;
   display: flex;
   align-items: center;
@@ -230,7 +230,6 @@ body, html {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .message-layer {
@@ -292,12 +291,11 @@ body, html {
 .modern-message-text {
   margin: 0;
   padding: 0;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(1.4rem, 2.1vw, 2.3rem);
-  line-height: 1.4;
-  letter-spacing: 0.02em;
+  font-family: 'Dancing Script', 'Alex Brush', cursive;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.3vw, 2.8rem);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
 }
 
 .theme-ivoryLotus .modern-message-text {
@@ -305,10 +303,14 @@ body, html {
   text-shadow: 0 2px 8px rgba(21, 47, 30, 0.15);
 }
 
-.theme-royalRed .modern-message-text,
-.theme-deepRose .modern-message-text {
+.theme-royalRed .modern-message-text {
   color: #fff4d4;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.theme-deepRose .modern-message-text {
+  color: #fff0f5;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 0 25px rgba(245, 208, 97, 0.35);
 }
 
 /* Bottom Date: Oswald Modern Condensed */
@@ -380,7 +382,7 @@ body, html {
 .stacked-groom,
 .stacked-bride {
   font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-size: clamp(3.8rem, 6.2vw, 7.0rem);
+  font-size: clamp(4.5rem, 7.4vw, 8.8rem);
   font-weight: 700;
   line-height: 1.05;
   white-space: nowrap;
@@ -396,7 +398,7 @@ body, html {
 
 .stacked-ampersand {
   font-family: 'Dancing Script', cursive;
-  font-size: clamp(3.2rem, 5.2vw, 5.5rem);
+  font-size: clamp(3.6rem, 5.8vw, 6.6rem);
   font-weight: 700;
   line-height: 1;
   color: #f5d061;
@@ -412,19 +414,21 @@ body, html {
 .modern-duo-message {
   position: relative;
   width: 100%;
-  max-width: 680px;
-  height: clamp(82px, 11vh, 105px);
-  min-height: clamp(82px, 11vh, 105px);
-  max-height: clamp(82px, 11vh, 105px);
-  margin-top: 22px;
+  max-width: 780px;
+  height: clamp(105px, 14vh, 155px);
+  min-height: clamp(105px, 14vh, 155px);
+  max-height: clamp(105px, 14vh, 155px);
+  margin-top: 18px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
 }
 
 .modern-duo-message .modern-message-text {
-  font-size: clamp(1.2rem, 1.6vw, 1.85rem);
-  line-height: 1.45;
+  font-family: 'Dancing Script', 'Alex Brush', cursive;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.85vw, 2.2rem);
+  line-height: 1.5;
 }
 
 .modern-duo-right {
@@ -579,6 +583,27 @@ body, html {
   100% { transform: translateY(-7px) rotate(0.6deg); }
 }
 
+/* Realistic Botanical Lotus Animations (Sen 2 Bên) */
+.lotus-blossom-left-decor {
+  animation: lotusFloatSoftLeft 9s ease-in-out infinite alternate;
+  transform-origin: bottom left;
+}
+
+.lotus-blossom-right-decor {
+  animation: lotusFloatSoftRight 9.5s ease-in-out infinite alternate 1.2s;
+  transform-origin: bottom right;
+}
+
+@keyframes lotusFloatSoftLeft {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-7px) scale(1.015); }
+}
+
+@keyframes lotusFloatSoftRight {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-7px) scale(1.015); }
+}
+
 .golden-botanical-decor {
   animation: botanicalSway 8s ease-in-out infinite alternate;
 }
@@ -704,6 +729,171 @@ body, html {
   cursor: pointer;
   padding: 4px 8px;
   font-size: 0.85rem;
+}
+
+/* =========================================================
+   DOCK POPOVER MENUS (THEME & ORNAMENT PICKERS)
+   ========================================================= */
+.dock-popover-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.dock-chevron {
+  font-size: 0.62rem;
+  margin-left: 3px;
+  opacity: 0.7;
+}
+
+.dock-color-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+/* Glassmorphism Popover Menu */
+.dock-popover-menu {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 275px;
+  background: rgba(22, 26, 34, 0.94);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  z-index: 200;
+  animation: popoverFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+}
+
+.dock-popover-menu::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 7px;
+  border-style: solid;
+  border-color: rgba(22, 26, 34, 0.94) transparent transparent transparent;
+}
+
+@keyframes popoverFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.popover-header {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 6px;
+}
+
+.popover-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popover-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s ease;
+}
+
+.popover-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(2px);
+}
+
+.popover-item.selected {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.item-swatch-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.item-icon-large {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.item-icon-inline {
+  margin-right: 5px;
+}
+
+.item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-desc {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.58);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e11d48, #f43f5e);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.item-check {
+  color: #4ade80;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-left: auto;
 }
 
 .modern-reveal-btn {
