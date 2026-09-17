@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   ModernKnotHappinessSymbol,
-  RoyalHappinessMedallion,
   PhotorealisticFloralCorner,
   RealisticLotusOrnaments,
 } from './ModernLotusOrnaments';
+import AnimatedWeddingRings from './AnimatedWeddingRings';
 
 /**
  * CeremonyStage: Modern, minimalist, aesthetic wedding backdrop
@@ -12,7 +12,7 @@ import {
  * Features clean typography (Oswald & Dancing Script signature), watercolor lotus accents,
  * and smooth animated thank-you messages.
  */
-const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
+const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [incomingIdx, setIncomingIdx] = useState(null);
 
@@ -22,6 +22,7 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
 
   // Maintain a randomized shuffle bag queue so all 6 photos/wishes are shown without repeats
   const shuffleBagRef = useRef([]);
+  const duoCountRef = useRef(0);
 
   const getNextRandomIdx = useCallback(() => {
     if (totalItems <= 1) return 0;
@@ -44,23 +45,76 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
     return shuffleBagRef.current.shift();
   }, [totalItems, activeIdx]);
 
-  // Synchronized random crossfade for both Photo and Accompanying Wish
+  // Slideshow & auto-alternating timer:
+  // Starts on Full Background (center) for 12s, switches to Duo Photo (duo) for 12s,
+  // then loops back to Full Background (center) for 12s, repeating continuously!
   useEffect(() => {
-    if (totalItems <= 1) return;
+    const duration = (data.slideDuration || 12) * 1000;
+    const cycleMode = data.slideshowCycleMode || 'alternate';
 
-    const duration = (data.slideDuration || 7) * 1000;
-    const interval = setInterval(() => {
-      const next = getNextRandomIdx();
-      setIncomingIdx(next);
+    if (isSlideshow) {
+      // Running active presentation on TV
+      const timer = setTimeout(() => {
+        if (layoutMode === 'center') {
+          // Transition from Full Background to Kèm Ảnh (Duo)
+          const next = getNextRandomIdx();
+          setActiveIdx(next);
+          duoCountRef.current = 1;
+          if (onLayoutChange) {
+            onLayoutChange('duo');
+          }
+        } else {
+          // In Duo mode
+          if (cycleMode === 'batch') {
+            if (duoCountRef.current < totalItems) {
+              // Advance to next photo in batch
+              const next = getNextRandomIdx();
+              setIncomingIdx(next);
+              duoCountRef.current += 1;
+              setTimeout(() => {
+                setActiveIdx(next);
+                setIncomingIdx(null);
+              }, 1500);
+            } else {
+              // Batch finished, loop back to Full Background
+              duoCountRef.current = 0;
+              if (onLayoutChange) {
+                onLayoutChange('center');
+              }
+            }
+          } else {
+            // Default 'alternate': 12s Duo finishes -> loop back to Full Background!
+            if (onLayoutChange) {
+              onLayoutChange('center');
+            }
+          }
+        }
+      }, duration);
 
-      setTimeout(() => {
-        setActiveIdx(next);
-        setIncomingIdx(null);
-      }, 1500); // 1.5s smooth crossfade
-    }, duration);
+      return () => clearTimeout(timer);
+    } else {
+      // Manual preview mode (isSlideshow is false)
+      if (totalItems <= 1) return;
+      const interval = setInterval(() => {
+        const next = getNextRandomIdx();
+        setIncomingIdx(next);
+        setTimeout(() => {
+          setActiveIdx(next);
+          setIncomingIdx(null);
+        }, 1500);
+      }, duration);
 
-    return () => clearInterval(interval);
-  }, [totalItems, data.slideDuration, getNextRandomIdx]);
+      return () => clearInterval(interval);
+    }
+  }, [
+    isSlideshow,
+    layoutMode,
+    data.slideDuration,
+    data.slideshowCycleMode,
+    totalItems,
+    getNextRandomIdx,
+    onLayoutChange,
+  ]);
 
   // Format dateSolar with dots if provided with spaces (e.g. "18 09 2026" -> "18.09.2026")
   const formatSolarDate = (str) => {
@@ -73,64 +127,10 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
   };
 
   const isDuo = layoutMode === 'duo';
-  const isRoyal = theme.id === 'royalRed';
 
-  // Render happiness emblem depending on theme
-  const renderEmblem = (size = 110) => {
-    if (theme.id === 'blushSakura') {
-      return (
-        <div
-          className="sakura-center-rings-wrap"
-          style={{
-            position: 'relative',
-            width: size,
-            height: size * 1.15,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {/* Faint Double Happiness Watermark */}
-          <div
-            className="watermark-xi-center"
-            style={{
-              position: 'absolute',
-              fontSize: size * 1.35,
-              color: 'rgba(232, 67, 112, 0.22)',
-              fontWeight: 900,
-              lineHeight: 1,
-              userSelect: 'none',
-              zIndex: 1,
-              fontFamily: 'sans-serif',
-            }}
-          >
-            囍
-          </div>
-          {/* Sparkling Interlocking Diamond Wedding Rings */}
-          <img
-            src={process.env.PUBLIC_URL + '/assets/sakura/wedding_rings.png'}
-            alt="Cặp nhẫn cưới kim cương lồng nhau"
-            style={{
-              width: size * 1.05,
-              height: size * 1.05,
-              objectFit: 'contain',
-              position: 'relative',
-              zIndex: 2,
-              filter: 'drop-shadow(0 6px 16px rgba(114, 19, 39, 0.22))',
-            }}
-          />
-        </div>
-      );
-    }
-    if (isRoyal) {
-      return <RoyalHappinessMedallion size={size} color={theme.accentColor} />;
-    }
-    return (
-      <ModernKnotHappinessSymbol
-        size={size}
-        color={theme.knotColor || theme.accentColor}
-      />
-    );
+  // Render centerpiece emblem: Luxury Animated 18k Gold Interlocking Wedding Rings with sparkles & floating motion
+  const renderEmblem = (size = 140) => {
+    return <AnimatedWeddingRings size={size} />;
   };
 
   // Render animated message with locked container height to eliminate layout shift

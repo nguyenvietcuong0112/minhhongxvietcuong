@@ -103,9 +103,10 @@ export const DEFAULT_WEDDING_DATA = {
   dateLunar: '(08.08 Bính Ngọ)',
   theme: 'deepRose', // Mặc định nền Hồng Đậm theo yêu cầu
   musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
-  layoutMode: 'duo', // 'duo' (Kèm Ảnh) hoặc 'center' (Chữ Lớn Toàn Cảnh)
+  layoutMode: 'center', // 'center' (Chữ Lớn Toàn Cảnh Full) hoặc 'duo' (Kèm Ảnh)
   autoAlternate: false,
-  slideDuration: 7, // 7 giây chuyển ngẫu nhiên mỗi ảnh kèm lời chúc
+  slideDuration: 12, // 12 giây chuyển ngẫu nhiên mỗi cảnh / ảnh theo yêu cầu
+  slideshowCycleMode: 'alternate', // 'alternate' (12s Toàn Cảnh ⮂ 12s Kèm Ảnh) hoặc 'batch' (12s Toàn Cảnh ➔ Hết 6 Ảnh ➔ Toàn Cảnh)
   // 6 lời chúc ý nghĩa kèm 6 ảnh
   messages: [
     'Xin cảm ơn sự yêu thương của hai bên gia đình và tình cảm quý báu của cả nhà đã góp mặt trong ngày đặc biệt này 💖',
@@ -152,7 +153,7 @@ export const DEFAULT_WEDDING_DATA = {
   ornament: 'lotus', // 'lotus', 'real_flowers', 'minimal'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v15';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v16';
 
 export const loadWeddingData = () => {
   try {
@@ -170,6 +171,12 @@ export const loadWeddingData = () => {
       }
       if (!parsed.messages || parsed.messages.length < 6) {
         parsed.messages = DEFAULT_WEDDING_DATA.messages;
+      }
+      if (!parsed.slideDuration || parsed.slideDuration < 10) {
+        parsed.slideDuration = 12;
+      }
+      if (!parsed.slideshowCycleMode) {
+        parsed.slideshowCycleMode = 'alternate';
       }
       return { ...DEFAULT_WEDDING_DATA, ...parsed };
     }

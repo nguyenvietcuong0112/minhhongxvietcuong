@@ -32,7 +32,7 @@ function App() {
   });
   const [layoutMode, setLayoutMode] = useState(() => {
     const qMode = new URLSearchParams(window.location.search).get('mode');
-    return qMode || data.layoutMode || 'duo';
+    return qMode || data.layoutMode || 'center';
   });
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -67,21 +67,25 @@ function App() {
     saveWeddingData(updated);
   }, [layoutMode, data]);
 
-  // Toggle Slideshow auto-presentation
+  // Toggle Slideshow auto-presentation: Starts on Full Background (center)
   const toggleSlideshow = useCallback(() => {
     setIsSlideshow((prev) => {
       const nextVal = !prev;
-      const updated = { ...data, autoAlternate: nextVal };
+      if (nextVal) {
+        setLayoutMode('center'); // Luôn bắt đầu từ Toàn Cảnh Chữ (không kèm ảnh)
+      }
+      const updated = { ...data, autoAlternate: nextVal, layoutMode: nextVal ? 'center' : layoutMode };
       setData(updated);
       saveWeddingData(updated);
       return nextVal;
     });
-  }, [data]);
+  }, [data, layoutMode]);
 
-  // 1-Click Launch Fullscreen, YouTube Audio & Auto-Slideshow for TV
+  // 1-Click Launch Fullscreen, YouTube Audio & Auto-Slideshow for TV (Starts on Full Background)
   const handleStartPresentation = () => {
     setHasStartedInteracting(true);
     setAudioPlaying(true);
+    setLayoutMode('center'); // Bắt đầu từ Toàn Cảnh Chữ (background full không kèm ảnh)
     setIsSlideshow(true);
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
@@ -184,6 +188,7 @@ function App() {
         theme={activeTheme}
         layoutMode={layoutMode}
         isSlideshow={isSlideshow}
+        onLayoutChange={setLayoutMode}
       />
 
       {/* YouTube Wedding Music Player */}

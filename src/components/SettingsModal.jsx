@@ -105,6 +105,36 @@ const SettingsModal = ({ isOpen, onClose, data, onSave, onReset }) => {
               value={formData.slideDuration || 12}
               onChange={(e) => handleChange('slideDuration', parseInt(e.target.value, 10) || 12)}
             />
+            <small style={{ color: '#888', fontSize: '0.8rem', marginTop: '4px', display: 'block' }}>
+              Mặc định chuẩn 12 giây cho mỗi cảnh (Toàn cảnh hoặc Kèm ảnh).
+            </small>
+          </div>
+
+          {/* Slideshow Cycle Mode */}
+          <div className="form-group">
+            <label className="form-label">Kiểu Lặp Trình Chiếu Slideshow Trên TV</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.88rem', color: '#4a091c', fontWeight: '500' }}>
+                <input
+                  type="radio"
+                  name="slideshowCycleMode"
+                  value="alternate"
+                  checked={(formData.slideshowCycleMode || 'alternate') === 'alternate'}
+                  onChange={() => handleChange('slideshowCycleMode', 'alternate')}
+                />
+                <span>🔀 <strong>Xen kẽ 1 Toàn Cảnh (12s) ⮂ 1 Kèm Ảnh (12s)</strong> (Khuyên dùng)</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.88rem', color: '#4a091c', fontWeight: '500' }}>
+                <input
+                  type="radio"
+                  name="slideshowCycleMode"
+                  value="batch"
+                  checked={formData.slideshowCycleMode === 'batch'}
+                  onChange={() => handleChange('slideshowCycleMode', 'batch')}
+                />
+                <span>🎞️ <strong>1 Toàn Cảnh (12s) ➔ Chiếu trọn 6 ảnh (12s/ảnh) ➔ Toàn Cảnh</strong></span>
+              </label>
+            </div>
           </div>
 
           {/* Music Configuration */}

@@ -88,6 +88,20 @@ body, html {
   max-width: 1400px;
   height: 100%;
   max-height: 86vh;
+  animation: stageFadeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes stageFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.985);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 
 /* Top Title: LỄ DẠM NGÕ (Oswald, Modern Condensed) */
@@ -207,7 +221,118 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: floatGentle 4s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   ANIMATED WEDDING RINGS CENTERPIECE & MOTION EFFECTS
+   ========================================================= */
+.animated-wedding-rings-container {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ringsFloatGentle 4.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.45));
+}
+
+.rings-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 208, 97, 0.45) 0%, rgba(245, 208, 97, 0.15) 50%, transparent 75%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: ringsGlowPulse 3.2s ease-in-out infinite alternate;
+}
+
+.rings-main-image {
+  position: relative;
+  z-index: 2;
+  display: block;
+  filter: drop-shadow(0 0 16px rgba(245, 208, 97, 0.5));
+}
+
+@keyframes ringsFloatGentle {
+  0% {
+    transform: translateY(0) rotate(-1.5deg) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.8deg) scale(1.03);
+  }
+  100% {
+    transform: translateY(0) rotate(-1.5deg) scale(1);
+  }
+}
+
+@keyframes ringsGlowPulse {
+  0% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(0.88);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+/* Diamond Twinkle Sparkle Stars */
+.diamond-sparkle-star {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.diamond-sparkle-star.sparkle-primary {
+  top: 10%;
+  left: 26%;
+  width: clamp(22px, 2.5vw, 32px);
+  height: clamp(22px, 2.5vw, 32px);
+  animation: diamondTwinkle 2.4s ease-in-out infinite;
+}
+
+.diamond-sparkle-star.sparkle-secondary {
+  top: 4%;
+  left: 20%;
+  width: clamp(14px, 1.6vw, 22px);
+  height: clamp(14px, 1.6vw, 22px);
+  animation: diamondTwinkle 3s ease-in-out 1.2s infinite;
+}
+
+.diamond-sparkle-star.sparkle-tertiary {
+  top: 22%;
+  left: 33%;
+  width: clamp(12px, 1.4vw, 18px);
+  height: clamp(12px, 1.4vw, 18px);
+  animation: diamondTwinkle 2.8s ease-in-out 0.6s infinite;
+}
+
+@keyframes diamondTwinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.15) rotate(0deg);
+  }
+  25% {
+    opacity: 0.1;
+    transform: scale(0.4) rotate(45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(90deg);
+    filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 16px rgba(245, 208, 97, 0.9));
+  }
+  75% {
+    opacity: 0.7;
+    transform: scale(0.8) rotate(135deg);
+  }
+  88% {
+    opacity: 0;
+    transform: scale(0.2) rotate(180deg);
+  }
 }
 
 /* Animated Message Section (Delicate Italic Script) - LOCKED HEIGHT TO ELIMINATE JITTER */
@@ -291,11 +416,12 @@ body, html {
 .modern-message-text {
   margin: 0;
   padding: 0;
-  font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-weight: 700;
-  font-size: clamp(1.6rem, 2.3vw, 2.8rem);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.0rem, 2.9vw, 3.4rem);
   line-height: 1.45;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
 }
 
 .theme-ivoryLotus .modern-message-text {
@@ -363,6 +489,7 @@ body, html {
   max-height: 86vh;
   gap: clamp(32px, 5vw, 70px);
   padding: 0 30px;
+  animation: stageFadeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .modern-duo-left {
@@ -425,10 +552,12 @@ body, html {
 }
 
 .modern-duo-message .modern-message-text {
-  font-family: 'Dancing Script', 'Alex Brush', cursive;
-  font-weight: 700;
-  font-size: clamp(1.4rem, 1.85vw, 2.2rem);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.65rem, 2.2vw, 2.7rem);
   line-height: 1.5;
+  letter-spacing: 0.02em;
 }
 
 .modern-duo-right {
@@ -1142,4 +1271,14 @@ body, html {
   100% {
     transform: scale(1.06);
   }
+}
+
+/* Smooth organic size & position adjustments when switching Center <-> Duo */
+.lotus-ornament-wrap {
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              bottom 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              left 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              right 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }

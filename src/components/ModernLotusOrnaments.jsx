@@ -103,8 +103,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
           position: 'absolute',
           bottom: isDuo ? '-10px' : '-15px',
           left: isDuo ? '-10px' : '-15px',
-          width: isDuo ? 'clamp(180px, 16vw, 290px)' : 'clamp(220px, 21vw, 380px)',
-          height: isDuo ? 'clamp(180px, 16vw, 290px)' : 'clamp(220px, 21vw, 380px)',
+          width: isDuo ? 'clamp(210px, 19vw, 300px)' : 'clamp(260px, 25vw, 400px)',
+          height: isDuo ? 'clamp(235px, 21vw, 380px)' : 'clamp(286px, 27vw, 495px)',
           pointerEvents: 'none',
           zIndex: 2,
         }}
@@ -116,6 +116,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
             width: '100%',
             height: '100%',
             objectFit: 'contain',
+            transformOrigin: 'bottom left',
+            transform: 'scale(0.85, 0.95)',
             filter: 'drop-shadow(0 14px 34px rgba(0, 0, 0, 0.28))',
             display: 'block',
           }}
@@ -129,8 +131,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
           position: 'absolute',
           bottom: isDuo ? '-10px' : '-15px',
           right: isDuo ? '-10px' : '-15px',
-          width: isDuo ? 'clamp(150px, 14vw, 240px)' : 'clamp(220px, 21vw, 380px)',
-          height: isDuo ? 'clamp(150px, 14vw, 240px)' : 'clamp(220px, 21vw, 380px)',
+          width: isDuo ? 'clamp(175px, 16vw, 280px)' : 'clamp(260px, 25vw, 440px)',
+          height: isDuo ? 'clamp(195px, 18vw, 315px)' : 'clamp(286px, 27vw, 495px)',
           pointerEvents: 'none',
           zIndex: 2, // Behind .modern-duo-stage (z-index: 4)
         }}
@@ -142,7 +144,8 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
             width: '100%',
             height: '100%',
             objectFit: 'contain',
-            transform: 'scaleX(-1)',
+            transformOrigin: 'bottom right',
+            transform: 'scaleX(-1) scale(1.05, 1.15)',
             filter: 'drop-shadow(0 14px 34px rgba(0, 0, 0, 0.28))',
             display: 'block',
           }}
@@ -161,8 +164,8 @@ export const WatercolorLotusCorner = ({ position = 'bottom-left' }) => {
         position: 'absolute',
         bottom: '-12px',
         [isLeft ? 'left' : 'right']: '-12px',
-        width: 'clamp(220px, 21vw, 380px)',
-        height: 'clamp(220px, 21vw, 380px)',
+        width: 'clamp(260px, 25vw, 440px)',
+        height: 'clamp(286px, 27vw, 495px)',
         pointerEvents: 'none',
         zIndex: 2,
       }}
@@ -174,7 +177,8 @@ export const WatercolorLotusCorner = ({ position = 'bottom-left' }) => {
           width: '100%',
           height: '100%',
           objectFit: 'contain',
-          transform: isLeft ? 'none' : 'scaleX(-1)',
+          transformOrigin: isLeft ? 'bottom left' : 'bottom right',
+          transform: isLeft ? 'scale(1.05, 1.15)' : 'scaleX(-1) scale(1.05, 1.15)',
           filter: 'drop-shadow(0 14px 32px rgba(0, 0, 0, 0.25))',
           display: 'block',
         }}
