@@ -38,6 +38,12 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [hasStartedInteracting, setHasStartedInteracting] = useState(false);
 
+  const [isSlideshow, setIsSlideshow] = useState(() => {
+    const qSlideshow = new URLSearchParams(window.location.search).get('slideshow');
+    if (qSlideshow !== null) return qSlideshow === 'true';
+    return !!data.autoAlternate;
+  });
+
   const activeTheme = THEMES[themeId] || THEMES.ivoryLotus;
 
   // Toggle between themes (deepRose <-> royalRed <-> ivoryLotus)
@@ -51,28 +57,42 @@ function App() {
     saveWeddingData(updated);
   }, [themeId, data]);
 
-  // Toggle layout mode between 'center' and 'duo'
+  // Toggle layout mode between 'center' and 'duo' (pauses slideshow so user stays on chosen view)
   const toggleLayoutMode = useCallback(() => {
+    setIsSlideshow(false);
     const nextMode = layoutMode === 'center' ? 'duo' : 'center';
     setLayoutMode(nextMode);
-    const updated = { ...data, layoutMode: nextMode };
+    const updated = { ...data, layoutMode: nextMode, autoAlternate: false };
     setData(updated);
     saveWeddingData(updated);
   }, [layoutMode, data]);
 
-  // Auto-alternate layout every 14 seconds if autoAlternate is enabled
+  // Toggle Slideshow auto-presentation
+  const toggleSlideshow = useCallback(() => {
+    setIsSlideshow((prev) => {
+      const nextVal = !prev;
+      const updated = { ...data, autoAlternate: nextVal };
+      setData(updated);
+      saveWeddingData(updated);
+      return nextVal;
+    });
+  }, [data]);
+
+  // Auto-alternate layout every slideDuration (default 12s) if isSlideshow is active
   useEffect(() => {
-    if (!data.autoAlternate) return;
+    if (!isSlideshow) return;
+    const duration = (data.slideDuration || 12) * 1000;
     const interval = setInterval(() => {
       setLayoutMode((prev) => (prev === 'center' ? 'duo' : 'center'));
-    }, 14000);
+    }, duration);
     return () => clearInterval(interval);
-  }, [data.autoAlternate]);
+  }, [isSlideshow, data.slideDuration]);
 
-  // 1-Click Launch Fullscreen & YouTube Audio for TV
+  // 1-Click Launch Fullscreen, YouTube Audio & Auto-Slideshow for TV
   const handleStartPresentation = () => {
     setHasStartedInteracting(true);
     setAudioPlaying(true);
+    setIsSlideshow(true);
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
@@ -92,7 +112,7 @@ function App() {
   const toggleOrnament = useCallback(() => {
     const keys = Object.keys(ORNAMENTS);
     setData((prev) => {
-      const current = prev.ornament || 'orchids';
+      const current = prev.ornament || 'real_flowers';
       const nextIdx = (keys.indexOf(current) + 1) % keys.length;
       const nextOrnament = keys[nextIdx];
       const updated = { ...prev, ornament: nextOrnament };
@@ -101,7 +121,7 @@ function App() {
     });
   }, []);
 
-  // Keyboard shortcuts: T for theme, V for view mode, P for font, O for ornament, M for music, F for fullscreen
+  // Keyboard shortcuts: T (theme), V (view), S (slideshow), P (font), O (ornament), M (music), F (fullscreen)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
@@ -109,6 +129,8 @@ function App() {
         toggleTheme();
       } else if (e.key === 'v' || e.key === 'V') {
         toggleLayoutMode();
+      } else if (e.key === 's' || e.key === 'S') {
+        toggleSlideshow();
       } else if (e.key === 'p' || e.key === 'P') {
         toggleFont();
       } else if (e.key === 'o' || e.key === 'O') {
@@ -117,7 +139,7 @@ function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [toggleTheme, toggleLayoutMode, toggleFont, toggleOrnament]);
+  }, [toggleTheme, toggleLayoutMode, toggleSlideshow, toggleFont, toggleOrnament]);
 
   const handleSaveData = (newData) => {
     setData(newData);
@@ -162,6 +184,7 @@ function App() {
         data={data}
         theme={activeTheme}
         layoutMode={layoutMode}
+        isSlideshow={isSlideshow}
       />
 
       {/* YouTube Wedding Music Player */}
@@ -174,7 +197,7 @@ function App() {
       {!hasStartedInteracting && (
         <div className="launch-tv-badge" onClick={handleStartPresentation}>
           <span className="badge-pulse-icon">✨</span>
-          <span className="badge-text">Chạm bất kỳ để Bật Toàn Màn Hình TV & Nhạc Nền</span>
+          <span className="badge-text">Chạm bất kỳ để Bật Toàn Màn Hình TV, Nhạc Nền & Trình Chiếu</span>
           <button className="badge-action-btn">Bắt Đầu 🎵</button>
         </div>
       )}
@@ -186,9 +209,11 @@ function App() {
         onToggleTheme={toggleTheme}
         layoutMode={layoutMode}
         onToggleLayout={toggleLayoutMode}
+        isSlideshow={isSlideshow}
+        onToggleSlideshow={toggleSlideshow}
         fontFamily={data.fontFamily || 'dancing'}
         onToggleFont={toggleFont}
-        ornament={data.ornament || 'orchids'}
+        ornament={data.ornament || 'real_flowers'}
         onToggleOrnament={toggleOrnament}
         audioPlaying={audioPlaying}
         setAudioPlaying={setAudioPlaying}

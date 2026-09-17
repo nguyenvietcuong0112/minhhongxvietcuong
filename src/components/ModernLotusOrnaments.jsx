@@ -752,3 +752,94 @@ export const PhotorealisticFloralCorner = ({
     </div>
   );
 };
+
+/**
+ * Sakura Blossom & Japanese Glass Windchime Ornaments
+ * Exact match to user reference image (Thu Hường & Duy Mạnh pink wedding backdrop)
+ */
+export const SakuraOrnaments = () => {
+  return (
+    <>
+      {/* Top-Right Sakura Branch */}
+      <div
+        className="sakura-ornament-wrap branch-top-right"
+        style={{
+          position: 'absolute',
+          top: '-20px',
+          right: '-20px',
+          width: 'clamp(280px, 26vw, 480px)',
+          height: 'clamp(280px, 26vw, 480px)',
+          pointerEvents: 'none',
+          zIndex: 12,
+        }}
+      >
+        <img
+          src={process.env.PUBLIC_URL + '/assets/sakura/sakura_top_branch.png'}
+          alt="Cành hoa anh đào rủ xuống"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 12px 28px rgba(220, 100, 130, 0.22))',
+            display: 'block',
+          }}
+        />
+      </div>
+
+      {/* Bottom-Left Sakura Cluster with Flying Petals */}
+      <div
+        className="sakura-ornament-wrap cluster-bottom-left"
+        style={{
+          position: 'absolute',
+          bottom: '-25px',
+          left: '-25px',
+          width: 'clamp(290px, 27vw, 490px)',
+          height: 'clamp(290px, 27vw, 490px)',
+          pointerEvents: 'none',
+          zIndex: 12,
+        }}
+      >
+        <img
+          src={process.env.PUBLIC_URL + '/assets/sakura/sakura_bottom_corner.png'}
+          alt="Cụm hoa anh đào góc dưới kèm cánh hoa bay"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 12px 28px rgba(220, 100, 130, 0.22))',
+            display: 'block',
+          }}
+        />
+      </div>
+
+      {/* Top-Left Hanging Glass Windchimes */}
+      <div
+        className="sakura-ornament-wrap windchimes-top-left"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 'clamp(24px, 3.5vw, 65px)',
+          width: 'clamp(110px, 11vw, 190px)',
+          height: 'auto',
+          pointerEvents: 'none',
+          zIndex: 12,
+          animation: 'chimeSway 4.5s ease-in-out infinite alternate',
+          transformOrigin: 'top center',
+        }}
+      >
+        <img
+          src={process.env.PUBLIC_URL + '/assets/sakura/sakura_windchimes.png'}
+          alt="Chuông gió hoa đào"
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 8px 20px rgba(200, 90, 120, 0.2))',
+            display: 'block',
+          }}
+        />
+      </div>
+    </>
+  );
+};
+

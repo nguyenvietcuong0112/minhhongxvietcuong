@@ -1,31 +1,18 @@
 // Modern Wedding Configuration - Việt Cường & Minh Hồng (Lễ Dạm Ngõ)
 
 export const THEMES = {
-  deepRose: {
-    id: 'deepRose',
-    name: 'Hồng Đậm Hiện Đại',
-    bg: 'radial-gradient(ellipse at 50% 35%, #7a1534 0%, #4a091c 60%, #20020b 100%)',
-    textColor: '#FFF4F7',
-    subTextColor: '#F8C2D0',
-    accentColor: '#F5D061',
-    knotColor: '#F5D061',
-    titleColor: '#FFF2B2',
-    nameColor: '#FFFFFF',
-    tagBg: 'rgba(245, 208, 97, 0.15)',
-    lotusOpacity: 0.5,
-  },
-  royalRed: {
-    id: 'royalRed',
-    name: 'Đỏ Rượu Vang (Ảnh 1)',
-    bg: 'radial-gradient(ellipse at 50% 35%, #6a0817 0%, #3d030c 60%, #1a0104 100%)',
-    textColor: '#FFF4D4',
-    subTextColor: '#F5D08A',
-    accentColor: '#F5D061',
-    knotColor: '#F5D061',
-    titleColor: '#FFF4B8',
-    nameColor: '#FFFFFF',
-    tagBg: 'rgba(245, 208, 97, 0.18)',
-    lotusOpacity: 0.45,
+  blushSakura: {
+    id: 'blushSakura',
+    name: 'Hồng Phấn Anh Đào (Mới)',
+    bg: 'radial-gradient(ellipse at 50% 40%, #FFF0F4 0%, #FDCBD6 55%, #F9ADC0 100%)',
+    textColor: '#721327',
+    subTextColor: '#831b32',
+    accentColor: '#e84370',
+    knotColor: '#e84370',
+    titleColor: '#7a152d',
+    nameColor: '#6a0f23',
+    tagBg: 'rgba(232, 67, 112, 0.14)',
+    lotusOpacity: 0.9,
   },
   ivoryLotus: {
     id: 'ivoryLotus',
@@ -40,10 +27,37 @@ export const THEMES = {
     tagBg: 'rgba(52, 78, 61, 0.12)',
     lotusOpacity: 0.95,
   },
+  royalRed: {
+    id: 'royalRed',
+    name: 'Đỏ Rượu Vang (Ảnh 1)',
+    bg: 'radial-gradient(ellipse at 50% 35%, #6a0817 0%, #3d030c 60%, #1a0104 100%)',
+    textColor: '#FFF4D4',
+    subTextColor: '#F5D08A',
+    accentColor: '#F5D061',
+    knotColor: '#F5D061',
+    titleColor: '#FFF4B8',
+    nameColor: '#FFFFFF',
+    tagBg: 'rgba(245, 208, 97, 0.18)',
+    lotusOpacity: 0.45,
+  },
+  deepRose: {
+    id: 'deepRose',
+    name: 'Hồng Đậm Hiện Đại',
+    bg: 'radial-gradient(ellipse at 50% 35%, #7a1534 0%, #4a091c 60%, #20020b 100%)',
+    textColor: '#FFF4F7',
+    subTextColor: '#F8C2D0',
+    accentColor: '#F5D061',
+    knotColor: '#F5D061',
+    titleColor: '#FFF2B2',
+    nameColor: '#FFFFFF',
+    tagBg: 'rgba(245, 208, 97, 0.15)',
+    lotusOpacity: 0.5,
+  },
 };
 
 export const ORNAMENTS = {
-  real_flowers: { id: 'real_flowers', name: 'Hoa Tươi Cao Cấp (Thật 100%)', icon: '🌸' },
+  sakura: { id: 'sakura', name: 'Hoa Anh Đào & Chuông Gió', icon: '🌸' },
+  real_flowers: { id: 'real_flowers', name: 'Hoa Tươi Cao Cấp (Thật 100%)', icon: '🌺' },
   fans: { id: 'fans', name: 'Quạt Xếp Ly & Bạch Quả', icon: '🎋' },
   orchids: { id: 'orchids', name: 'Lan Hồ Điệp Thư Họa', icon: '💐' },
   botanical: { id: 'botanical', name: 'Lá Kim Tuyến Ánh Vàng', icon: '✨' },
@@ -57,7 +71,7 @@ export const DEFAULT_WEDDING_DATA = {
   brideName: 'Minh Hồng',
   dateSolar: '18 09 2026',
   dateLunar: '(08.08 Bính Ngọ)',
-  theme: 'ivoryLotus',
+  theme: 'blushSakura',
   musicUrl: 'https://www.youtube.com/watch?v=MQJJH47WzP4',
   layoutMode: 'center', // 'center' (Toàn cảnh chữ như ảnh 2) hoặc 'duo' (Kết hợp ảnh như ảnh 3)
   autoAlternate: false, // Giữ cố định bố cục người dùng chọn, không tự nhảy loạn xạ
@@ -76,10 +90,10 @@ export const DEFAULT_WEDDING_DATA = {
     { url: process.env.PUBLIC_URL + '/anh4.jpg', caption: 'Trọn Vẹn Hạnh Phúc' },
   ],
   fontFamily: 'dancing', // 'dancing' (Dancing Script) hoặc 'charm' (Charm)
-  ornament: 'real_flowers', // 'real_flowers' (Hoa tươi thật 100%), 'fans', 'orchids', 'botanical', 'minimal', 'lotus'
+  ornament: 'sakura', // 'sakura', 'real_flowers', 'fans', 'orchids', 'botanical', 'minimal', 'lotus'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v11';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v12';
 
 export const loadWeddingData = () => {
   try {

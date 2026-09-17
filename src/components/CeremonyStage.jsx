@@ -7,6 +7,7 @@ import {
   WatercolorLotusCorner,
   GoldenBotanicalCorner,
   PhotorealisticFloralCorner,
+  SakuraOrnaments,
 } from './ModernLotusOrnaments';
 
 /**
@@ -15,7 +16,7 @@ import {
  * Features clean typography (Oswald & Dancing Script signature), watercolor lotus accents,
  * and smooth animated thank-you messages.
  */
-const CeremonyStage = ({ data, theme, layoutMode }) => {
+const CeremonyStage = ({ data, theme, layoutMode, isSlideshow }) => {
   const [activeMsgIdx, setActiveMsgIdx] = useState(0);
   const [incomingMsgIdx, setIncomingMsgIdx] = useState(null);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
@@ -23,6 +24,13 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
 
   const messages = data.messages || [];
   const photos = data.photos || [];
+
+  // When switching into duo layout during slideshow, smoothly advance to next photo
+  useEffect(() => {
+    if (layoutMode === 'duo' && isSlideshow && photos.length > 1) {
+      setActivePhotoIdx((prev) => (prev + 1) % photos.length);
+    }
+  }, [layoutMode, isSlideshow, photos.length]);
 
   // 1. Dual-Layer Smooth Text Crossfade (Locked Height, Zero Jitter)
   useEffect(() => {
@@ -57,6 +65,51 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
 
   // Render happiness emblem depending on theme
   const renderEmblem = (size = 110) => {
+    if (theme.id === 'blushSakura') {
+      return (
+        <div
+          className="sakura-center-rings-wrap"
+          style={{
+            position: 'relative',
+            width: size,
+            height: size * 1.15,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {/* Faint Double Happiness Watermark */}
+          <div
+            className="watermark-xi-center"
+            style={{
+              position: 'absolute',
+              fontSize: size * 1.35,
+              color: 'rgba(232, 67, 112, 0.22)',
+              fontWeight: 900,
+              lineHeight: 1,
+              userSelect: 'none',
+              zIndex: 1,
+              fontFamily: 'sans-serif',
+            }}
+          >
+            囍
+          </div>
+          {/* Sparkling Interlocking Diamond Wedding Rings */}
+          <img
+            src={process.env.PUBLIC_URL + '/assets/sakura/wedding_rings.png'}
+            alt="Cặp nhẫn cưới kim cương lồng nhau"
+            style={{
+              width: size * 1.05,
+              height: size * 1.05,
+              objectFit: 'contain',
+              position: 'relative',
+              zIndex: 2,
+              filter: 'drop-shadow(0 6px 16px rgba(114, 19, 39, 0.22))',
+            }}
+          />
+        </div>
+      );
+    }
     if (isRoyal) {
       return <RoyalHappinessMedallion size={size} color={theme.accentColor} />;
     }
@@ -84,8 +137,12 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
 
   // Dynamic corner ornament rendering
   const renderCornerOrnaments = () => {
-    const selected = data.ornament || 'real_flowers';
+    const selected = data.ornament || (theme.id === 'blushSakura' ? 'sakura' : 'real_flowers');
     if (selected === 'minimal') return null;
+
+    if (selected === 'sakura' || theme.id === 'blushSakura') {
+      return <SakuraOrnaments />;
+    }
 
     if (selected === 'real_flowers') {
       return (
@@ -169,6 +226,20 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
           {/* Bottom Date in Modern Condensed Font */}
           <div className="modern-date-footer">
             <span className="modern-solar-date">{data.dateSolar}</span>
+            {theme.id === 'blushSakura' && (
+              <img
+                src={process.env.PUBLIC_URL + '/assets/sakura/love_doves.png'}
+                alt="Đôi chim bồ câu"
+                className="sakura-love-doves"
+                style={{
+                  width: 'clamp(48px, 4.8vw, 72px)',
+                  height: 'auto',
+                  margin: '0 clamp(8px, 1.2vw, 16px)',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 2px 8px rgba(180, 80, 100, 0.25))',
+                }}
+              />
+            )}
             <span className="modern-lunar-date">{data.dateLunar}</span>
           </div>
         </div>
@@ -217,6 +288,19 @@ const CeremonyStage = ({ data, theme, layoutMode }) => {
                 </div>
                 <div className="below-info-date">
                   <span className="below-solar-date">{data.dateSolar}</span>
+                  {theme.id === 'blushSakura' && (
+                    <img
+                      src={process.env.PUBLIC_URL + '/assets/sakura/love_doves.png'}
+                      alt="Đôi chim bồ câu"
+                      style={{
+                        width: '36px',
+                        height: 'auto',
+                        margin: '0 6px',
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 1px 4px rgba(180, 80, 100, 0.25))',
+                      }}
+                    />
+                  )}
                   <span className="below-lunar-date">{data.dateLunar}</span>
                 </div>
               </div>

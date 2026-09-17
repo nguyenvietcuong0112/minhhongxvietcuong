@@ -117,6 +117,52 @@ body, html {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 208, 97, 0.45);
 }
 
+.theme-blushSakura .modern-ceremony-title {
+  color: #791228;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.95), 0 3px 14px rgba(121, 18, 40, 0.22);
+}
+
+.theme-blushSakura .modern-groom-name,
+.theme-blushSakura .modern-bride-name,
+.theme-blushSakura .stacked-groom,
+.theme-blushSakura .stacked-bride {
+  color: #6a0f23 !important;
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.9)) drop-shadow(0 4px 18px rgba(106, 15, 35, 0.28)) !important;
+}
+
+.theme-blushSakura .modern-message-text {
+  color: #6a1326 !important;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-blushSakura .modern-solar-date,
+.theme-blushSakura .modern-lunar-date,
+.theme-blushSakura .below-solar-date,
+.theme-blushSakura .below-lunar-date {
+  color: #721428 !important;
+  font-weight: 700 !important;
+}
+
+.theme-blushSakura .stacked-ampersand {
+  color: #e84370 !important;
+  text-shadow: 0 2px 8px rgba(232, 67, 112, 0.25) !important;
+}
+
+.theme-blushSakura .bg-watermark-happiness {
+  opacity: 0.12 !important;
+  color: #f47296 !important;
+}
+
+@keyframes chimeSway {
+  0% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(2deg);
+  }
+}
+
 /* Centerpiece Row: Groom Name — 囍 Knot — Bride Name */
 .modern-names-row {
   display: flex;
@@ -366,14 +412,19 @@ body, html {
 .modern-duo-message {
   position: relative;
   width: 100%;
-  max-width: 620px;
-  height: clamp(74px, 10vh, 92px);
-  min-height: clamp(74px, 10vh, 92px);
-  max-height: clamp(74px, 10vh, 92px);
-  margin-top: 28px;
+  max-width: 680px;
+  height: clamp(82px, 11vh, 105px);
+  min-height: clamp(82px, 11vh, 105px);
+  max-height: clamp(82px, 11vh, 105px);
+  margin-top: 22px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
+}
+
+.modern-duo-message .modern-message-text {
+  font-size: clamp(1.2rem, 1.6vw, 1.85rem);
+  line-height: 1.45;
 }
 
 .modern-duo-right {
@@ -609,6 +660,29 @@ body, html {
   background: rgba(245, 208, 97, 0.15);
   border-color: rgba(245, 208, 97, 0.35);
   color: #f5d061;
+}
+
+.modern-dock-btn.slideshow-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modern-dock-btn.slideshow-btn.active-slideshow {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.35), rgba(245, 158, 11, 0.4)) !important;
+  border-color: rgba(252, 211, 77, 0.9) !important;
+  color: #fff9e6 !important;
+  font-weight: 600;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+  animation: pulseSlideshow 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseSlideshow {
+  0% {
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 22px rgba(245, 158, 11, 0.75);
+  }
 }
 
 .dock-icon {

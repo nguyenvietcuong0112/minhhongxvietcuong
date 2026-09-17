@@ -9,6 +9,8 @@ const ControlBar = ({
   setThemeId,
   layoutMode,
   onToggleLayout,
+  isSlideshow,
+  onToggleSlideshow,
   fontFamily,
   onToggleFont,
   ornament,
@@ -50,6 +52,8 @@ const ControlBar = ({
         toggleFullscreen();
       } else if (e.key === 'm' || e.key === 'M') {
         setAudioPlaying((prev) => !prev);
+      } else if (e.key === 's' || e.key === 'S') {
+        if (onToggleSlideshow) onToggleSlideshow();
       }
     };
 
@@ -106,7 +110,7 @@ const ControlBar = ({
                 title={t.name}
               >
                 <span className="dock-icon">
-                  {t.id === 'deepRose' ? '🌸' : t.id === 'royalRed' ? '🏮' : '🌿'}
+                  {t.id === 'blushSakura' ? '🌸' : t.id === 'ivoryLotus' ? '🌿' : t.id === 'royalRed' ? '🏮' : '🌺'}
                 </span>
                 <span className="dock-label">{t.name.split(' (')[0]}</span>
               </button>
@@ -115,8 +119,21 @@ const ControlBar = ({
 
           <div className="dock-divider" />
 
-          {/* Layout Mode Toggle */}
+          {/* Layout Mode & Slideshow Group */}
           <div className="dock-group">
+            {/* Slideshow Presentation Button */}
+            <button
+              onClick={onToggleSlideshow}
+              className={`modern-dock-btn slideshow-btn ${isSlideshow ? 'active-slideshow' : ''}`}
+              title="Bật/Tắt chế độ tự động trình chiếu slide trên TV (Phím S)"
+            >
+              <span className="dock-icon">{isSlideshow ? '🎬' : '▶️'}</span>
+              <span className="dock-label">
+                {isSlideshow ? 'Đang Chiếu' : 'Trình Chiếu'}
+              </span>
+            </button>
+
+            {/* Layout Mode Toggle */}
             <button
               onClick={onToggleLayout}
               className="modern-dock-btn"
