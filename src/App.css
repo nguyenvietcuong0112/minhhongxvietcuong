@@ -498,6 +498,9 @@ body, html {
   align-items: flex-start;
   text-align: left;
   justify-content: center;
+  padding-left: clamp(24px, 3.6vw, 65px);
+  transform: translateY(clamp(-14px, -2.5vh, -28px));
+  box-sizing: border-box;
 }
 
 .modern-stacked-names {

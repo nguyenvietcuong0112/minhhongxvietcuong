@@ -13,7 +13,13 @@ import AnimatedWeddingRings from './AnimatedWeddingRings';
  * and smooth animated thank-you messages.
  */
 const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange }) => {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(() => {
+    const qIdx = new URLSearchParams(window.location.search).get('idx');
+    if (qIdx !== null && !isNaN(parseInt(qIdx, 10))) {
+      return parseInt(qIdx, 10);
+    }
+    return 0;
+  });
   const [incomingIdx, setIncomingIdx] = useState(null);
 
   const messages = data.messages || [];

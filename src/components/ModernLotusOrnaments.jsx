@@ -101,10 +101,10 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
         className="lotus-ornament-wrap lotus-blossom-left-decor"
         style={{
           position: 'absolute',
-          bottom: isDuo ? '-10px' : '-15px',
-          left: isDuo ? '-10px' : '-15px',
-          width: isDuo ? 'clamp(210px, 19vw, 300px)' : 'clamp(260px, 25vw, 400px)',
-          height: isDuo ? 'clamp(235px, 21vw, 380px)' : 'clamp(286px, 27vw, 495px)',
+          bottom: isDuo ? '-22px' : '-15px',
+          left: isDuo ? '-15px' : '-15px',
+          width: isDuo ? 'clamp(180px, 16vw, 255px)' : 'clamp(260px, 25vw, 400px)',
+          height: isDuo ? 'clamp(200px, 18vw, 310px)' : 'clamp(286px, 27vw, 495px)',
           pointerEvents: 'none',
           zIndex: 2,
         }}
@@ -129,10 +129,10 @@ export const RealisticLotusOrnaments = ({ layoutMode = 'center' }) => {
         className="lotus-ornament-wrap lotus-blossom-right-decor"
         style={{
           position: 'absolute',
-          bottom: isDuo ? '-10px' : '-15px',
-          right: isDuo ? '-10px' : '-15px',
-          width: isDuo ? 'clamp(210px, 19vw, 300px)' : 'clamp(260px, 25vw, 400px)',
-          height: isDuo ? 'clamp(235px, 21vw, 380px)' : 'clamp(286px, 27vw, 495px)',
+          bottom: isDuo ? '-22px' : '-15px',
+          right: isDuo ? '-15px' : '-15px',
+          width: isDuo ? 'clamp(180px, 16vw, 255px)' : 'clamp(260px, 25vw, 400px)',
+          height: isDuo ? 'clamp(200px, 18vw, 310px)' : 'clamp(286px, 27vw, 495px)',
           pointerEvents: 'none',
           zIndex: 2, // Behind .modern-duo-stage (z-index: 4)
         }}
