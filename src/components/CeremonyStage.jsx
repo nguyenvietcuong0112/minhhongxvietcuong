@@ -25,11 +25,15 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
     return qTestFlare === 'true' ? 1 : null;
   });
 
+  // Strictly filter out any deleted photos (anh3, anh4)
+  const rawPhotos = data.photos || [];
+  const photos = rawPhotos.filter(
+    (p) => p && p.url && !p.url.includes('anh3') && !p.url.includes('anh4')
+  );
   const messages = data.messages || [];
-  const photos = data.photos || [];
-  const totalItems = Math.max(photos.length, messages.length);
+  const totalItems = photos.length || 4;
 
-  // Maintain a randomized shuffle bag queue so all 6 photos/wishes are shown without repeats
+  // Maintain a randomized shuffle bag queue so all 4 photos/wishes are shown without repeats
   const shuffleBagRef = useRef([]);
   const duoCountRef = useRef(0);
 
@@ -286,15 +290,23 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
               {/* Modern Minimalist Arch holding couple photo with Ken Burns & Light Leak Flare */}
               <div className={`modern-arch-frame ${incomingIdx !== null ? 'transitioning' : ''}`}>
                 <img
-                  src={photos[activeIdx]?.url || '/anh1.jpg'}
+                  src={photos[activeIdx]?.url || process.env.PUBLIC_URL + '/anh1.jpg'}
                   alt="Việt Cường & Minh Hồng"
                   className={`modern-arch-img base-layer ${getKenBurnsClass(activeIdx)}`}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                  }}
                 />
                 {incomingIdx !== null && (
                   <img
-                    src={photos[incomingIdx]?.url || '/anh1.jpg'}
+                    src={photos[incomingIdx]?.url || process.env.PUBLIC_URL + '/anh1.jpg'}
                     alt="Việt Cường & Minh Hồng"
                     className={`modern-arch-img incoming-layer ${getKenBurnsClass(incomingIdx)}`}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                    }}
                   />
                 )}
 

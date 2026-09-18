@@ -142,10 +142,26 @@ export const DEFAULT_WEDDING_DATA = {
   ornament: 'lotus', // 'lotus', 'real_flowers', 'minimal'
 };
 
-export const STORAGE_KEY = 'vietcuong_minhhong_wedding_modern_v17';
+export const STORAGE_KEY = 'vietcuong_minhhong_wedding_v18_4photos';
 
 export const loadWeddingData = () => {
   try {
+    // Clear legacy keys that might contain references to deleted photos (anh3, anh4)
+    const legacyKeys = [
+      'vietcuongminhhong_wedding_config',
+      'vietcuong_minhhong_wedding_modern_v1',
+      'vietcuong_minhhong_wedding_modern_v2',
+      'vietcuong_minhhong_wedding_modern_v15',
+      'vietcuong_minhhong_wedding_modern_v16',
+      'vietcuong_minhhong_wedding_modern_v17',
+      'vietcuongminhhong_wedding_modern_v17',
+    ];
+    legacyKeys.forEach((key) => {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {}
+    });
+
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -155,10 +171,16 @@ export const loadWeddingData = () => {
       if (!ORNAMENTS[parsed.ornament]) {
         parsed.ornament = 'lotus';
       }
-      if (!parsed.photos || parsed.photos.length < 4) {
+      // Strict photo filter: Never allow deleted photos (anh3, anh4)
+      if (Array.isArray(parsed.photos)) {
+        parsed.photos = parsed.photos.filter(
+          (p) => p && p.url && !p.url.includes('anh3') && !p.url.includes('anh4')
+        );
+      }
+      if (!parsed.photos || parsed.photos.length !== 4) {
         parsed.photos = DEFAULT_WEDDING_DATA.photos;
       }
-      if (!parsed.messages || parsed.messages.length < 4) {
+      if (!parsed.messages || parsed.messages.length !== 4) {
         parsed.messages = DEFAULT_WEDDING_DATA.messages;
       }
       if (!parsed.slideDuration || parsed.slideDuration < 10) {
