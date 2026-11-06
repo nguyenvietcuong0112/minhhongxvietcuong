@@ -20,6 +20,7 @@ const ControlBar = ({
   audioPlaying,
   setAudioPlaying,
   onOpenSettings,
+  onSwitchToInvitation,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -306,6 +307,18 @@ const ControlBar = ({
               <span className="dock-icon">⛶</span>
               <span className="dock-label">{isFullscreen ? 'Thu nhỏ' : 'Toàn màn hình'}</span>
             </button>
+
+            {/* Online Wedding Invitation Button */}
+            {onSwitchToInvitation && (
+              <button
+                onClick={onSwitchToInvitation}
+                className="modern-dock-btn"
+                title="Chuyển sang xem Thiệp Mời Cưới Online (26 & 27/12)"
+              >
+                <span className="dock-icon">💌</span>
+                <span className="dock-label">Thiệp Cưới</span>
+              </button>
+            )}
 
             {/* Settings Button */}
             <button

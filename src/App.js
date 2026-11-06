@@ -6,13 +6,27 @@ import {
   loadWeddingData,
   saveWeddingData,
   DEFAULT_WEDDING_DATA,
+  DEFAULT_INVITATION_DATA,
 } from './config/weddingData';
 import CeremonyStage from './components/CeremonyStage';
 import AudioPlayer from './components/AudioPlayer';
 import ControlBar from './components/ControlBar';
 import SettingsModal from './components/SettingsModal';
+import WeddingInvitationView from './components/Invitation/WeddingInvitationView';
 
 function App() {
+  const [viewMode, setViewMode] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const qView = params.get('view');
+    if (qView === 'stage' || qView === 'tv' || qView === 'ceremony') return 'stage';
+    if (qView === 'invitation' || qView === 'thiep') return 'invitation';
+    if (params.get('mode') === 'center' || params.get('mode') === 'duo' || params.get('slideshow') !== null) {
+      return 'stage';
+    }
+    // Default to 'invitation' (Thiệp Cưới Online Tương Tác)
+    return 'invitation';
+  });
+
   const [data, setData] = useState(() => {
     const loaded = loadWeddingData();
     const params = new URLSearchParams(window.location.search);
@@ -126,11 +140,13 @@ function App() {
     });
   }, []);
 
-  // Keyboard shortcuts: T (theme), V (view), S (slideshow), P (font), O (ornament), M (music), F (fullscreen)
+  // Keyboard shortcuts: T (theme), V (view), S (slideshow), P (font), O (ornament), M (music), I (invitation toggle)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
-      if (e.key === 't' || e.key === 'T') {
+      if (e.key === 'i' || e.key === 'I') {
+        setViewMode((prev) => (prev === 'invitation' ? 'stage' : 'invitation'));
+      } else if (e.key === 't' || e.key === 'T') {
         toggleTheme();
       } else if (e.key === 'v' || e.key === 'V') {
         toggleLayoutMode();
@@ -168,6 +184,26 @@ function App() {
     saveWeddingData(updated);
   };
 
+  // 1. Online Interactive Wedding Invitation View (Default)
+  if (viewMode === 'invitation') {
+    return (
+      <div className="app-invitation-container">
+        <WeddingInvitationView
+          invitationData={DEFAULT_INVITATION_DATA}
+          onSwitchToStage={() => setViewMode('stage')}
+          audioPlaying={audioPlaying}
+          onToggleAudio={() => setAudioPlaying((prev) => !prev)}
+        />
+        {/* YouTube Background Music Player (Continuous playback) */}
+        <AudioPlayer
+          isPlaying={audioPlaying}
+          musicUrl={data.musicUrl}
+        />
+      </div>
+    );
+  }
+
+  // 2. TV Stage Ceremony View (Fullscreen / Projector)
   return (
     <div
       className={`app-container theme-${themeId}`}
@@ -225,6 +261,7 @@ function App() {
         audioPlaying={audioPlaying}
         setAudioPlaying={setAudioPlaying}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        onSwitchToInvitation={() => setViewMode('invitation')}
       />
 
       {/* Live Customization Modal */}
