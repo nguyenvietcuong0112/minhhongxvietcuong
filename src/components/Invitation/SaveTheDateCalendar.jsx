@@ -19,7 +19,7 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
 
   return (
     <section className="invitation-section save-the-date-section" id="calendar">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">SAVE THE DATE</span>
         <h2 className="section-title">Lịch Đánh Dấu Ngày Cưới</h2>
         <div className="section-ornament-line">
@@ -32,7 +32,7 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
         </p>
       </div>
 
-      <div className="calendar-card-wrapper">
+      <div className="calendar-card-wrapper" data-aos="zoom-in" data-aos-delay="100">
         <div className="calendar-card">
           {/* Header */}
           <div className="calendar-card-header">
@@ -109,7 +109,7 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
               <span className="legend-icon">👑</span>
               <div className="legend-info">
                 <strong>Chủ Nhật, 27.12.2026 (19.11 ÂL)</strong>
-                <p>Đại Lễ Thành Hôn & Tiệc Cưới tại Trống Đồng Palace</p>
+                <p>Đại Lễ Thành Hôn & Tiệc Cưới tại Tư gia Nhà Trai</p>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CoverPreloadSection from './CoverPreloadSection';
 import FloatingActions from './FloatingActions';
 import CoupleIntroSection from './CoupleIntroSection';
@@ -69,14 +69,15 @@ const WeddingInvitationView = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Cover screen open state
+  // Cover screen open state & curtain parting state
   const [isOpened, setIsOpened] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get('opened') === 'true';
   });
+  const [isRevealingCurtains, setIsRevealingCurtains] = useState(false);
 
   // Activate AOS-style scroll reveal hook
-  useScrollReveal('[data-aos], .reveal-on-scroll', isOpened);
+  useScrollReveal('[data-aos], .reveal-on-scroll', isOpened || isRevealingCurtains);
 
   // Lock body scroll while cover is closed; unlock smoothly when opened
   useEffect(() => {
@@ -93,12 +94,44 @@ const WeddingInvitationView = ({
     };
   }, [isOpened]);
 
-  const handleOpenInvitation = () => {
-    setIsOpened(true);
-    // Auto start music when opening if not already playing
+  const scrollProgressRef = useRef(null);
+
+  // Smooth scroll progress bar via requestAnimationFrame (zero reflow)
+  useEffect(() => {
+    if (!isOpened) return undefined;
+    let ticking = false;
+    const updateProgress = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(Math.max(scrollTop / docHeight, 0), 1) : 0;
+      if (scrollProgressRef.current) {
+        scrollProgressRef.current.style.transform = `scaleX(${progress})`;
+      }
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateProgress();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isOpened]);
+
+  // Synchronous on-click handler: start music inside browser gesture & reveal content under parting curtains
+  const handleStartOpening = () => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setIsRevealingCurtains(true);
     if (!audioPlaying && onToggleAudio) {
       onToggleAudio();
     }
+  };
+
+  const handleOpenInvitation = () => {
+    setIsOpened(true);
+    setIsRevealingCurtains(false);
   };
 
   const scrollToSection = (id) => {
@@ -115,10 +148,18 @@ const WeddingInvitationView = ({
 
   return (
     <div className={`wedding-invitation-app mobile-pro-theme ${isMobile ? 'device-mobile' : 'device-desktop'}`}>
-      {/* 1. Fullscreen Arched-Pill Preload Cover Screen (Matches baoquyenwedding.net) */}
+      {/* Top Delicate Scroll Progress Line */}
+      {isOpened && (
+        <div className="scroll-progress-track" aria-hidden="true">
+          <div ref={scrollProgressRef} className="scroll-progress-fill" />
+        </div>
+      )}
+
+      {/* 1. Fullscreen Royal Song Phụng Preload Cover Screen */}
       {!isOpened && (
         <CoverPreloadSection
           data={invitationData}
+          onStartOpening={handleStartOpening}
           onOpen={handleOpenInvitation}
           isOpened={isOpened}
           guestName={guestName}
@@ -136,48 +177,62 @@ const WeddingInvitationView = ({
         />
       )}
 
-      {/* 3. Main Wedding Content (Constrained to max-w-[480px] on desktop, edge-to-edge on mobile) */}
-      <main className={`invitation-main-content ${!isOpened ? 'envelope-sealed-behind' : 'is-revealed'}`}>
-        {/* Hero Banner / Header Greeting with Royal Song Phụng Crest */}
+      {/* 3. Main Wedding Content (Visible right underneath parting curtains!) */}
+      <main
+        className={`invitation-main-content ${
+          isOpened ? 'is-revealed' : isRevealingCurtains ? 'is-revealing-under-curtains' : 'envelope-sealed-behind'
+        }`}
+      >
+        {/* Editorial Brown Luxury Hero Greeting & Feature Photography */}
         <header className="invitation-header-greeting" data-aos="fade-down">
-          <div className="header-songphung-crest">
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/Phuong line.webp'}
-              alt=""
-              aria-hidden="true"
-              className="crest-phuong-left"
-            />
-            <div className="crest-hy-center">
-              <img
-                src={process.env.PUBLIC_URL + '/assets/songphung/chinese_happiness.webp'}
-                alt="囍"
-                className="crest-hy-icon"
-              />
+          {/* Botanical Gold Laurel & Monogram Crest */}
+          <div className="hero-editorial-crest">
+            <span className="crest-hairline" />
+            <div className="crest-monogram-seal">
+              <span>VC</span>
+              <span className="crest-amp">&amp;</span>
+              <span>MH</span>
             </div>
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/Phuong line.webp'}
-              alt=""
-              aria-hidden="true"
-              className="crest-phuong-right"
-            />
+            <span className="crest-hairline" />
           </div>
-          <div className="header-greeting-badge">THIỆP MỜI BÁO HỶ</div>
-          <p className="header-wedding-title">LỄ THÀNH HÔN & VU QUY</p>
+
+          <div className="header-greeting-badge">TRÂN TRỌNG KÍNH MỜI</div>
+          <p className="header-wedding-title">LỄ THÀNH HÔN &amp; LỄ VU QUY</p>
+
           <div className="header-couple-script">
             <span>{invitationData.groom?.shortName || 'Việt Cường'}</span>
-            <span className="script-amp">&</span>
+            <span className="script-amp">&amp;</span>
             <span>{invitationData.bride?.shortName || 'Minh Hồng'}</span>
           </div>
+
           <div className="header-dates-ribbon">
             <span>26 • 27 THÁNG 12, 2026</span>
           </div>
 
+          {/* Large Editorial Hero Photograph */}
+          <div className="hero-editorial-photo-wrap" data-aos="zoom-in" data-aos-delay="100">
+            <div className="hero-editorial-arch">
+              <img
+                src={process.env.PUBLIC_URL + '/anh6.jpg'}
+                alt="Nguyễn Việt Cường & Lê Minh Hồng"
+                className="hero-editorial-img"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                }}
+              />
+              <div className="hero-editorial-caption">
+                <span>SAVE THE DATE • HÀ NỘI, MÙA ĐÔNG 2026</span>
+              </div>
+            </div>
+          </div>
+
           {/* Personalized Guest Welcome Banner */}
           {guestName && (
-            <div className="header-personalized-guest-box" data-aos="zoom-in">
-              <span className="guest-box-label">TRÂN TRỌNG KÍNH MỜI</span>
+            <div className="header-personalized-guest-box" data-aos="zoom-in" data-aos-delay="150">
+              <span className="guest-box-label">KÍNH MỜI QUÝ KHÁCH</span>
               <h2 className="guest-box-name">{guestName}</h2>
-              <p className="guest-box-sub">Đến chung vui cùng gia đình chúng tôi</p>
+              <p className="guest-box-sub">Đến chung vui cùng gia đình chúng tôi trong ngày trọng đại</p>
             </div>
           )}
         </header>
@@ -190,7 +245,7 @@ const WeddingInvitationView = ({
 
         {/* Section 2: Countdown Banner with Rounded Arch & Pulsing Heart (#countdown) */}
         <CountdownBannerSection
-          targetDate={invitationData.schedule?.day1?.targetDate || '2026-12-26T08:30:00+07:00'}
+          targetDate={invitationData.schedule?.day1?.targetDate || '2026-12-26T09:00:00+07:00'}
         />
 
         {/* Section 3: Save The Date Calendar (December 2026 with Days 26 & 27 Highlighted) */}

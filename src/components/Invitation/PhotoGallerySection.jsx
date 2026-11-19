@@ -37,7 +37,7 @@ const PhotoGallerySection = ({ gallery }) => {
 
   return (
     <section className="invitation-section gallery-section" id="gallery">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">ALBUM ẢNH CƯỚI (15 VỊ TRÍ)</span>
         <h2 className="section-title">Khoảnh Khắc Ngọt Ngào</h2>
         <div className="section-ornament-line">
@@ -51,7 +51,7 @@ const PhotoGallerySection = ({ gallery }) => {
       </div>
 
       {/* Category Filter Pills */}
-      <div className="gallery-filter-bar">
+      <div className="gallery-filter-bar" data-aos="fade-up" data-aos-delay="100">
         {categories.map((cat) => (
           <button
             key={cat.key}
@@ -73,6 +73,8 @@ const PhotoGallerySection = ({ gallery }) => {
               key={photo.id || i}
               className={`gallery-card-item item-${i % 6}`}
               onClick={() => setSelectedIdx(actualIndex)}
+              data-aos="zoom-in"
+              data-aos-delay={(i % 4) * 50}
             >
               <div className="gallery-card-img-wrap">
                 <img

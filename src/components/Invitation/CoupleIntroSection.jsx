@@ -15,7 +15,7 @@ const CoupleIntroSection = ({ groom, bride }) => {
         <h2 className="section-title">Đám Cưới Của</h2>
         <div className="section-ornament-line">
           <span className="line" />
-          <span className="knot">囍</span>
+          <span className="knot">❦</span>
           <span className="line" />
         </div>
         <p className="section-desc">
@@ -42,7 +42,7 @@ const CoupleIntroSection = ({ groom, bride }) => {
             <div className="arch-glass-banner groom-banner">
               <span className="arch-role-script">The Groom</span>
               <h3 className="arch-person-name">{groom.fullName || 'Nguyễn Việt Cường'}</h3>
-              <p className="arch-person-subrole">{groom.role || 'Trưởng Nam'}</p>
+              <p className="arch-person-subrole">{groom.role || 'Trưởng Nam • 2000'}</p>
               <div className="arch-parents-info">
                 <p>Con ông: <strong>{groom.father || 'Nguyễn Văn Hùng'}</strong></p>
                 <p>Con bà: <strong>{groom.mother || 'Lê Thị Thu'}</strong></p>
@@ -62,7 +62,7 @@ const CoupleIntroSection = ({ groom, bride }) => {
           <div className="arch-media-wrap">
             <img
               src={bride.avatar || process.env.PUBLIC_URL + '/anh2.jpg'}
-              alt={bride.fullName || 'Trần Minh Hồng'}
+              alt={bride.fullName || 'Lê Minh Hồng'}
               className="arch-portrait-img"
               onError={(e) => {
                 e.currentTarget.onerror = null;
@@ -72,10 +72,10 @@ const CoupleIntroSection = ({ groom, bride }) => {
             {/* Frosted Glass Banner Overlay */}
             <div className="arch-glass-banner bride-banner">
               <span className="arch-role-script">The Bride</span>
-              <h3 className="arch-person-name">{bride.fullName || 'Trần Minh Hồng'}</h3>
-              <p className="arch-person-subrole">{bride.role || 'Út Nữ'}</p>
+              <h3 className="arch-person-name">{bride.fullName || 'Lê Minh Hồng'}</h3>
+              <p className="arch-person-subrole">{bride.role || 'Út Nữ • 2002'}</p>
               <div className="arch-parents-info">
-                <p>Con ông: <strong>{bride.father || 'Trần Đình Kiên'}</strong></p>
+                <p>Con ông: <strong>{bride.father || 'Lê Đình Kiên'}</strong></p>
                 <p>Con bà: <strong>{bride.mother || 'Phạm Thị Lan'}</strong></p>
               </div>
               {bride.phone && (

@@ -148,7 +148,7 @@ const WishesGuestbookSection = ({ scriptUrl }) => {
         </div>
       )}
 
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">SỔ LƯU BÚT YÊU THƯƠNG</span>
         <h2 className="section-title">Gửi Lời Chúc Phúc Đến Dâu Rể</h2>
         <div className="section-ornament-line">
@@ -161,7 +161,7 @@ const WishesGuestbookSection = ({ scriptUrl }) => {
         </p>
       </div>
 
-      <div className="wishes-dual-grid">
+      <div className="wishes-dual-grid" data-aos="fade-up" data-aos-delay="100">
         {/* Left Column: Form to Write Wish */}
         <div className="wish-form-card">
           <h3 className="form-card-title">

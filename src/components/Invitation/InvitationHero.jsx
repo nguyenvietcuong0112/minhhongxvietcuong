@@ -63,7 +63,7 @@ const InvitationHero = ({ data, onScrollTo, guestName = '' }) => {
 
         <div className="hero-person bride-side">
           <span className="person-role">{bride.role || 'Út Nữ'}</span>
-          <h1 className="person-fullname">{bride.fullName || 'Trần Minh Hồng'}</h1>
+          <h1 className="person-fullname">{bride.fullName || 'Lê Minh Hồng'}</h1>
         </div>
       </div>
 

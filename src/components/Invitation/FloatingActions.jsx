@@ -42,12 +42,12 @@ const FloatingActions = ({
           title={audioPlaying ? `Tắt nhạc: ${songTitle}` : `Bật nhạc: ${songTitle}`}
           aria-label="Bật/Tắt nhạc nền"
         >
-          {/* Vinyl Grooves & Spinning Center with Royal Song Hỷ */}
+          {/* Vinyl Grooves & Spinning Center with Antique Gold Emblem */}
           <div className="vinyl-disc-face">
             <span className="vinyl-groove" />
             <span className="vinyl-groove-2" />
             <div className="vinyl-center-label royal-vinyl-center">
-              <span className="vinyl-hy-center">{audioPlaying ? '囍' : '🔇'}</span>
+              <span className="vinyl-hy-center">{audioPlaying ? '♫' : '🔇'}</span>
             </div>
           </div>
           {audioPlaying && (
@@ -158,7 +158,7 @@ const FloatingActions = ({
                 {currentPerson?.qrUrl && (
                   <a
                     href={currentPerson.qrUrl}
-                    download={`VietQR_MungCuoi_${currentPerson.shortName}.png`}
+                    download={`VietQR_MungCuoi_${currentPerson.shortName}.jpg`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="modal-download-qr-btn"

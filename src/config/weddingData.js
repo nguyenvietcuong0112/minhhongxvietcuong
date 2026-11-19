@@ -214,31 +214,33 @@ export const DEFAULT_INVITATION_DATA = {
   groom: {
     fullName: 'Nguyễn Việt Cường',
     shortName: 'Việt Cường',
-    role: 'Trưởng Nam',
+    birthYear: '2000',
+    role: 'Trưởng Nam • Canh Thìn (2000)',
     avatar: process.env.PUBLIC_URL + '/anh1.jpg',
     father: 'Nguyễn Văn Hùng',
     mother: 'Lê Thị Thu',
-    bank: 'MB Bank (Quân Đội)',
-    accountNumber: '999988886666',
+    bank: 'MB Bank (Ngân hàng Quân Đội)',
+    accountNumber: '329998686',
     accountName: 'NGUYEN VIET CUONG',
-    qrUrl: 'https://img.vietqr.io/image/MB-999988886666-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Viet%20Cuong',
-    phone: '0988 888 888',
+    qrUrl: process.env.PUBLIC_URL + '/assets/qr/qr_chu_re.jpg',
+    phone: '0372 736 753',
   },
   bride: {
-    fullName: 'Trần Minh Hồng',
+    fullName: 'Lê Minh Hồng',
     shortName: 'Minh Hồng',
-    role: 'Út Nữ',
+    birthYear: '2002',
+    role: 'Út Nữ • Nhâm Ngọ (2002)',
     avatar: process.env.PUBLIC_URL + '/anh2.jpg',
-    father: 'Trần Đình Kiên',
+    father: 'Lê Đình Kiên',
     mother: 'Phạm Thị Lan',
-    bank: 'Techcombank',
-    accountNumber: '888866669999',
-    accountName: 'TRAN MINH HONG',
-    qrUrl: 'https://img.vietqr.io/image/TCB-888866669999-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Minh%20Hong',
-    phone: '0977 777 777',
+    bank: 'VietinBank - CN Hai Bà Trưng',
+    accountNumber: '105872273096',
+    accountName: 'LE MINH HONG',
+    qrUrl: process.env.PUBLIC_URL + '/assets/qr/qr_co_dau.jpg',
+    phone: '0977 698 975',
   },
   schedule: {
-    // Ngày 1: Lễ Ăn Hỏi & Tiệc Mừng tại Nhà Gái
+    // Ngày 1: Lễ Ăn Hỏi & Tiệc Mừng tại Nhà Gái (26/12/2026)
     day1: {
       key: 'gai',
       badge: '🌸 LỄ ĂN HỎI & TIỆC MỪNG',
@@ -246,31 +248,35 @@ export const DEFAULT_INVITATION_DATA = {
       solarDate: '26.12.2026',
       lunarDate: '18.11 năm Bính Ngọ',
       dayOfWeek: 'Thứ Bảy',
-      targetDate: '2026-12-26T08:30:00+07:00',
+      targetDate: '2026-12-26T09:00:00+07:00',
       venueName: 'Tư Gia Nhà Gái',
-      venueAddress: 'Số 128 Đường Hoa Hồng, Phường Nghĩa Đô, Quận Cầu Giấy, Hà Nội',
-      mapUrl: 'https://maps.google.com/?q=21.0362,105.7905',
+      venueAddress: '37 Cổng Si, Thôn Bầu, Xã Thiên Lộc, Hà Nội',
+      mapEmbedQuery: '21.1258861,105.7768434',
+      mapUrl: 'https://maps.app.goo.gl/H6qBMgzRq876AjXs9',
       events: [
-        { time: '08:30', title: 'Lễ Ăn Hỏi & Gia Tiên', desc: 'Đoàn Nhà Trai mang sính lễ sang trao duyên tại tư gia Nhà Gái' },
-        { time: '11:00', title: 'Tiệc Mừng Thân Mật', desc: 'Mời cơm thân mật cùng hai bên gia đình, họ hàng và bạn bè' }
+        { time: '09:00', title: 'Nhà Trai Xuất Phát & Lễ Ăn Hỏi', desc: 'Đoàn Nhà Trai khởi hành lúc 09:00 sáng mang tráp sính lễ sang Tư Gia Nhà Gái làm Lễ Ăn Hỏi' },
+        { time: '11:30', title: 'Tiệc Mừng Thân Mật', desc: 'Kính mời quan khách và hai bên gia đình cùng dùng bữa cơm thân mật chung vui' },
+        { time: '15:00', title: 'Hoàn Thành Buổi Lễ (Dự Kiến)', desc: 'Kết thúc chương trình Lễ Ăn Hỏi tại Nhà Gái trong niềm hân hoan trọn vẹn' }
       ]
     },
-    // Ngày 2: Đại Lễ Thành Hôn & Tiệc Cưới Chính tại Nhà Trai
+    // Ngày 2: Đại Lễ Thành Hôn & Đón Dâu tại Nhà Trai (27/12/2026)
     day2: {
       key: 'trai',
       badge: '👑 ĐẠI LỄ THÀNH HÔN',
-      title: 'Đại Lễ Thành Hôn & Tiệc Cưới Chính Tại Nhà Trai',
+      title: 'Đại Lễ Thành Hôn & Tiệc Cưới Tại Nhà Trai',
       solarDate: '27.12.2026',
       lunarDate: '19.11 năm Bính Ngọ',
       dayOfWeek: 'Chủ Nhật',
-      targetDate: '2026-12-27T11:00:00+07:00',
-      venueName: 'Trung Tâm Hội Nghị Tiệc Cưới Trống Đồng Palace',
-      venueAddress: 'Số 489 Đường Hoàng Quốc Việt, Cầu Giấy, Hà Nội',
-      mapUrl: 'https://maps.google.com/?q=Trong+Dong+Palace+Hoang+Quoc+Viet+Ha+Noi',
+      targetDate: '2026-12-27T12:00:00+07:00',
+      venueName: 'Tư Gia Nhà Trai',
+      venueAddress: 'Thôn Viên Nội, Đường Vân Trì, Xã Phúc Thịnh, Hà Nội',
+      mapEmbedQuery: '21.136830,105.815208',
+      mapUrl: 'https://maps.app.goo.gl/TK5p2BFqZta1AstXA',
       events: [
-        { time: '08:30', title: 'Lễ Rước Dâu', desc: 'Đoàn xe hoa đón nàng dâu hiền về tổ ấm mới' },
-        { time: '11:00', title: 'Đón Khách Danh Dự & Check-in', desc: 'Chụp hình lưu niệm tại sảnh hoa Trống Đồng Palace' },
-        { time: '11:30', title: 'Cử Hành Đại Lễ & Khai Tiệc', desc: 'Nghi thức trao nhẫn, rót rượu mừng và khai tiệc chúc phúc' }
+        { time: '10:30', title: 'Đón Khách & Khai Tiệc Nhà Trai', desc: 'Đón tiếp họ hàng, bạn bè thân hữu đến chung vui tại Tư Gia Nhà Trai' },
+        { time: '12:00', title: 'Nhà Trai Xuất Phát Đón Dâu', desc: 'Đoàn xe hoa khởi hành lúc 12:00 trưa sang Tư Gia Nhà Gái rước nàng dâu Lê Minh Hồng về dinh' },
+        { time: '13:15', title: 'Nghi Lễ Thành Hôn & Gia Tiên', desc: 'Ra mắt hai họ, cử hành nghi lễ Thành Hôn thiêng liêng trước bàn thờ Gia Tiên' },
+        { time: '15:00', title: 'Bế Mạc Đại Lễ (Dự Kiến)', desc: 'Khép lại ngày Đại Lễ Thành Hôn ngập tràn tiếng cười và lời chúc phúc' }
       ]
     }
   },

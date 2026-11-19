@@ -1,44 +1,53 @@
 import React, { useState, useMemo } from 'react';
 
 /**
- * CoverPreloadSection: Imperial Song Phụng & Song Hỷ Luxury Wedding Invitation Cover
- * Enhanced beyond ChungDoi:
- * - Velvet wine red radial gradient background (#7d0002 -> #4a0001 -> #250000)
- * - 14 Floating Song Hỷ 囍 characters with gentle sway & golden stardust
- * - Double gold hairline framed ivory parchment card
- * - Corner Song Phụng (Phoenix) & Hoa Mẫu Đơn watercolor illustrations
- * - 3D embossed Imperial Red Wax Seal with golden Song Hỷ medallion
- * - Calligraphic couple names with gold flourish
- * - Personalized guest invitation badge
- * - Shimmering royal lacquer "Mở thiệp cưới" button with sweeping shine ray
+ * CoverPreloadSection: Brown Luxury Editorial Envelope Opening Experience
+ * - Deep Chocolate Brown (#35231F) parting curtains & textured paper surface
+ * - Warm Ivory (#EDE3D5 / #F7F2EA) bespoke cardstock framed in Antique Gold (#C5A36A)
+ * - Embossed Antique Gold & Mocha Wax Seal displaying couple initials (VC ♥ MH)
+ * - Delicate sepia-tinted botanical foliage corners
+ * - Champagne gold stardust & graceful curtain parting + petal burst animation
  */
-const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
+const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName = '' }) => {
   const [opening, setOpening] = useState(false);
 
-  // Generate 14 deterministic ambient rising Song Hỷ characters
-  const floatingHyList = useMemo(() => {
+  // Subtle floating champagne gold typography accents in backdrop
+  const floatingAccents = useMemo(() => {
     return [
-      { left: 6, size: 18, color: 'rgba(255, 240, 231, 0.45)', sway: 12, duration: 22, delay: -4 },
-      { left: 16, size: 24, color: 'rgba(245, 208, 97, 0.4)', sway: -18, duration: 24, delay: -11 },
-      { left: 26, size: 14, color: 'rgba(255, 215, 0, 0.35)', sway: 15, duration: 20, delay: -7 },
-      { left: 34, size: 20, color: 'rgba(255, 240, 231, 0.3)', sway: -10, duration: 25, delay: -16 },
-      { left: 45, size: 16, color: 'rgba(218, 165, 32, 0.35)', sway: 14, duration: 21, delay: -3 },
-      { left: 55, size: 22, color: 'rgba(255, 240, 231, 0.38)', sway: -16, duration: 23, delay: -13 },
-      { left: 64, size: 15, color: 'rgba(245, 208, 97, 0.42)', sway: 11, duration: 19, delay: -8 },
-      { left: 73, size: 26, color: 'rgba(255, 240, 231, 0.32)', sway: -20, duration: 26, delay: -18 },
-      { left: 82, size: 17, color: 'rgba(255, 215, 0, 0.38)', sway: 16, duration: 22, delay: -5 },
-      { left: 91, size: 21, color: 'rgba(255, 240, 231, 0.4)', sway: -14, duration: 24, delay: -12 },
-      { left: 11, size: 13, color: 'rgba(245, 208, 97, 0.3)', sway: 9, duration: 18, delay: -2 },
-      { left: 88, size: 15, color: 'rgba(255, 240, 231, 0.35)', sway: -12, duration: 21, delay: -9 },
+      { left: 8, char: '✦', size: 14, color: 'rgba(197, 163, 106, 0.42)', sway: 12, duration: 22, delay: -4 },
+      { left: 18, char: '&', size: 22, color: 'rgba(210, 191, 169, 0.25)', sway: -16, duration: 25, delay: -11 },
+      { left: 28, char: '✧', size: 13, color: 'rgba(197, 163, 106, 0.35)', sway: 14, duration: 20, delay: -7 },
+      { left: 42, char: '✦', size: 12, color: 'rgba(237, 227, 213, 0.25)', sway: -10, duration: 24, delay: -15 },
+      { left: 62, char: '✧', size: 15, color: 'rgba(197, 163, 106, 0.38)', sway: 11, duration: 21, delay: -8 },
+      { left: 76, char: '&', size: 20, color: 'rgba(210, 191, 169, 0.22)', sway: -18, duration: 26, delay: -17 },
+      { left: 86, char: '✦', size: 16, color: 'rgba(197, 163, 106, 0.4)', sway: 15, duration: 22, delay: -5 },
+      { left: 93, char: '✧', size: 12, color: 'rgba(237, 227, 213, 0.3)', sway: -12, duration: 23, delay: -10 },
     ];
   }, []);
 
-  const handleOpen = () => {
+  // Champagne & antique gold petals for opening burst
+  const burstPetals = useMemo(() => {
+    return Array.from({ length: 18 }).map((_, i) => {
+      const angle = (i / 18) * Math.PI * 2;
+      const dist = 120 + (i % 3) * 65;
+      return {
+        tx: `${Math.round(Math.cos(angle) * dist)}px`,
+        ty: `${Math.round(Math.sin(angle) * dist - 30)}px`,
+        rot: `${(i * 47) % 360}deg`,
+        delay: `${(i % 4) * 45}ms`,
+        isGold: i % 2 === 0,
+      };
+    });
+  }, []);
+
+  const handleOpen = (e) => {
+    if (e) e.stopPropagation();
     if (opening || isOpened) return;
     setOpening(true);
+    if (onStartOpening) onStartOpening();
     setTimeout(() => {
       onOpen();
-    }, 950);
+    }, 1220);
   };
 
   const groom = data?.groom || {};
@@ -46,23 +55,42 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
 
   return (
     <div className={`preload-cover-screen ${isOpened ? 'preload-hidden' : ''} ${opening ? 'preload-opening' : ''}`}>
-      {/* 1. Deep Wine Red Velvet Gradient with Subtle Ken Burns photo */}
-      <div className="preload-bg-cover">
-        <img
-          src={process.env.PUBLIC_URL + '/anh6.jpg'}
-          alt="Việt Cường & Minh Hồng"
-          className="preload-kenburns-img"
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
-          }}
-        />
-        <div className="preload-royal-red-overlay" />
+      {/* 1. Parting Chocolate-Brown Luxury Curtains (Left & Right) */}
+      <div className="imperial-curtain-panel curtain-left" aria-hidden="true">
+        <div className="curtain-bg-photo">
+          <img
+            src={process.env.PUBLIC_URL + '/anh6.jpg'}
+            alt=""
+            className="preload-kenburns-img"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+            }}
+          />
+          <div className="preload-chocolate-overlay" />
+        </div>
+        <div className="curtain-gold-trim trim-right" />
       </div>
 
-      {/* 2. Floating Ambient Song Hỷ 囍 Characters */}
-      <div className="preload-ambient-hy-container">
-        {floatingHyList.map((item, idx) => (
+      <div className="imperial-curtain-panel curtain-right" aria-hidden="true">
+        <div className="curtain-bg-photo">
+          <img
+            src={process.env.PUBLIC_URL + '/anh6.jpg'}
+            alt=""
+            className="preload-kenburns-img"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+            }}
+          />
+          <div className="preload-chocolate-overlay" />
+        </div>
+        <div className="curtain-gold-trim trim-left" />
+      </div>
+
+      {/* 2. Floating Champagne Gold Accents */}
+      <div className="preload-ambient-hy-container" aria-hidden="true">
+        {floatingAccents.map((item, idx) => (
           <div
             key={idx}
             className="preload-ambient-hy"
@@ -75,13 +103,13 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
               '--sway': `${item.sway}px`,
             }}
           >
-            囍
+            {item.char}
           </div>
         ))}
       </div>
 
-      {/* 3. Golden Stardust Sparkles */}
-      <div className="preload-stardust-layer">
+      {/* 3. Antique Gold Stardust Layer */}
+      <div className="preload-stardust-layer" aria-hidden="true">
         <span className="gold-sparkle sp-1" />
         <span className="gold-sparkle sp-2" />
         <span className="gold-sparkle sp-3" />
@@ -89,61 +117,65 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
         <span className="gold-sparkle sp-5" />
       </div>
 
-      {/* 4. Centered Royal Song Phụng Card Container */}
+      {/* 4. Opening Champagne & Antique Gold Burst */}
+      {opening && (
+        <div className="opening-burst-layer" aria-hidden="true">
+          <div className="opening-golden-ripple" />
+          {burstPetals.map((p, idx) => (
+            <span
+              key={idx}
+              className={`burst-petal ${p.isGold ? 'petal-gold' : 'petal-champagne'}`}
+              style={{
+                '--tx': p.tx,
+                '--ty': p.ty,
+                '--rot': p.rot,
+                animationDelay: p.delay,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 5. Centered Ivory Mocha Card Container */}
       <div className="preload-container">
         <div className="preload-royal-card" onClick={handleOpen}>
-          {/* Corner Song Phụng & Hoa Watercolor Ornaments */}
-          <div className="preload-phuong-ornament top-left">
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/Phuong.webp'}
-              alt=""
-              aria-hidden="true"
-            />
-          </div>
-          <div className="preload-phuong-ornament bottom-right">
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/Phuong.webp'}
-              alt=""
-              aria-hidden="true"
-            />
-          </div>
-          <div className="preload-hoa-ornament top-right">
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/HOA.webp'}
-              alt=""
-              aria-hidden="true"
-            />
-          </div>
-          <div className="preload-hoa-ornament bottom-left">
-            <img
-              src={process.env.PUBLIC_URL + '/assets/songphung/HOA.webp'}
-              alt=""
-              aria-hidden="true"
-            />
-          </div>
-
-          {/* Double Gold Hairline Border */}
-          <div className="preload-gold-double-border" />
-
-          {/* Top 3D Embossed Wax Seal with Song Hỷ Medallion */}
-          <div className="preload-royal-wax-seal" title="Chạm để mở thiệp cưới">
-            <div className="seal-emblem-wrap">
+          {/* Inner clipped layer for sepia botanical corners */}
+          <div className="preload-card-bg-clip" aria-hidden="true">
+            <div className="preload-botanical-corner top-left">
               <img
-                src={process.env.PUBLIC_URL + '/assets/songphung/chinese_happiness.webp'}
-                alt="囍"
-                className="seal-hy-icon"
+                src={process.env.PUBLIC_URL + '/assets/sakura/sakura_top_branch.png'}
+                alt=""
               />
             </div>
-            <span className="seal-pulse-glow" />
+            <div className="preload-botanical-corner bottom-right">
+              <img
+                src={process.env.PUBLIC_URL + '/assets/sakura/sakura_bottom_corner.png'}
+                alt=""
+              />
+            </div>
           </div>
 
-          {/* Content Inside Royal Card */}
+          {/* Double Champagne & Antique Gold Hairline Border */}
+          <div className="preload-gold-double-border" />
+
+          {/* Top 3D Embossed Antique Gold & Chocolate Wax Seal (Initials: VC ♥ MH) */}
+          <div
+            className={`preload-royal-wax-seal ${opening ? 'seal-breaking' : ''}`}
+            title="Chạm để mở thiệp cưới"
+          >
+            <div className="seal-initials-wrap">
+              <span className="seal-initial">VC</span>
+              <span className="seal-heart">♥</span>
+              <span className="seal-initial">MH</span>
+            </div>
+          </div>
+
+          {/* Content Inside Editorial Envelope Card */}
           <div className="preload-card-inner">
-            {/* Wedding Title Header */}
             <div className="preload-header-badge">
-              <span className="badge-flourish">❖</span>
-              <span className="badge-title-text">THIỆP MỜI THÀNH HÔN</span>
-              <span className="badge-flourish">❖</span>
+              <span className="badge-flourish">✦</span>
+              <span className="badge-title-text">THE WEDDING INVITATION</span>
+              <span className="badge-flourish">✦</span>
             </div>
 
             {/* Couple Full Names */}
@@ -151,29 +183,29 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
               <h1 className="preload-groom-name">{groom.fullName || 'Nguyễn Việt Cường'}</h1>
               <div className="preload-ampersand-wrap">
                 <span className="ampersand-line" />
-                <span className="ampersand-text">&</span>
+                <span className="ampersand-text">&amp;</span>
                 <span className="ampersand-line" />
               </div>
-              <h1 className="preload-bride-name">{bride.fullName || 'Trần Minh Hồng'}</h1>
+              <h1 className="preload-bride-name">{bride.fullName || 'Lê Minh Hồng'}</h1>
             </div>
 
-            {/* Traditional Decorative Divider */}
+            {/* Thin Antique Gold Ornamental Divider */}
             <div className="preload-gold-divider">
               <span className="div-line" />
               <span className="div-icon">❦</span>
               <span className="div-line" />
             </div>
 
-            {/* Wedding Date Box with Gold Framing */}
+            {/* Editorial Wedding Date Block */}
             <div className="preload-date-box">
-              <div className="preload-hour-day">CHỦ NHẬT • 09:30 SÁNG</div>
-              <div className="preload-solar-date">27 THÁNG 12, 2026</div>
+              <div className="preload-hour-day">CHỦ NHẬT • ĐÓN DÂU 12:00 TRƯA</div>
+              <div className="preload-solar-date">27 . 12 . 2026</div>
               <div className="preload-lunar-date">(Tức ngày 19 tháng 11 năm Bính Ngọ)</div>
             </div>
 
-            {/* Personalized Guest Badge */}
+            {/* Personalized Guest Invitation */}
             <div className="preload-guest-badge">
-              <span className="guest-badge-prefix">Kính Mời</span>
+              <span className="guest-badge-prefix">Trân Trọng Kính Mời</span>
               <strong className="guest-badge-name">
                 {guestName ? guestName : 'Quý Khách & Gia Đình'}
               </strong>
@@ -181,11 +213,11 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
 
             {/* 2-Day Ceremony Summary */}
             <div className="preload-location-summary">
-              <p className="location-heading">Hôn Lễ: 26 & 27 Tháng 12, 2026</p>
-              <p className="location-sub">Tư Gia Nhà Gái & Nhà Trai — Hà Nội</p>
+              <p className="location-heading">Lễ Ăn Hỏi 26.12 • Thành Hôn 27.12</p>
+              <p className="location-sub">Tư Gia Nhà Gái &amp; Nhà Trai — Hà Nội</p>
             </div>
 
-            {/* Shimmering Royal CTA Button */}
+            {/* Refined Chocolate-Brown CTA Button with Subtle Champagne Shine */}
             <div className="preload-cta-btn-wrap">
               <button
                 type="button"
@@ -193,7 +225,9 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
                 onClick={handleOpen}
                 aria-label="Mở thiệp cưới"
               >
-                <span className="btn-label-text">Mở thiệp cưới</span>
+                <span className="btn-label-text">
+                  {opening ? 'Đang mở thiệp...' : 'Mở Thiệp Cưới'}
+                </span>
                 <span className="btn-arrow-icon">⟶</span>
                 <div className="royal-shine-beam" />
               </button>
@@ -201,10 +235,10 @@ const CoverPreloadSection = ({ data, onOpen, isOpened, guestName = '' }) => {
           </div>
         </div>
 
-        {/* Floating Hint Below */}
+        {/* Subtle Hint Below */}
         <p className="preload-open-hint">
-          <span className="hint-arrow animate-bounce">↓</span>
-          Chạm vào thiệp để mở lời chúc mừng
+          <span className="hint-arrow animate-bounce">↑</span>
+          Chạm vào thiệp để mở lời mời trân trọng
         </p>
       </div>
     </div>

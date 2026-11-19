@@ -23,22 +23,22 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
       `Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi tại ${day.venueName}.`
     );
     const location = encodeURIComponent(day.venueAddress);
-    // 2026-12-26 or 2026-12-27
+    // 2026-12-26 (09:00-15:00 VN -> 02:00Z-08:00Z) or 2026-12-27 (10:30-15:00 VN -> 03:30Z-08:00Z)
     const dates = isDay1
-      ? '20261226T013000Z/20261226T070000Z'
-      : '20261227T040000Z/20261227T080000Z';
+      ? '20261226T020000Z/20261226T080000Z'
+      : '20261227T033000Z/20261227T080000Z';
 
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`;
   };
 
   return (
     <section className="invitation-section schedule-section" id="schedule">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">LỊCH TRÌNH HÔN LỄ</span>
         <h2 className="section-title">Thời Gian & Địa Điểm Tổ Chức</h2>
         <div className="section-ornament-line">
           <span className="line" />
-          <span className="knot">囍</span>
+          <span className="knot">✦</span>
           <span className="line" />
         </div>
         <p className="section-desc">
@@ -47,7 +47,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
       </div>
 
       {/* 2-Day Tab Switcher */}
-      <div className="schedule-tabs-container">
+      <div className="schedule-tabs-container" data-aos="fade-up" data-aos-delay="100">
         <button
           type="button"
           className={`schedule-tab-btn ${currentKey === 'trai' ? 'active' : ''}`}
@@ -76,7 +76,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
       </div>
 
       {/* Main Schedule Showcase Card */}
-      <div className="schedule-card-main">
+      <div className="schedule-card-main" data-aos="fade-up" data-aos-delay="150">
         {/* Date Header Banner */}
         <div className="schedule-card-header">
           <span className="schedule-day-badge">{activeDay.badge}</span>
@@ -136,7 +136,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
         <div className="schedule-map-embed-wrapper">
           <iframe
             title={`Bản đồ chỉ đường - ${activeDay.venueName}`}
-            src={`https://maps.google.com/maps?q=${encodeURIComponent(activeDay.venueAddress)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(activeDay.mapEmbedQuery || activeDay.venueAddress)}&t=&z=16&ie=UTF8&iwloc=&output=embed`}
             width="100%"
             height="220"
             className="venue-map-iframe"

@@ -1,34 +1,74 @@
 import { useEffect } from 'react';
 
 /**
- * useScrollReveal: Lightweight IntersectionObserver hook for scroll animations (AOS-style)
- * Automatically triggers smooth fade-up, zoom-in, fade-left, fade-right when elements enter viewport.
+ * useScrollReveal: Smooth 60fps IntersectionObserver hook for scroll reveal animations.
+ * - Uses low threshold (0.05) so tall mobile sections trigger smoothly on entry.
+ * - Immediately reveals any elements already within/above the initial viewport.
+ * - Unobserves elements after animating for optimal scrolling performance.
+ * - Watches dynamic DOM updates (tabs/filters) via MutationObserver.
  */
 export const useScrollReveal = (selector = '[data-aos], .reveal-on-scroll', triggerKey = false) => {
   useEffect(() => {
-    // Small delay to allow DOM nodes to settle if freshly revealed
-    const timer = setTimeout(() => {
-      const elements = document.querySelectorAll(selector);
-      if (!elements.length) return;
+    if (!triggerKey) return undefined;
 
-      const observer = new IntersectionObserver(
+    let intersectionObserver = null;
+    let mutationObserver = null;
+
+    const observeElements = () => {
+      const elements = document.querySelectorAll(selector);
+      if (!elements.length || !intersectionObserver) return;
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      elements.forEach((el) => {
+        if (el.classList.contains('aos-animate')) return;
+        const rect = el.getBoundingClientRect();
+        // Immediately reveal items already visible or scrolled past
+        if (rect.top < viewportHeight * 0.96) {
+          el.classList.add('aos-animate');
+        } else {
+          intersectionObserver.observe(el);
+        }
+      });
+    };
+
+    const timer = setTimeout(() => {
+      if (typeof IntersectionObserver === 'undefined') {
+        document.querySelectorAll(selector).forEach((el) => el.classList.add('aos-animate'));
+        return;
+      }
+
+      intersectionObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('aos-animate');
+              intersectionObserver.unobserve(entry.target);
             }
           });
         },
         {
-          threshold: 0.12,
-          rootMargin: '0px 0px -30px 0px',
+          threshold: 0.05,
+          rootMargin: '0px 0px -15px 0px',
         }
       );
 
-      elements.forEach((el) => observer.observe(el));
-    }, 100);
+      observeElements();
 
-    return () => clearTimeout(timer);
+      // Re-scan if user switches filter pills or tabs
+      const mainEl = document.querySelector('.invitation-main-content');
+      if (mainEl && typeof MutationObserver !== 'undefined') {
+        mutationObserver = new MutationObserver(() => {
+          observeElements();
+        });
+        mutationObserver.observe(mainEl, { childList: true, subtree: true });
+      }
+    }, 80);
+
+    return () => {
+      clearTimeout(timer);
+      if (intersectionObserver) intersectionObserver.disconnect();
+      if (mutationObserver) mutationObserver.disconnect();
+    };
   }, [selector, triggerKey]);
 };
 

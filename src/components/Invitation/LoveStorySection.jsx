@@ -9,7 +9,7 @@ const LoveStorySection = ({ stories }) => {
 
   return (
     <section className="invitation-section love-story-section" id="story">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">OUR LOVE STORY</span>
         <h2 className="section-title">Chuyện Tình Yêu Chúng Mình</h2>
         <div className="section-ornament-line">
@@ -26,7 +26,12 @@ const LoveStorySection = ({ stories }) => {
         {stories.map((item, idx) => {
           const isEven = idx % 2 === 0;
           return (
-            <div key={idx} className={`story-timeline-node ${isEven ? 'left-node' : 'right-node'}`}>
+            <div
+              key={idx}
+              className={`story-timeline-node ${isEven ? 'left-node' : 'right-node'}`}
+              data-aos="fade-up"
+              data-aos-delay={Math.min((idx % 3) * 100, 300)}
+            >
               {/* Center Dot */}
               <div className="story-center-marker">
                 <span className="marker-dot" />

@@ -21,7 +21,7 @@ const GiftBoxSection = ({ groom, bride, dressCode }) => {
 
   return (
     <section className="invitation-section gift-box-section" id="gift">
-      <div className="section-header">
+      <div className="section-header" data-aos="fade-up">
         <span className="section-badge">HỘP MỪNG CƯỚI</span>
         <h2 className="section-title">Gửi Mừng Hạnh Phúc</h2>
         <div className="section-ornament-line">
@@ -37,7 +37,7 @@ const GiftBoxSection = ({ groom, bride, dressCode }) => {
 
       <div className="gift-cards-row">
         {/* Groom Card */}
-        <div className="gift-account-card groom-card">
+        <div className="gift-account-card groom-card" data-aos="fade-up" data-aos-delay="100">
           <div className="gift-card-badge">👑 CHÚ RỂ</div>
           <h3 className="gift-person-name">{groom.fullName}</h3>
 
@@ -68,7 +68,7 @@ const GiftBoxSection = ({ groom, bride, dressCode }) => {
         </div>
 
         {/* Bride Card */}
-        <div className="gift-account-card bride-card">
+        <div className="gift-account-card bride-card" data-aos="fade-up" data-aos-delay="200">
           <div className="gift-card-badge">🌸 CÔ DÂU</div>
           <h3 className="gift-person-name">{bride.fullName}</h3>
 
@@ -101,7 +101,7 @@ const GiftBoxSection = ({ groom, bride, dressCode }) => {
 
       {/* Dress Code Section */}
       {dressCode && dressCode.length > 0 && (
-        <div className="dress-code-box">
+        <div className="dress-code-box" data-aos="fade-up" data-aos-delay="150">
           <h4 className="dress-code-title">👗 GỢI Ý MÀU SẮC TRANG PHỤC (DRESS CODE)</h4>
           <p className="dress-code-subtitle">Để có những bức ảnh kỷ niệm tuyệt đẹp và đồng điệu cùng concept đám cưới:</p>
           <div className="dress-palette-row">
