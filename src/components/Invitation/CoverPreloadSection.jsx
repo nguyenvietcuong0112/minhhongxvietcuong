@@ -137,7 +137,7 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
       )}
 
       {/* 5. Centered Ivory Mocha Card Container */}
-      <div className="preload-container">
+      <div className="preload-container" onClick={handleOpen}>
         <div className="preload-royal-card" onClick={handleOpen}>
           {/* Inner clipped layer for sepia botanical corners */}
           <div className="preload-card-bg-clip" aria-hidden="true">
