@@ -150,7 +150,7 @@ const RsvpSection = ({ scriptUrl, defaultGuestName = '' }) => {
                     <span className="choice-icon">👑</span>
                     <div className="choice-text">
                       <span className="choice-title">Tiệc Nhà Trai</span>
-                      <span className="choice-sub">27.12.2026 (Tư gia Phúc Thịnh, Hà Nội)</span>
+                      <span className="choice-sub">Thứ Bảy 26.12 • 16:30 (Tư gia Phúc Thịnh, Hà Nội)</span>
                     </div>
                   </button>
 
@@ -162,7 +162,7 @@ const RsvpSection = ({ scriptUrl, defaultGuestName = '' }) => {
                     <span className="choice-icon">🌸</span>
                     <div className="choice-text">
                       <span className="choice-title">Tiệc Nhà Gái</span>
-                      <span className="choice-sub">26.12.2026 (Tư gia Thiên Lộc, Hà Nội)</span>
+                      <span className="choice-sub">Thứ Bảy 26.12 • 16:30 (Tư gia Thiên Lộc, Hà Nội)</span>
                     </div>
                   </button>
 
@@ -174,7 +174,7 @@ const RsvpSection = ({ scriptUrl, defaultGuestName = '' }) => {
                     <span className="choice-icon">💕</span>
                     <div className="choice-text">
                       <span className="choice-title">Cả Hai Ngày</span>
-                      <span className="choice-sub">Chung vui trọn vẹn 26 & 27/12</span>
+                      <span className="choice-sub">Tiệc T7 (26.12 - 16:30) &amp; Lễ CN (27.12)</span>
                     </div>
                   </button>
 

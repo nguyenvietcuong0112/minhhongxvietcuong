@@ -69,9 +69,9 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
                   }}
                   title={
                     isDay26
-                      ? 'Ngày 26/12/2026: Lễ Ăn Hỏi Nhà Gái (18/11 ÂL)'
+                      ? 'Thứ Bảy 26/12/2026: 09:00 Lễ Ăn Hỏi & 16:30 Tiệc Cưới 2 Nhà (18/11 ÂL)'
                       : isDay27
-                      ? 'Ngày 27/12/2026: Đại Lễ Thành Hôn Nhà Trai (19/11 ÂL)'
+                      ? 'Chủ Nhật 27/12/2026: 12:00 Đón Dâu & Đại Lễ Thành Hôn (19/11 ÂL)'
                       : `Ngày ${day} tháng 12`
                   }
                 >
@@ -79,14 +79,14 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
                   {isDay26 && (
                     <div className="day-event-badge badge-gai">
                       <span className="badge-icon">🌸</span>
-                      <span className="badge-txt">Nhà Gái</span>
+                      <span className="badge-txt">Tiệc 16:30</span>
                       <span className="badge-lunar">18 ÂL</span>
                     </div>
                   )}
                   {isDay27 && (
                     <div className="day-event-badge badge-trai">
                       <span className="badge-icon">👑</span>
-                      <span className="badge-txt">Nhà Trai</span>
+                      <span className="badge-txt">Thành Hôn</span>
                       <span className="badge-lunar">19 ÂL</span>
                     </div>
                   )}
@@ -101,7 +101,7 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
               <span className="legend-icon">🌸</span>
               <div className="legend-info">
                 <strong>Thứ Bảy, 26.12.2026 (18.11 ÂL)</strong>
-                <p>Lễ Ăn Hỏi & Tiệc Mừng tại Tư gia Nhà Gái</p>
+                <p>09:00 Lễ Ăn Hỏi • 16:30 Tiệc Cưới tại Tư gia Nhà Gái &amp; Nhà Trai</p>
               </div>
             </div>
 
@@ -109,7 +109,7 @@ const SaveTheDateCalendar = ({ onSelectDate }) => {
               <span className="legend-icon">👑</span>
               <div className="legend-info">
                 <strong>Chủ Nhật, 27.12.2026 (19.11 ÂL)</strong>
-                <p>Đại Lễ Thành Hôn & Tiệc Cưới tại Tư gia Nhà Trai</p>
+                <p>12:00 Đón Dâu • Đại Lễ Thành Hôn tại Tư gia Nhà Trai</p>
               </div>
             </div>
           </div>

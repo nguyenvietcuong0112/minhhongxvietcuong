@@ -23,10 +23,10 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
       `Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi tại ${day.venueName}.`
     );
     const location = encodeURIComponent(day.venueAddress);
-    // 2026-12-26 (09:00-15:00 VN -> 02:00Z-08:00Z) or 2026-12-27 (10:30-15:00 VN -> 03:30Z-08:00Z)
+    // 2026-12-26 (09:00-20:00 VN) or Tiệc Nhà Trai 26.12 16:30 -> Lễ Thành Hôn 27.12 15:00
     const dates = isDay1
-      ? '20261226T020000Z/20261226T080000Z'
-      : '20261227T033000Z/20261227T080000Z';
+      ? '20261226T020000Z/20261226T130000Z'
+      : '20261226T093000Z/20261227T080000Z';
 
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${dates}`;
   };
@@ -42,7 +42,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
           <span className="line" />
         </div>
         <p className="section-desc">
-          Đám cưới của chúng mình diễn ra trong 2 ngày thiêng liêng. Quý khách vui lòng chọn xem tiệc phù hợp bên dưới:
+          Tiệc cưới 2 nhà cùng diễn ra lúc 16:30 Thứ Bảy (26.12) &amp; Đại Lễ Thành Hôn Chủ Nhật (27.12):
         </p>
       </div>
 
@@ -56,7 +56,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
           <span className="tab-icon">👑</span>
           <div className="tab-text-wrap">
             <span className="tab-label">TIỆC NHÀ TRAI</span>
-            <span className="tab-date">27.12.2026 (19.11 ÂL)</span>
+            <span className="tab-date">Tiệc T7 26.12 (16:30) • Lễ CN 27.12</span>
           </div>
           {currentKey === 'trai' && <span className="tab-active-dot" />}
         </button>
@@ -69,7 +69,7 @@ const ScheduleSection = ({ schedule, activeTab, onTabChange }) => {
           <span className="tab-icon">🌸</span>
           <div className="tab-text-wrap">
             <span className="tab-label">TIỆC NHÀ GÁI</span>
-            <span className="tab-date">26.12.2026 (18.11 ÂL)</span>
+            <span className="tab-date">Thứ Bảy 26.12 (16:30)</span>
           </div>
           {currentKey === 'gai' && <span className="tab-active-dot" />}
         </button>

@@ -198,9 +198,9 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
 
             {/* Editorial Wedding Date Block */}
             <div className="preload-date-box">
-              <div className="preload-hour-day">CHỦ NHẬT • ĐÓN DÂU 12:00 TRƯA</div>
+              <div className="preload-hour-day">TIỆC CƯỚI 2 NHÀ • THỨ BẢY 26.12 (16:30)</div>
               <div className="preload-solar-date">27 . 12 . 2026</div>
-              <div className="preload-lunar-date">(Tức ngày 19 tháng 11 năm Bính Ngọ)</div>
+              <div className="preload-lunar-date">(Đón dâu 12:00 Chủ Nhật • 19 tháng 11 năm Bính Ngọ)</div>
             </div>
 
             {/* Personalized Guest Invitation */}
@@ -213,7 +213,7 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
 
             {/* 2-Day Ceremony Summary */}
             <div className="preload-location-summary">
-              <p className="location-heading">Lễ Ăn Hỏi 26.12 • Thành Hôn 27.12</p>
+              <p className="location-heading">Tiệc Cưới 26.12 (16:30) • Thành Hôn 27.12 (12:00)</p>
               <p className="location-sub">Tư Gia Nhà Gái &amp; Nhà Trai — Hà Nội</p>
             </div>
 

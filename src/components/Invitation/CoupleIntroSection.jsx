@@ -44,8 +44,8 @@ const CoupleIntroSection = ({ groom, bride }) => {
               <h3 className="arch-person-name">{groom.fullName || 'Nguyễn Việt Cường'}</h3>
               <p className="arch-person-subrole">{groom.role || 'Trưởng Nam • 2000'}</p>
               <div className="arch-parents-info">
-                <p>Con ông: <strong>{groom.father || 'Nguyễn Văn Hùng'}</strong></p>
-                <p>Con bà: <strong>{groom.mother || 'Lê Thị Thu'}</strong></p>
+                <p>Con ông: <strong>{groom.father || 'Nguyễn Xuân Tường'}</strong></p>
+                <p>Con bà: <strong>{groom.mother || 'Nguyễn Thị Cương'}</strong></p>
               </div>
               {groom.phone && (
                 <a href={`tel:${groom.phone.replace(/\s+/g, '')}`} className="arch-contact-btn">
@@ -75,8 +75,8 @@ const CoupleIntroSection = ({ groom, bride }) => {
               <h3 className="arch-person-name">{bride.fullName || 'Lê Minh Hồng'}</h3>
               <p className="arch-person-subrole">{bride.role || 'Út Nữ • 2002'}</p>
               <div className="arch-parents-info">
-                <p>Con ông: <strong>{bride.father || 'Lê Đình Kiên'}</strong></p>
-                <p>Con bà: <strong>{bride.mother || 'Phạm Thị Lan'}</strong></p>
+                <p>Con ông: <strong>{bride.father || 'Lê Hồng Minh'}</strong></p>
+                <p>Con bà: <strong>{bride.mother || 'Lê Thị Mừng'}</strong></p>
               </div>
               {bride.phone && (
                 <a href={`tel:${bride.phone.replace(/\s+/g, '')}`} className="arch-contact-btn">

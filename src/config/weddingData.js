@@ -217,8 +217,8 @@ export const DEFAULT_INVITATION_DATA = {
     birthYear: '2000',
     role: 'Trưởng Nam • Canh Thìn (2000)',
     avatar: process.env.PUBLIC_URL + '/anh1.jpg',
-    father: 'Nguyễn Văn Hùng',
-    mother: 'Lê Thị Thu',
+    father: 'Nguyễn Xuân Tường',
+    mother: 'Nguyễn Thị Cương',
     bank: 'MB Bank (Ngân hàng Quân Đội)',
     accountNumber: '329998686',
     accountName: 'NGUYEN VIET CUONG',
@@ -231,8 +231,8 @@ export const DEFAULT_INVITATION_DATA = {
     birthYear: '2002',
     role: 'Út Nữ • Nhâm Ngọ (2002)',
     avatar: process.env.PUBLIC_URL + '/anh2.jpg',
-    father: 'Lê Đình Kiên',
-    mother: 'Phạm Thị Lan',
+    father: 'Lê Hồng Minh',
+    mother: 'Lê Thị Mừng',
     bank: 'VietinBank - CN Hai Bà Trưng',
     accountNumber: '105872273096',
     accountName: 'LE MINH HONG',
@@ -240,43 +240,42 @@ export const DEFAULT_INVITATION_DATA = {
     phone: '0977 698 975',
   },
   schedule: {
-    // Ngày 1: Lễ Ăn Hỏi & Tiệc Mừng tại Nhà Gái (26/12/2026)
+    // Ngày 1: Lễ Ăn Hỏi (09:00) & Tiệc Cưới Nhà Gái (16:30 Thứ Bảy 26/12/2026)
     day1: {
       key: 'gai',
-      badge: '🌸 LỄ ĂN HỎI & TIỆC MỪNG',
-      title: 'Lễ Ăn Hỏi & Tiệc Mừng Tại Nhà Gái',
+      badge: '🌸 LỄ ĂN HỎI & TIỆC CƯỚI',
+      title: 'Lễ Ăn Hỏi & Tiệc Cưới Nhà Gái',
       solarDate: '26.12.2026',
       lunarDate: '18.11 năm Bính Ngọ',
       dayOfWeek: 'Thứ Bảy',
-      targetDate: '2026-12-26T09:00:00+07:00',
+      targetDate: '2026-12-26T16:30:00+07:00',
       venueName: 'Tư Gia Nhà Gái',
       venueAddress: '37 Cổng Si, Thôn Bầu, Xã Thiên Lộc, Hà Nội',
       mapEmbedQuery: '21.1258861,105.7768434',
       mapUrl: 'https://maps.app.goo.gl/H6qBMgzRq876AjXs9',
       events: [
         { time: '09:00', title: 'Nhà Trai Xuất Phát & Lễ Ăn Hỏi', desc: 'Đoàn Nhà Trai khởi hành lúc 09:00 sáng mang tráp sính lễ sang Tư Gia Nhà Gái làm Lễ Ăn Hỏi' },
-        { time: '11:30', title: 'Tiệc Mừng Thân Mật', desc: 'Kính mời quan khách và hai bên gia đình cùng dùng bữa cơm thân mật chung vui' },
-        { time: '15:00', title: 'Hoàn Thành Buổi Lễ (Dự Kiến)', desc: 'Kết thúc chương trình Lễ Ăn Hỏi tại Nhà Gái trong niềm hân hoan trọn vẹn' }
+        { time: '16:30', title: 'Đón Khách & Tiệc Cưới Nhà Gái', desc: 'Kính mời quan khách đến chung vui và dự Tiệc Cưới thân mật lúc 16:30 chiều Thứ Bảy (26.12) tại Tư Gia Nhà Gái' }
       ]
     },
-    // Ngày 2: Đại Lễ Thành Hôn & Đón Dâu tại Nhà Trai (27/12/2026)
+    // Tiệc Cưới Nhà Trai (16:30 Thứ Bảy 26/12) & Đại Lễ Thành Hôn Đón Dâu (Chủ Nhật 27/12)
     day2: {
       key: 'trai',
-      badge: '👑 ĐẠI LỄ THÀNH HÔN',
-      title: 'Đại Lễ Thành Hôn & Tiệc Cưới Tại Nhà Trai',
-      solarDate: '27.12.2026',
-      lunarDate: '19.11 năm Bính Ngọ',
-      dayOfWeek: 'Chủ Nhật',
-      targetDate: '2026-12-27T12:00:00+07:00',
+      badge: '👑 TIỆC CƯỚI & LỄ THÀNH HÔN',
+      title: 'Tiệc Cưới & Đại Lễ Thành Hôn Nhà Trai',
+      solarDate: '26 & 27.12.2026',
+      lunarDate: '18 & 19.11 năm Bính Ngọ',
+      dayOfWeek: 'T7 & CN',
+      targetDate: '2026-12-26T16:30:00+07:00',
       venueName: 'Tư Gia Nhà Trai',
       venueAddress: 'Thôn Viên Nội, Đường Vân Trì, Xã Phúc Thịnh, Hà Nội',
       mapEmbedQuery: '21.136830,105.815208',
       mapUrl: 'https://maps.app.goo.gl/TK5p2BFqZta1AstXA',
       events: [
-        { time: '10:30', title: 'Đón Khách & Khai Tiệc Nhà Trai', desc: 'Đón tiếp họ hàng, bạn bè thân hữu đến chung vui tại Tư Gia Nhà Trai' },
-        { time: '12:00', title: 'Nhà Trai Xuất Phát Đón Dâu', desc: 'Đoàn xe hoa khởi hành lúc 12:00 trưa sang Tư Gia Nhà Gái rước nàng dâu Lê Minh Hồng về dinh' },
-        { time: '13:15', title: 'Nghi Lễ Thành Hôn & Gia Tiên', desc: 'Ra mắt hai họ, cử hành nghi lễ Thành Hôn thiêng liêng trước bàn thờ Gia Tiên' },
-        { time: '15:00', title: 'Bế Mạc Đại Lễ (Dự Kiến)', desc: 'Khép lại ngày Đại Lễ Thành Hôn ngập tràn tiếng cười và lời chúc phúc' }
+        { time: '16:30 (T7)', title: 'Đón Khách & Tiệc Cưới Nhà Trai (Thứ Bảy 26.12)', desc: 'Kính mời họ hàng, bạn bè thân hữu đến chung vui dự Tiệc Cưới lúc 16:30 chiều Thứ Bảy (26.12) tại Tư Gia Nhà Trai' },
+        { time: '12:00 (CN)', title: 'Nhà Trai Xuất Phát Đón Dâu (Chủ Nhật 27.12)', desc: 'Đoàn xe hoa khởi hành lúc 12:00 trưa Chủ Nhật sang Tư Gia Nhà Gái rước nàng dâu Lê Minh Hồng về dinh' },
+        { time: '13:15 (CN)', title: 'Nghi Lễ Thành Hôn & Gia Tiên', desc: 'Ra mắt hai họ, cử hành nghi lễ Thành Hôn thiêng liêng trước bàn thờ Gia Tiên' },
+        { time: '15:00 (CN)', title: 'Hoàn Thành Đại Lễ (Dự Kiến)', desc: 'Khép lại ngày Đại Lễ Thành Hôn ngập tràn tiếng cười và lời chúc phúc' }
       ]
     }
   },
