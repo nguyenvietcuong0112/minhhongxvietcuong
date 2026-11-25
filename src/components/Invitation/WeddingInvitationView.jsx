@@ -185,13 +185,18 @@ const WeddingInvitationView = ({
       >
         {/* Editorial Brown Luxury Hero Greeting & Feature Photography */}
         <header className="invitation-header-greeting" data-aos="fade-down">
-          {/* Botanical Gold Laurel & Monogram Crest */}
+          {/* Botanical Gold Laurel & Wedding Crest */}
           <div className="hero-editorial-crest">
             <span className="crest-hairline" />
-            <div className="crest-monogram-seal">
-              <span>VC</span>
-              <span className="crest-amp">&amp;</span>
-              <span>MH</span>
+            <div className="crest-monogram-seal" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+                <circle cx="12.5" cy="17.5" r="7" stroke="#C5A36A" strokeWidth="1.7" />
+                <circle cx="19.5" cy="17.5" r="7" stroke="#C5A36A" strokeWidth="1.7" />
+                <path
+                  d="M16 9.6C16 9.6 18.8 7.1 20.5 8.5C21.8 9.6 20.8 11.7 16 14.3C11.2 11.7 10.2 9.6 11.5 8.5C13.2 7.1 16 9.6 16 9.6Z"
+                  fill="#C5A36A"
+                />
+              </svg>
             </div>
             <span className="crest-hairline" />
           </div>
@@ -200,9 +205,9 @@ const WeddingInvitationView = ({
           <p className="header-wedding-title">LỄ THÀNH HÔN &amp; LỄ VU QUY</p>
 
           <div className="header-couple-script">
-            <span>{invitationData.groom?.shortName || 'Việt Cường'}</span>
+            <span className="script-name">{invitationData.groom?.shortName || 'Việt Cường'}</span>
             <span className="script-amp">&amp;</span>
-            <span>{invitationData.bride?.shortName || 'Minh Hồng'}</span>
+            <span className="script-name">{invitationData.bride?.shortName || 'Minh Hồng'}</span>
           </div>
 
           <div className="header-dates-ribbon">

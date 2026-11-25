@@ -158,15 +158,20 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
           {/* Double Champagne & Antique Gold Hairline Border */}
           <div className="preload-gold-double-border" />
 
-          {/* Top 3D Embossed Antique Gold & Chocolate Wax Seal (Initials: VC ♥ MH) */}
+          {/* Top 3D Embossed Antique Gold & Chocolate Wax Seal */}
           <div
             className={`preload-royal-wax-seal ${opening ? 'seal-breaking' : ''}`}
             title="Chạm để mở thiệp cưới"
           >
-            <div className="seal-initials-wrap">
-              <span className="seal-initial">VC</span>
-              <span className="seal-heart">♥</span>
-              <span className="seal-initial">MH</span>
+            <div className="seal-emblem-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <circle cx="12.5" cy="17.5" r="7" stroke="#35231F" strokeWidth="1.8" />
+                <circle cx="19.5" cy="17.5" r="7" stroke="#35231F" strokeWidth="1.8" />
+                <path
+                  d="M16 9.6C16 9.6 18.8 7.1 20.5 8.5C21.8 9.6 20.8 11.7 16 14.3C11.2 11.7 10.2 9.6 11.5 8.5C13.2 7.1 16 9.6 16 9.6Z"
+                  fill="#35231F"
+                />
+              </svg>
             </div>
           </div>
 

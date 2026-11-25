@@ -5240,6 +5240,22 @@ body.is-invitation-mode textarea {
   letter-spacing: 0.14em !important;
 }
 
+.seal-emblem-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.wedding-invitation-app .countdown-heart-icon,
+.wedding-invitation-app .thankyou-knot {
+  font-size: clamp(0.7rem, 2.2vw, 0.88rem) !important;
+  letter-spacing: 0.16em !important;
+  font-weight: 600 !important;
+  white-space: nowrap;
+}
+
+
 
 
 

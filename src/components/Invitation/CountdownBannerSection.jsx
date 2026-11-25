@@ -56,9 +56,9 @@ const CountdownBannerSection = ({ targetDate = '2026-12-26T08:30:00+07:00' }) =>
       </div>
 
       <div className="countdown-banner-content">
-        {/* Refined Antique Gold Monogram Crest */}
+        {/* Refined Antique Gold Crest */}
         <div className="countdown-heart-wrap">
-          <span className="countdown-heart-icon">✦ VC ♥ MH ✦</span>
+          <span className="countdown-heart-icon">✦ VIỆT CƯỜNG ♥ MINH HỒNG ✦</span>
         </div>
 
         <h3 className="countdown-banner-title font-title" data-aos="fade-up">

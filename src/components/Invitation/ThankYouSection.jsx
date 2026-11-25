@@ -23,7 +23,7 @@ const ThankYouSection = ({ groomName = 'Việt Cường', brideName = 'Minh Hồ
       </div>
 
       <div className="thankyou-content-card" data-aos="zoom-in">
-        <span className="thankyou-knot">VC ♥ MH</span>
+        <span className="thankyou-knot">VIỆT CƯỜNG ♥ MINH HỒNG</span>
         <h2 className="thankyou-title font-title">Lời Cảm Ơn</h2>
         
         <div className="thankyou-divider">

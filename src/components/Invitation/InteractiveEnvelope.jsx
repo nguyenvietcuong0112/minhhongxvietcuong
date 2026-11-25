@@ -68,9 +68,9 @@ const InteractiveEnvelope = ({ data, onOpen, isOpened, guestName = '' }) => {
             <div className="wax-seal-outer-rim">
               <div className="wax-seal-inner-circle">
                 <div className="wax-seal-monogram">
-                  <span className="monogram-text">VC</span>
+                  <span className="monogram-text">✦</span>
                   <span className="monogram-heart">♥</span>
-                  <span className="monogram-text">MH</span>
+                  <span className="monogram-text">✦</span>
                 </div>
               </div>
             </div>
