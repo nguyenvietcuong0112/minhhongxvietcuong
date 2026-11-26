@@ -46,7 +46,7 @@ const LoveStorySection = ({ stories }) => {
                     className="story-img"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                      e.currentTarget.src = process.env.PUBLIC_URL + '/photos/concep4.jpg';
                     }}
                   />
                   <div className="story-year-badge">{item.year}</div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * PhotoGallerySection: Curated Preview & Interactive Album Lightbox
@@ -9,9 +10,8 @@ const PhotoGallerySection = ({ gallery }) => {
   const [selectedIdx, setSelectedIdx] = useState(null);
 
   const photos = gallery || [];
-  const previewLimit = 4;
+  const previewLimit = 5;
   const previewPhotos = photos.slice(0, previewLimit);
-  const remainingCount = Math.max(0, photos.length - previewLimit);
 
   const selectedPhoto = selectedIdx !== null ? photos[selectedIdx] : null;
 
@@ -47,51 +47,36 @@ const PhotoGallerySection = ({ gallery }) => {
           <span className="line" />
         </div>
         <p className="section-desc">
-          Lưu giữ những khung hình hạnh phúc nhất trên hành trình chung đôi của Việt Cường &amp; Minh Hồng. Chạm vào ảnh để xem chi tiết album.
+          Lưu giữ những khung hình hạnh phúc nhất trên hành trình chung đôi của Việt Cường &amp; Minh Hồng. Chạm vào từng bức ảnh để ngắm trọn bộ album.
         </p>
       </div>
 
-      {/* Curated 4-Photo Editorial Preview Grid */}
-      <div className="gallery-masonry-grid gallery-preview-grid">
-        {previewPhotos.map((photo, i) => {
-          const isLastWithMore = i === previewPhotos.length - 1 && remainingCount > 0;
-          return (
-            <div
-              key={photo.id || i}
-              className={`gallery-card-item item-${i} ${isLastWithMore ? 'has-more-overlay' : ''}`}
-              onClick={() => setSelectedIdx(i)}
-              data-aos="zoom-in"
-              data-aos-delay={i * 70}
-            >
-              <div className="gallery-card-img-wrap">
-                <img
-                  src={photo.url}
-                  alt={photo.title || 'Ảnh cưới'}
-                  className="gallery-thumb-img"
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
-                  }}
-                />
-                {photo.category && (
-                  <span className="gallery-card-badge">{photo.category}</span>
-                )}
-
-                {isLastWithMore && (
-                  <div className="gallery-more-pill">
-                    +{remainingCount} khoảnh khắc
-                  </div>
-                )}
-
-                <div className="gallery-card-overlay">
-                  <span className="gallery-zoom-icon">✦ Xem chi tiết</span>
-                  <span className="gallery-card-caption">{photo.title}</span>
-                </div>
-              </div>
+      {/* Staggered Asymmetric 5-Photo Editorial Collage (Nét Ký Style) */}
+      <div className="nk-gallery-collage">
+        {previewPhotos.map((photo, i) => (
+          <div
+            key={photo.id || i}
+            className={`nk-collage-tile tile-${i}`}
+            onClick={() => setSelectedIdx(i)}
+            data-aos={i % 2 === 0 ? 'fade-up' : 'fade-left'}
+            data-aos-delay={i * 75}
+          >
+            <img
+              src={photo.url}
+              alt={photo.title || 'Ảnh cưới'}
+              className="nk-collage-img"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
+              }}
+            />
+            <div className="nk-tile-hover">
+              <span className="nk-tile-title">{photo.title}</span>
+              <span className="nk-tile-hint">✦ Phóng to</span>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       {/* Editorial CTA Button to Open Full Album Detail Lightbox */}
@@ -109,7 +94,7 @@ const PhotoGallerySection = ({ gallery }) => {
       )}
 
       {/* Fullscreen Lightbox Detail Viewer with Thumbnail Strip */}
-      {selectedPhoto && (
+      {selectedPhoto && createPortal(
         <div className="gallery-lightbox-backdrop" onClick={() => setSelectedIdx(null)}>
           <div className="lightbox-content-box" onClick={(e) => e.stopPropagation()}>
             <button
@@ -174,14 +159,15 @@ const PhotoGallerySection = ({ gallery }) => {
                     alt=""
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                      e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
                     }}
                   />
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

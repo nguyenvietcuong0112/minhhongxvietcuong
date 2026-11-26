@@ -71,12 +71,12 @@ const InvitationHero = ({ data, onScrollTo, guestName = '' }) => {
       <div className="hero-photo-arch-wrap">
         <div className="hero-arch-frame">
           <img
-            src={process.env.PUBLIC_URL + '/anh6.jpg'}
+            src={process.env.PUBLIC_URL + '/photos/HUY01657.jpg'}
             alt="Việt Cường & Minh Hồng"
             className="hero-couple-img"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+              e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01786.jpg';
             }}
           />
         </div>

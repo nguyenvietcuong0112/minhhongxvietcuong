@@ -1025,16 +1025,27 @@ body.is-invitation-mode textarea {
   position: relative;
   width: 140px;
   height: 140px;
-  border-radius: 14px;
+  border-radius: 10px;
+  padding: 5px;
+  background: #FCF9F4;
   overflow: hidden;
   flex-shrink: 0;
-  border: 2px solid var(--inv-gold);
+  border: 1px solid rgba(197, 163, 106, 0.72);
+  box-shadow: 0 10px 22px -6px rgba(53, 35, 31, 0.16);
 }
 
 .story-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 22%;
+  border-radius: 5px;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.story-card:hover .story-img {
+  transform: scale(1.04);
 }
 
 .story-year-badge {
@@ -1108,6 +1119,7 @@ body.is-invitation-mode textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 22%;
 }
 
 .gallery-card-overlay {
@@ -1142,7 +1154,7 @@ body.is-invitation-mode textarea {
 .gallery-lightbox-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: 100050;
   background: rgba(0, 0, 0, 0.92);
   display: flex;
   align-items: center;
@@ -2367,12 +2379,14 @@ body.is-invitation-mode textarea {
   color: #2b221d;
   position: relative;
   min-height: 100vh;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.65s ease 0.3s, transform 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
   overflow-x: hidden;
+  will-change: opacity, transform;
 }
 
 .invitation-main-content.envelope-sealed-behind {
   opacity: 0;
+  transform: scale(0.965);
   max-height: 100vh;
   overflow: hidden;
   pointer-events: none;
@@ -2380,6 +2394,7 @@ body.is-invitation-mode textarea {
 
 .invitation-main-content.is-revealing-under-curtains {
   opacity: 1;
+  transform: scale(1);
   max-height: 100vh;
   overflow: hidden;
   pointer-events: none;
@@ -2387,6 +2402,8 @@ body.is-invitation-mode textarea {
 
 .invitation-main-content.is-revealed {
   opacity: 1;
+  transform: none;
+  will-change: auto;
   pointer-events: auto;
 }
 
@@ -2424,21 +2441,42 @@ body.is-invitation-mode textarea {
   top: 0;
   bottom: 0;
   width: 50.5%;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #4A322B 0%, #35231F 60%, #1F1310 100%);
-  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1) 0.16s;
+  background: radial-gradient(ellipse at center, #462F28 0%, #2F1E1A 60%, #1B100D 100%);
+  transition: transform 0.98s cubic-bezier(0.76, 0, 0.24, 1) 0.34s;
   will-change: transform;
+}
+
+.imperial-curtain-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 240, 218, 0.025) 0%,
+    rgba(255, 240, 218, 0.05) 7%,
+    rgba(16, 9, 7, 0.22) 15%,
+    rgba(255, 240, 218, 0.025) 22%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.preload-cover-screen.preload-opening .imperial-curtain-panel::after {
+  opacity: 1;
 }
 
 .imperial-curtain-panel.curtain-left {
   left: 0;
-  box-shadow: inset -12px 0 32px rgba(20, 12, 10, 0.55);
+  box-shadow: inset -18px 0 42px rgba(16, 9, 7, 0.72);
 }
 
 .imperial-curtain-panel.curtain-right {
   right: 0;
-  box-shadow: inset 12px 0 32px rgba(20, 12, 10, 0.55);
+  box-shadow: inset 18px 0 42px rgba(16, 9, 7, 0.72);
 }
 
 .curtain-bg-photo {
@@ -2461,12 +2499,12 @@ body.is-invitation-mode textarea {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px;
-  z-index: 3;
+  width: 3px;
+  z-index: 4;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  background: linear-gradient(180deg, rgba(197, 163, 106, 0.25) 0%, #C5A36A 50%, rgba(197, 163, 106, 0.25) 100%);
-  box-shadow: 0 0 14px rgba(197, 163, 106, 0.65);
+  transition: opacity 0.3s ease 0.26s;
+  background: linear-gradient(180deg, rgba(197, 163, 106, 0.2) 0%, #F5DEC0 50%, rgba(197, 163, 106, 0.2) 100%);
+  box-shadow: 0 0 24px rgba(235, 200, 140, 0.92), 0 0 46px rgba(197, 163, 106, 0.58);
 }
 
 .preload-cover-screen.preload-opening .curtain-gold-trim {
@@ -2501,7 +2539,7 @@ body.is-invitation-mode textarea {
 .preload-chocolate-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 35%, rgba(53, 35, 31, 0.72) 0%, rgba(28, 17, 14, 0.93) 100%);
+  background: radial-gradient(circle at 50% 35%, rgba(44, 29, 25, 0.78) 0%, rgba(22, 13, 11, 0.95) 100%);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
@@ -2591,23 +2629,56 @@ body.is-invitation-mode textarea {
   justify-content: center;
 }
 
+.opening-light-veil {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 245, 224, 0.56) 0%, rgba(229, 200, 144, 0.2) 38%, transparent 66%);
+  filter: blur(20px);
+  animation: lightVeilBloom 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes lightVeilBloom {
+  0% {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
 .opening-golden-ripple {
   position: absolute;
-  width: 72px;
-  height: 72px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  border: 2px solid #C5A36A;
-  box-shadow: 0 0 36px rgba(197, 163, 106, 0.85), inset 0 0 22px rgba(237, 227, 213, 0.55);
-  animation: goldenRipple 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  border: 1.5px solid rgba(229, 200, 144, 0.85);
+  box-shadow: 0 0 18px rgba(197, 163, 106, 0.65);
+  animation: goldenRipple 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.opening-golden-ripple.secondary {
+  border-color: rgba(245, 226, 198, 0.72);
+  border-width: 1px;
+  animation-delay: 0.14s;
+  animation-duration: 1.15s;
 }
 
 @keyframes goldenRipple {
   0% {
     transform: scale(0.8);
-    opacity: 1;
+    opacity: 0.95;
   }
   100% {
-    transform: scale(11);
+    transform: scale(12.5);
     opacity: 0;
   }
 }
@@ -2617,30 +2688,38 @@ body.is-invitation-mode textarea {
   width: 11px;
   height: 15px;
   border-radius: 75% 15% 75% 15%;
-  animation: petalBurst 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: petalBurst 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
 }
 
 .burst-petal.petal-gold {
-  background: linear-gradient(135deg, #EDE3D5 0%, #C5A36A 100%);
-  box-shadow: 0 0 10px rgba(197, 163, 106, 0.65);
+  background: linear-gradient(135deg, #F5E6CD 0%, #C5A36A 100%);
+  box-shadow: 0 0 12px rgba(197, 163, 106, 0.72);
 }
 
 .burst-petal.petal-champagne {
-  background: linear-gradient(135deg, #D2BFA9 0%, #96745F 100%);
+  background: linear-gradient(135deg, #EDE3D5 0%, #96745F 100%);
   box-shadow: 0 0 8px rgba(150, 116, 95, 0.55);
+}
+
+.burst-petal.mote-sparkle {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFF8EC 0%, #C5A36A 70%, transparent 100%);
+  box-shadow: 0 0 12px #F5DEC0;
 }
 
 @keyframes petalBurst {
   0% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.4);
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.3);
     opacity: 0;
   }
-  15% {
+  18% {
     opacity: 1;
   }
   100% {
-    transform: translate3d(var(--tx, 100px), var(--ty, -120px), 0) rotate(var(--rot, 180deg)) scale(1.05);
+    transform: translate3d(var(--tx, 100px), var(--ty, -120px), 0) rotate(var(--rot, 180deg)) scale(1.08);
     opacity: 0;
   }
 }
@@ -2659,11 +2738,13 @@ body.is-invitation-mode textarea {
   box-sizing: border-box;
   cursor: pointer;
   touch-action: manipulation;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
+  perspective: 1200px;
+  transition: transform 0.44s cubic-bezier(0.22, 1, 0.36, 1) 0.08s, opacity 0.32s ease 0.1s;
+  will-change: transform, opacity;
 }
 
 .preload-cover-screen.preload-opening .preload-container {
-  transform: translate3d(0, -28px, 0) scale(1.04);
+  transform: translate3d(0, -28px, 44px) rotateX(6deg) scale(0.975);
   opacity: 0;
 }
 
@@ -2672,10 +2753,10 @@ body.is-invitation-mode textarea {
   position: relative;
   width: min(390px, 92vw);
   max-width: 440px;
-  background: linear-gradient(180deg, #F7F2EA 0%, #EDE3D5 100%);
-  border-radius: 16px;
-  box-shadow: 0 28px 70px -12px rgba(18, 10, 8, 0.78), 0 0 32px rgba(197, 163, 106, 0.22);
-  border: 1px solid #C5A36A;
+  background: linear-gradient(180deg, #F8F3EC 0%, #EDE3D5 100%);
+  border-radius: 4px;
+  box-shadow: 0 24px 64px -10px rgba(18, 10, 8, 0.65);
+  border: 1px solid rgba(197, 163, 106, 0.6);
   padding: 50px 24px 28px;
   box-sizing: border-box;
   text-align: center;
@@ -2687,10 +2768,73 @@ body.is-invitation-mode textarea {
 .preload-card-bg-clip {
   position: absolute;
   inset: 0;
-  border-radius: 15px;
+  border-radius: 3px;
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
+}
+
+/* Subtle Diagonal Envelope Flap & Horizontal Satin Ribbon */
+.preload-envelope-vfold {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 76px;
+  background: linear-gradient(180deg, rgba(197, 163, 106, 0.12) 0%, rgba(210, 191, 169, 0.03) 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 82%);
+  border-bottom: 1px solid rgba(197, 163, 106, 0.28);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+  transform-origin: top center;
+}
+
+.preload-cover-screen.preload-opening .preload-envelope-vfold {
+  transform: rotateX(155deg);
+  opacity: 0;
+}
+
+.preload-silk-ribbon {
+  position: absolute;
+  top: 14px;
+  left: -10%;
+  right: -10%;
+  height: 16px;
+  background: linear-gradient(180deg, rgba(223, 192, 136, 0.14) 0%, rgba(197, 163, 106, 0.28) 50%, rgba(223, 192, 136, 0.12) 100%);
+  border-top: 1px solid rgba(197, 163, 106, 0.35);
+  border-bottom: 1px solid rgba(197, 163, 106, 0.35);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.preload-cover-screen.preload-opening .preload-silk-ribbon {
+  transform: scaleX(1.25) scaleY(0.1);
+  opacity: 0;
+}
+
+/* Soft Diagonal Satin Sheen Gliding Over Envelope Card */
+.card-satin-glint {
+  position: absolute;
+  top: -20%;
+  left: -75%;
+  width: 55%;
+  height: 145%;
+  background: linear-gradient(105deg, transparent 20%, rgba(255, 250, 240, 0.42) 50%, transparent 80%);
+  transform: skewX(-18deg);
+  animation: satinSweep 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes satinSweep {
+  0%, 55% {
+    transform: translateX(0) skewX(-18deg);
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(430%) skewX(-18deg);
+    opacity: 0;
+  }
 }
 
 .preload-royal-card:hover {
@@ -2744,9 +2888,9 @@ body.is-invitation-mode textarea {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 32%, #DFC088 0%, #C5A36A 55%, #8A6A38 100%);
+  background: radial-gradient(circle at 32% 32%, #E5C890 0%, #C5A36A 56%, #8A6A38 100%);
   border: 2px solid #EDE3D5;
-  box-shadow: 0 8px 22px rgba(53, 35, 31, 0.65), inset 0 2px 5px rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 22px rgba(53, 35, 31, 0.65), inset 0 2px 5px rgba(255, 255, 255, 0.48);
   z-index: 10;
   display: flex;
   align-items: center;
@@ -2754,20 +2898,56 @@ body.is-invitation-mode textarea {
   animation: seal-pulse 2.8s ease-in-out infinite;
 }
 
+.seal-halo-ring {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(197, 163, 106, 0.65);
+  animation: sealHaloExpand 2.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sealHaloExpand {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.38);
+    opacity: 0;
+  }
+}
+
 .preload-royal-wax-seal.seal-breaking {
-  animation: none !important;
-  transform: translate(-50%, -50%) scale(1.24);
-  box-shadow: 0 0 38px rgba(197, 163, 106, 0.95), 0 0 60px rgba(237, 227, 213, 0.75);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: sealBreakSpring 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+@keyframes sealBreakSpring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 8px 22px rgba(53, 35, 31, 0.65);
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(0.88);
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.36);
+    box-shadow: 0 0 42px rgba(229, 200, 144, 0.95), 0 0 70px rgba(237, 227, 213, 0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.52);
+    opacity: 0;
+  }
 }
 
 @keyframes seal-pulse {
   0%, 100% {
-    box-shadow: 0 6px 20px rgba(53, 35, 31, 0.65), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(53, 35, 31, 0.65), inset 0 2px 5px rgba(255, 255, 255, 0.45);
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    box-shadow: 0 10px 26px rgba(53, 35, 31, 0.8), 0 0 18px rgba(197, 163, 106, 0.55), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 28px rgba(53, 35, 31, 0.8), 0 0 20px rgba(197, 163, 106, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.55);
     transform: translate(-50%, -50%) scale(1.04);
   }
 }
@@ -2918,31 +3098,34 @@ body.is-invitation-mode textarea {
 
 /* Personalized Guest Badge */
 .preload-guest-badge {
-  background: rgba(210, 191, 169, 0.25);
-  border: 1px solid rgba(197, 163, 106, 0.7);
-  border-radius: 20px;
-  padding: 6px 18px;
+  background: rgba(210, 191, 169, 0.22);
+  border: 1px solid rgba(96, 66, 56, 0.28);
+  border-radius: 3px;
+  padding: 8px 20px;
   margin: 4px 0;
   max-width: 92%;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 2px;
 }
 
 .guest-badge-prefix {
   font-family: var(--font-ui);
-  font-size: 0.66rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
   color: #604238;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-weight: 600;
 }
 
 .guest-badge-name {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: #35231F;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--font-heading);
+  line-height: 1.25;
 }
 
 /* 2-Day Ceremony Summary */
@@ -2966,7 +3149,7 @@ body.is-invitation-mode textarea {
   margin: 4px 0 0 0;
 }
 
-/* Shimmering Chocolate Luxury CTA Button */
+/* Sharp Modern Chocolate CTA Button */
 .preload-cta-btn-wrap {
   margin-top: 10px;
   width: 100%;
@@ -2978,10 +3161,10 @@ body.is-invitation-mode textarea {
   position: relative;
   z-index: 20;
   overflow: hidden;
-  background: linear-gradient(135deg, #4A322B 0%, #35231F 100%);
+  background: #35231F;
   color: #EDE3D5;
-  border: 1.5px solid #C5A36A;
-  border-radius: 9999px;
+  border: 1px solid rgba(197, 163, 106, 0.75);
+  border-radius: 3px;
   width: 100%;
   max-width: 264px;
   min-height: 48px;
@@ -3462,41 +3645,88 @@ body.is-invitation-mode textarea {
   font-size: 0.85rem;
 }
 
-/* Hero Editorial Wedding Photography */
+/* Hero Editorial Wedding Photography (Borderless Warm Editorial + Poetic Overlay) */
 .hero-editorial-photo-wrap {
-  margin: 18px auto 18px;
-  max-width: 360px;
+  margin: 18px auto 20px;
+  max-width: 400px;
 }
 
 .hero-editorial-arch {
   position: relative;
-  border-radius: 200px 200px 18px 18px;
+  border-radius: 6px;
   overflow: hidden;
-  border: 1.5px solid #C5A36A;
-  padding: 6px;
-  background: #F7F2EA;
-  box-shadow: 0 22px 48px rgba(53, 35, 31, 0.16);
+  border: none;
+  padding: 0;
+  background: transparent;
+  box-shadow: 0 22px 48px -12px rgba(53, 35, 31, 0.24);
+}
+
+.hero-photo-stage {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .hero-editorial-img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 194px 194px 12px 12px;
+  object-position: center 16%;
   display: block;
+  animation: heroSoftBreath 14s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-.hero-editorial-caption {
-  background: #35231F;
-  color: #EDE3D5;
-  font-family: 'Montserrat', 'Be Vietnam Pro', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  padding: 9px 12px;
-  border-radius: 0 0 12px 12px;
-  text-transform: uppercase;
-  border-top: 1px solid rgba(197, 163, 106, 0.45);
+@keyframes heroSoftBreath {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+
+.hero-photo-note-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 64px 20px 22px;
+  background: linear-gradient(180deg, transparent 0%, rgba(28, 17, 14, 0.56) 48%, rgba(28, 17, 14, 0.88) 100%);
+  text-align: center;
+  z-index: 2;
+}
+
+.hero-note-date {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: #FAF4EC;
+  margin-bottom: 8px;
+  animation: heroDatePulse 3.2s ease-in-out infinite;
+}
+
+@keyframes heroDatePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+.hero-note-quote {
+  font-family: var(--font-serif-soft);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.56;
+  color: rgba(255, 250, 244, 0.94);
+  margin: 0;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
 /* =========================================================
@@ -3520,27 +3750,28 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .section-badge {
-  font-family: 'Montserrat', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  color: #604238 !important;
-  border: 1px solid rgba(197, 163, 106, 0.75) !important;
-  background: rgba(247, 242, 234, 0.85) !important;
-  letter-spacing: 0.14em !important;
+  font-family: var(--font-ui) !important;
+  color: #8C6E60 !important;
+  border: none !important;
+  border-bottom: 1.5px solid #C5A36A !important;
+  background: transparent !important;
+  letter-spacing: 0.2em !important;
   font-weight: 700 !important;
-  font-size: 0.72rem !important;
-  padding: 5px 14px !important;
-  border-radius: 999px !important;
+  font-size: 0.7rem !important;
+  padding: 4px 2px !important;
+  border-radius: 0 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .section-ornament-line .knot {
   color: #C5A36A !important;
-  font-size: 1.25rem !important;
+  font-size: 1.15rem !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .section-ornament-line .line {
-  background: linear-gradient(90deg, transparent, #C5A36A, transparent) !important;
+  background: linear-gradient(90deg, transparent, rgba(150, 116, 95, 0.45), transparent) !important;
 }
 
-/* Cards Surface: Sunlit Ivory #F7F2EA with Champagne #D2BFA9 borders */
+/* Sharp Architectural Cards Surface: Clean Sunlit Ivory with Subtle Mocha Hairlines */
 .wedding-invitation-app.mobile-pro-theme .calendar-card,
 .wedding-invitation-app.mobile-pro-theme .schedule-card-main,
 .wedding-invitation-app.mobile-pro-theme .rsvp-form-card,
@@ -3550,29 +3781,31 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .gift-account-card,
 .wedding-invitation-app.mobile-pro-theme .dress-code-box,
 .wedding-invitation-app.mobile-pro-theme .story-card {
-  background: #F7F2EA !important;
+  background: #F9F5EE !important;
   color: #35231F !important;
-  box-shadow: 0 12px 36px rgba(53, 35, 31, 0.07) !important;
-  border: 1px solid #D2BFA9 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 26px rgba(53, 35, 31, 0.05) !important;
+  border: 1px solid rgba(96, 66, 56, 0.16) !important;
 }
 
 /* Gallery Filter Pills */
 .wedding-invitation-app.mobile-pro-theme .gallery-filter-pill {
-  background: #F7F2EA !important;
+  background: #F9F5EE !important;
   color: #604238 !important;
-  border: 1px solid #D2BFA9 !important;
+  border: 1px solid rgba(96, 66, 56, 0.2) !important;
+  border-radius: 3px !important;
   font-weight: 600 !important;
-  font-family: 'Montserrat', 'Be Vietnam Pro', sans-serif !important;
+  font-family: var(--font-ui) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .gallery-filter-pill.active {
-  background: linear-gradient(135deg, #4A322B 0%, #35231F 100%) !important;
+  background: #35231F !important;
   color: #EDE3D5 !important;
-  border-color: #C5A36A !important;
-  box-shadow: 0 6px 18px rgba(53, 35, 31, 0.25) !important;
+  border-color: #35231F !important;
+  box-shadow: none !important;
 }
 
-/* Calendar Highlights (26: Champagne Beige/Mocha, 27: Chocolate/Antique Gold) */
+/* Calendar Highlights (Vuông Vắn Hiện Đại) */
 .wedding-invitation-app.mobile-pro-theme .calendar-month-title,
 .wedding-invitation-app.mobile-pro-theme .calendar-weekdays-row {
   color: #35231F !important;
@@ -3580,7 +3813,7 @@ body.is-invitation-mode textarea {
 
 .wedding-invitation-app.mobile-pro-theme .calendar-lunar-title {
   color: #96745F !important;
-  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-family: var(--font-serif-soft) !important;
   font-size: 1rem !important;
 }
 
@@ -3589,8 +3822,9 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .day-cell {
-  background: rgba(237, 227, 213, 0.55) !important;
-  border-color: rgba(210, 191, 169, 0.45) !important;
+  background: rgba(237, 227, 213, 0.45) !important;
+  border-color: rgba(96, 66, 56, 0.1) !important;
+  border-radius: 3px !important;
   color: #35231F !important;
 }
 
@@ -3604,8 +3838,8 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .day-cell.day-26 {
-  background: linear-gradient(135deg, #EDE3D5 0%, #D2BFA9 100%) !important;
-  border: 1.5px solid #96745F !important;
+  background: #EDE3D5 !important;
+  border: 1px solid #96745F !important;
   color: #35231F !important;
 }
 
@@ -3613,6 +3847,7 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .badge-gai {
   background: #604238 !important;
   color: #EDE3D5 !important;
+  border-radius: 2px !important;
   top: -10px !important;
   bottom: auto !important;
   left: 50% !important;
@@ -3623,8 +3858,8 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .day-cell.day-27 {
-  background: linear-gradient(135deg, #604238 0%, #35231F 100%) !important;
-  border: 1.5px solid #C5A36A !important;
+  background: #35231F !important;
+  border: 1px solid #35231F !important;
   color: #EDE3D5 !important;
 }
 
@@ -3632,6 +3867,7 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .badge-trai {
   background: #C5A36A !important;
   color: #35231F !important;
+  border-radius: 2px !important;
   bottom: -10px !important;
   top: auto !important;
   left: 50% !important;
@@ -3646,14 +3882,18 @@ body.is-invitation-mode textarea {
   display: none;
 }
 
+.wedding-invitation-app.mobile-pro-theme .legend-item {
+  border-radius: 3px !important;
+}
+
 .wedding-invitation-app.mobile-pro-theme .legend-item.gai {
   background: rgba(210, 191, 169, 0.25) !important;
-  border: 1px solid #D2BFA9 !important;
+  border: 1px solid rgba(96, 66, 56, 0.18) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .legend-item.trai {
-  background: rgba(197, 163, 106, 0.16) !important;
-  border: 1px solid #C5A36A !important;
+  background: rgba(197, 163, 106, 0.14) !important;
+  border: 1px solid rgba(197, 163, 106, 0.35) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .legend-info strong {
@@ -3666,10 +3906,11 @@ body.is-invitation-mode textarea {
 
 /* Schedule Tabs, Countdown & Timeline */
 .wedding-invitation-app.mobile-pro-theme .schedule-tab-btn {
-  background: #F7F2EA !important;
-  border: 1px solid #D2BFA9 !important;
+  background: #F9F5EE !important;
+  border: 1px solid rgba(96, 66, 56, 0.2) !important;
+  border-radius: 4px !important;
   color: #604238 !important;
-  box-shadow: 0 4px 12px rgba(53, 35, 31, 0.05) !important;
+  box-shadow: none !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-tab-btn .tab-label {
@@ -3683,14 +3924,14 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-tab-btn.active {
-  background: linear-gradient(135deg, #4A322B 0%, #35231F 100%) !important;
+  background: #35231F !important;
   color: #EDE3D5 !important;
-  border: 1.5px solid #C5A36A !important;
-  box-shadow: 0 8px 24px rgba(53, 35, 31, 0.28) !important;
+  border: 1px solid #35231F !important;
+  box-shadow: 0 8px 20px rgba(53, 35, 31, 0.16) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-tab-btn.active .tab-label {
-  color: #C5A36A !important;
+  color: #E5C890 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-tab-btn.active .tab-date {
@@ -3699,8 +3940,11 @@ body.is-invitation-mode textarea {
 
 .wedding-invitation-app.mobile-pro-theme .schedule-day-badge {
   color: #604238 !important;
-  background: rgba(210, 191, 169, 0.35) !important;
-  border: 1px solid rgba(197, 163, 106, 0.45);
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(197, 163, 106, 0.55) !important;
+  border-radius: 0 !important;
+  padding: 2px 4px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-card-title,
@@ -3728,50 +3972,59 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .time-bubble {
   background: #35231F !important;
   color: #EDE3D5 !important;
-  border: 1px solid #C5A36A !important;
+  border: none !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .timeline-connector-bar {
-  background: rgba(150, 116, 95, 0.35) !important;
+  background: rgba(150, 116, 95, 0.25) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-venue-box {
-  background: rgba(237, 227, 213, 0.6) !important;
-  border: 1px solid #D2BFA9 !important;
+  background: rgba(237, 227, 213, 0.45) !important;
+  border: 1px solid rgba(96, 66, 56, 0.16) !important;
+  border-radius: 4px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-map-embed-wrapper {
-  border-color: #D2BFA9 !important;
+  border-color: rgba(96, 66, 56, 0.18) !important;
+  border-radius: 3px !important;
+}
+
+.wedding-invitation-app.mobile-pro-theme .schedule-action-btn {
+  border-radius: 3px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-action-btn.map-btn {
-  background: linear-gradient(135deg, #4A322B, #35231F) !important;
+  background: #35231F !important;
   color: #EDE3D5 !important;
-  border: 1px solid #C5A36A !important;
+  border: 1px solid #35231F !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .schedule-action-btn.cal-btn {
   background: #EDE3D5 !important;
   color: #35231F !important;
-  border: 1px solid #D2BFA9 !important;
+  border: 1px solid rgba(96, 66, 56, 0.22) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .countdown-unit,
 .wedding-invitation-app.mobile-pro-theme .countdown-unit-card {
-  background: #F7F2EA !important;
-  border: 1px solid #D2BFA9 !important;
-  box-shadow: 0 4px 12px rgba(53, 35, 31, 0.06) !important;
+  background: #F9F5EE !important;
+  border: 1px solid rgba(96, 66, 56, 0.16) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .countdown-unit.highlight-sec,
 .wedding-invitation-app.mobile-pro-theme .countdown-unit-card.highlight {
   background: #35231F !important;
-  border-color: #C5A36A !important;
+  border-color: #35231F !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .countdown-unit.highlight-sec .countdown-num,
 .wedding-invitation-app.mobile-pro-theme .countdown-unit-card.highlight .countdown-num {
-  color: #C5A36A !important;
+  color: #E5C890 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .countdown-unit.highlight-sec .countdown-label,
@@ -3779,21 +4032,29 @@ body.is-invitation-mode textarea {
   color: #EDE3D5 !important;
 }
 
-/* Love Story Brown Luxury Cards */
+/* Love Story Sharp Clean Photos (No Thick Borders) */
 .wedding-invitation-app.mobile-pro-theme .story-photo-frame {
-  border: 1.5px solid #C5A36A !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 2px !important;
+  box-shadow: 0 8px 20px rgba(53, 35, 31, 0.12) !important;
+}
+
+.wedding-invitation-app.mobile-pro-theme .story-img {
+  border-radius: 2px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .story-year-badge {
   background: rgba(53, 35, 31, 0.9) !important;
   color: #EDE3D5 !important;
+  border-radius: 0 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .story-card-title {
-  font-family: 'Playfair Display', Georgia, serif !important;
+  font-family: 'Fraunces', Georgia, serif !important;
   color: #35231F !important;
   font-size: 1.32rem !important;
-  font-weight: 700 !important;
+  font-weight: 500 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .story-card-desc {
@@ -3802,7 +4063,7 @@ body.is-invitation-mode textarea {
   line-height: 1.65 !important;
 }
 
-/* RSVP & Wishes Form Controls in Mocha & Chocolate */
+/* RSVP & Wishes Form Controls — Crisp Rectangular Tailored Surfaces */
 .wedding-invitation-app.mobile-pro-theme .rsvp-label,
 .wedding-invitation-app.mobile-pro-theme .wish-label,
 .wedding-invitation-app.mobile-pro-theme .form-card-title,
@@ -3826,7 +4087,8 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .wish-input,
 .wedding-invitation-app.mobile-pro-theme .wish-textarea {
   background: #ffffff !important;
-  border: 1px solid #D2BFA9 !important;
+  border: 1px solid rgba(96, 66, 56, 0.22) !important;
+  border-radius: 3px !important;
   color: #35231F !important;
 }
 
@@ -3834,35 +4096,37 @@ body.is-invitation-mode textarea {
 .wedding-invitation-app.mobile-pro-theme .rsvp-textarea:focus,
 .wedding-invitation-app.mobile-pro-theme .wish-input:focus,
 .wedding-invitation-app.mobile-pro-theme .wish-textarea:focus {
-  border-color: #C5A36A !important;
-  box-shadow: 0 0 0 3px rgba(197, 163, 106, 0.24) !important;
+  border-color: #604238 !important;
+  box-shadow: 0 0 0 2px rgba(96, 66, 56, 0.12) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .choice-btn,
 .wedding-invitation-app.mobile-pro-theme .count-pill,
 .wedding-invitation-app.mobile-pro-theme .side-chip-btn {
-  background: #EDE3D5 !important;
-  border: 1px solid #D2BFA9 !important;
+  background: #F4EFE6 !important;
+  border: 1px solid rgba(96, 66, 56, 0.2) !important;
+  border-radius: 3px !important;
   color: #35231F !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .choice-btn.active {
-  background: rgba(197, 163, 106, 0.2) !important;
-  border-color: #604238 !important;
-  box-shadow: 0 4px 12px rgba(53, 35, 31, 0.12) !important;
+  background: rgba(53, 35, 31, 0.08) !important;
+  border-color: #35231F !important;
+  box-shadow: none !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .count-pill.active,
 .wedding-invitation-app.mobile-pro-theme .side-chip-btn.active {
   background: #35231F !important;
-  border-color: #C5A36A !important;
+  border-color: #35231F !important;
   color: #EDE3D5 !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .quick-chip,
 .wedding-invitation-app.mobile-pro-theme .feed-refresh-btn {
-  background: #EDE3D5 !important;
-  border: 1px solid #D2BFA9 !important;
+  background: #F4EFE6 !important;
+  border: 1px solid rgba(96, 66, 56, 0.18) !important;
+  border-radius: 3px !important;
   color: #604238 !important;
 }
 
@@ -3872,8 +4136,9 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .wish-bubble-card {
-  background: #EDE3D5 !important;
-  border: 1px solid #D2BFA9 !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(96, 66, 56, 0.14) !important;
+  border-radius: 3px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .rsvp-label .req {
@@ -3881,18 +4146,19 @@ body.is-invitation-mode textarea {
 }
 
 .wedding-invitation-app.mobile-pro-theme .wish-like-btn.liked {
-  border-color: #C5A36A !important;
-  color: #604238 !important;
-  background: rgba(197, 163, 106, 0.18) !important;
+  border-color: #604238 !important;
+  color: #35231F !important;
+  background: rgba(197, 163, 106, 0.14) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .rsvp-submit-btn,
 .wedding-invitation-app.mobile-pro-theme .wish-submit-btn,
 .wedding-invitation-app.mobile-pro-theme .copy-stk-btn {
-  background: linear-gradient(135deg, #4A322B 0%, #35231F 100%) !important;
+  background: #35231F !important;
   color: #EDE3D5 !important;
-  border: 1px solid #C5A36A !important;
-  box-shadow: 0 8px 22px rgba(53, 35, 31, 0.25) !important;
+  border: 1px solid #35231F !important;
+  border-radius: 3px !important;
+  box-shadow: 0 6px 18px rgba(53, 35, 31, 0.16) !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .copy-stk-btn {
@@ -3938,10 +4204,10 @@ body.is-invitation-mode textarea {
   justify-content: center !important;
   padding: 10px !important;
   margin: 0 auto 18px !important;
-  border: 1px solid #D2BFA9 !important;
-  border-radius: 16px !important;
+  border: 1px solid rgba(96, 66, 56, 0.16) !important;
+  border-radius: 3px !important;
   background: #ffffff !important;
-  box-shadow: 0 6px 18px rgba(53, 35, 31, 0.08) !important;
+  box-shadow: none !important;
   box-sizing: border-box !important;
 }
 
@@ -3949,7 +4215,7 @@ body.is-invitation-mode textarea {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  border-radius: 10px !important;
+  border-radius: 2px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .gift-bank-details {
@@ -3990,11 +4256,11 @@ body.is-invitation-mode textarea {
 }
 
 .couple-arch-card.groom-card .arch-portrait-img {
-  object-position: 70% 28%;
+  object-position: center 16%;
 }
 
 .couple-arch-card.bride-card .arch-portrait-img {
-  object-position: center 25%;
+  object-position: center 16%;
 }
 
 /* =========================================================
@@ -4058,13 +4324,13 @@ body.is-invitation-mode textarea {
 }
 
 .header-personalized-guest-box {
-  background: #F7F2EA;
-  border: 1px solid #C5A36A;
-  border-radius: 16px;
-  padding: 14px 18px;
-  margin: 14px auto 4px;
+  background: #F9F5EE;
+  border: 1px solid rgba(96, 66, 56, 0.2);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px auto 4px;
   max-width: 440px;
-  box-shadow: 0 10px 28px rgba(53, 35, 31, 0.08);
+  box-shadow: 0 6px 20px rgba(53, 35, 31, 0.05);
 }
 
 .guest-box-label {
@@ -4093,120 +4359,281 @@ body.is-invitation-mode textarea {
 }
 
 /* =========================================================
-   4. SECTION: THE GROOM & THE BRIDE (#about)
+   4. SECTION: THE GROOM & THE BRIDE (#about — NÉT KÝ YÊU THƯƠNG)
    ========================================================= */
-.couple-intro-section {
-  padding: 24px 16px;
+.couple-intro-section.nk-couple-section {
+  padding: 36px 14px 40px;
 }
 
-.couple-cards-grid {
+.nk-signature-header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 28px;
+}
+
+.nk-bow-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.nk-bow-wrap svg {
+  animation: heroDatePulse 3.6s ease-in-out infinite;
+}
+
+.nk-signature-names {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-editorial);
+  font-size: clamp(2.1rem, 6.2vw, 3.1rem);
+  font-weight: 700;
+  color: #B07A7A;
+  line-height: 1.15;
+}
+
+.nk-sig-amp {
+  font-family: var(--font-editorial);
+  font-size: 0.78em;
+  color: #96745F;
+}
+
+.nk-journey-sub {
+  font-family: var(--font-serif-soft);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+  color: #643E32;
+  margin: 8px 0 0;
+  letter-spacing: 0.02em;
+}
+
+/* True Side-by-Side Staggered Checkerboard Grid */
+.nk-staggered-grid {
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  margin-top: 14px;
+  gap: 24px;
+  max-width: 820px;
+  margin: 0 auto;
 }
 
-.couple-arch-card {
+.nk-row {
+  display: grid;
+  align-items: center;
+  gap: 14px;
+}
+
+.nk-row-groom {
+  grid-template-columns: 1.16fr 0.84fr;
+}
+
+.nk-row-bride {
+  grid-template-columns: 0.84fr 1.16fr;
+  margin-top: -10px;
+}
+
+.nk-photo-frame {
   position: relative;
-  border-radius: 9999px 9999px 18px 18px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 14px 36px rgba(53, 35, 31, 0.12);
-  border: 1.5px solid #D2BFA9;
-  background: #F7F2EA;
+  box-shadow: 0 16px 36px -10px rgba(90, 62, 50, 0.22);
 }
 
-.arch-media-wrap {
-  position: relative;
+.nk-portrait-img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-}
-
-.arch-portrait-img {
-  width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 3.7;
   object-fit: cover;
+  object-position: center 15%;
   display: block;
-  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.couple-arch-card:hover .arch-portrait-img {
-  transform: scale(1.04);
+.nk-photo-frame:hover .nk-portrait-img {
+  transform: scale(1.03);
 }
 
-/* Frosted Ivory Banner Overlay on Portrait */
-.arch-glass-banner {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(247, 242, 234, 0.93);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 16px 16px;
-  border-top: 1px solid rgba(197, 163, 106, 0.55);
-  text-align: center;
+/* Open-Paper Two Family Details (Zero Boxes, Clean Typography) */
+.nk-family-info {
+  padding: 6px 2px;
+  text-align: left;
+  color: #643E32;
 }
 
-.arch-role-script {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.75rem;
-  color: #96745F;
-  display: block;
-  line-height: 1;
+.nk-family-info.align-right {
+  text-align: right;
 }
 
-.arch-person-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.38rem;
-  font-weight: 700;
-  color: #35231F;
-  margin: 3px 0;
+.nk-house-heading {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: clamp(1rem, 2.8vw, 1.32rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #643E32;
+  margin: 0 0 6px;
 }
 
-.arch-person-subrole {
-  font-family: 'Montserrat', 'Be Vietnam Pro', sans-serif;
-  font-size: 0.72rem;
-  color: #96745F;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  margin-bottom: 6px;
+.nk-dotted-rule {
+  display: inline-block;
+  width: 58px;
+  height: 0;
+  border-bottom: 1.5px dotted rgba(176, 122, 122, 0.85);
+  margin-bottom: 10px;
 }
 
-.arch-parents-info {
-  font-size: 0.82rem;
-  color: #604238;
-  line-height: 1.45;
-  border-top: 1px dashed rgba(197, 163, 106, 0.55);
-  padding-top: 8px;
-  margin-top: 4px;
+.nk-parents-lines {
+  font-family: var(--font-body);
+  font-size: clamp(0.76rem, 2.1vw, 0.92rem);
+  line-height: 1.55;
+  color: #5A3E32;
 }
 
-.arch-parents-info p {
+.nk-parents-lines p {
   margin: 2px 0;
 }
 
-.arch-contact-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  background: #EDE3D5;
-  border: 1px solid #D2BFA9;
-  color: #35231F;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
+.nk-house-location {
+  font-family: var(--font-serif-soft);
+  font-style: italic;
+  font-size: clamp(0.74rem, 1.9vw, 0.86rem);
+  color: #8C6E60;
+  margin: 6px 0 10px;
 }
 
-.arch-contact-btn:hover {
-  background: #35231F;
-  border-color: #C5A36A;
-  color: #EDE3D5;
+.nk-child-name-block {
+  margin-top: 4px;
+}
+
+.nk-role-caption {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #96745F;
+  margin-bottom: 2px;
+}
+
+.nk-person-script {
+  display: block;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.22rem, 3.6vw, 1.68rem);
+  font-weight: 700;
+  color: #35231F;
+  line-height: 1.25;
+}
+
+.nk-phone-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #96745F;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(197, 163, 106, 0.55);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nk-phone-link:hover {
+  color: #35231F;
+  border-color: #35231F;
+}
+
+/* Staggered Asymmetric Gallery Collage (Nét Ký Style) */
+.nk-gallery-collage {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  max-width: 960px;
+  margin: 18px auto 0;
+}
+
+.nk-collage-tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 10px 28px -8px rgba(53, 35, 31, 0.2);
+}
+
+.nk-collage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nk-collage-tile:hover .nk-collage-img {
+  transform: scale(1.05);
+}
+
+.nk-tile-hover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(30, 18, 14, 0.78) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nk-collage-tile:hover .nk-tile-hover {
+  opacity: 1;
+}
+
+.nk-tile-title {
+  color: #FAF4EC;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.nk-tile-hint {
+  color: #E5C890;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Staggered Asymmetric 12-Col Geometry */
+.nk-collage-tile.tile-0 {
+  grid-column: 1 / span 7;
+  grid-row: 1 / span 2;
+  min-height: 280px;
+}
+
+.nk-collage-tile.tile-1 {
+  grid-column: 8 / span 5;
+  grid-row: 1;
+  aspect-ratio: 4 / 4.2;
+}
+
+.nk-collage-tile.tile-2 {
+  grid-column: 8 / span 5;
+  grid-row: 2;
+  aspect-ratio: 4 / 4.2;
+}
+
+.nk-collage-tile.tile-3 {
+  grid-column: 1 / span 5;
+  grid-row: 3;
+  aspect-ratio: 4 / 4.6;
+}
+
+.nk-collage-tile.tile-4 {
+  grid-column: 6 / span 7;
+  grid-row: 3;
+  aspect-ratio: 4 / 3.28;
 }
 
 /* =========================================================
@@ -4214,14 +4641,14 @@ body.is-invitation-mode textarea {
    ========================================================= */
 .invitation-countdown-banner {
   position: relative;
-  border-radius: 44px 44px 20px 20px;
+  border-radius: 4px;
   overflow: hidden;
   margin-top: 24px;
   padding: 48px 18px;
   color: #EDE3D5;
   text-align: center;
-  border: 1px solid rgba(197, 163, 106, 0.55);
-  box-shadow: 0 24px 54px rgba(53, 35, 31, 0.28);
+  border: none;
+  box-shadow: 0 18px 42px rgba(53, 35, 31, 0.22);
 }
 
 .countdown-banner-bg {
@@ -4280,13 +4707,13 @@ body.is-invitation-mode textarea {
   background: rgba(53, 35, 31, 0.72);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(197, 163, 106, 0.45);
-  border-radius: 12px;
+  border: 1px solid rgba(237, 227, 213, 0.22);
+  border-radius: 3px;
   padding: 14px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: none;
 }
 
 .countdown-box .box-number {
@@ -4308,9 +4735,9 @@ body.is-invitation-mode textarea {
 }
 
 .countdown-box.highlight {
-  border-color: #C5A36A;
+  border-color: rgba(197, 163, 106, 0.55);
   background: rgba(96, 66, 56, 0.78);
-  box-shadow: 0 0 18px rgba(197, 163, 106, 0.3);
+  box-shadow: none;
 }
 
 .countdown-box.highlight .box-number {
@@ -4340,8 +4767,8 @@ body.is-invitation-mode textarea {
   color: #EDE3D5;
   text-align: center;
   overflow: hidden;
-  border-radius: 28px 28px 0 0;
-  border-top: 1.5px solid #C5A36A;
+  border-radius: 4px;
+  border-top: 1px solid rgba(197, 163, 106, 0.45);
 }
 
 .thankyou-bg-wrap {
@@ -4615,29 +5042,43 @@ body.is-invitation-mode textarea {
 /* Short mobile viewport adaptation (e.g. iPhone SE 375x667 or Zalo/Safari bars) */
 @media (max-height: 740px) {
   .preload-container {
-    padding: 36px 14px 18px;
+    padding: 32px 14px 12px;
   }
 
   .preload-royal-card {
-    padding: 38px 18px 20px;
+    padding: 34px 16px 18px;
   }
 
   .preload-royal-wax-seal {
-    width: 54px;
-    height: 54px;
+    width: 52px;
+    height: 52px;
   }
 
   .preload-card-inner {
     gap: 5px;
   }
 
+  .preload-groom-name,
+  .preload-bride-name {
+    font-size: clamp(1.8rem, 6.2vw, 2.2rem);
+  }
+
   .preload-date-box {
     padding: 6px 0;
   }
 
+  .preload-cta-btn-wrap {
+    margin-top: 6px;
+  }
+
+  .preload-royal-open-btn {
+    min-height: 44px;
+    padding: 10px 24px;
+  }
+
   .preload-open-hint {
-    margin-top: 10px;
-    font-size: 0.66rem;
+    margin-top: 8px;
+    font-size: 0.64rem;
   }
 }
 
@@ -4685,24 +5126,39 @@ body.is-invitation-mode textarea {
     font-size: 1.95rem;
   }
 
-  /* 2. The Groom & The Bride (#about): 2 columns side-by-side */
-  .couple-cards-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 36px !important;
-    max-width: 880px !important;
-    margin: 24px auto 0 auto !important;
+  /* 2. The Groom & The Bride (#about): Nét Ký Staggered Open-Paper Editorial Spread */
+  .nk-staggered-grid {
+    gap: 12px;
+    max-width: 860px;
   }
 
-  .couple-arch-card {
-    border-radius: 9999px 9999px 24px 24px;
+  .nk-row {
+    gap: 44px;
   }
 
-  /* 3. Countdown Banner (#countdown): Wide panoramic Dark Chocolate banner */
+  .nk-row-groom {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+
+  .nk-row-bride {
+    grid-template-columns: 0.95fr 1.05fr;
+    margin-top: -32px;
+  }
+
+  .nk-gallery-collage {
+    gap: 16px;
+    max-width: 960px;
+  }
+
+  .nk-collage-tile.tile-0 {
+    min-height: 440px;
+  }
+
+  /* 3. Countdown Banner (#countdown): Sharp Wide Chocolate Editorial Banner */
   .invitation-countdown-banner {
     max-width: 1140px;
     margin: 44px auto 24px auto;
-    border-radius: 48px;
+    border-radius: 4px;
     padding: 64px 40px;
   }
 
@@ -4717,7 +5173,7 @@ body.is-invitation-mode textarea {
 
   .countdown-box {
     padding: 22px 14px;
-    border-radius: 18px;
+    border-radius: 3px;
   }
 
   .countdown-box .box-number {
@@ -4766,8 +5222,8 @@ body.is-invitation-mode textarea {
   }
 
   .gallery-card-item {
-    border-radius: 16px !important;
-    border: 1px solid #D2BFA9 !important;
+    border-radius: 2px !important;
+    border: none !important;
     box-shadow: 0 10px 26px rgba(53, 35, 31, 0.1) !important;
     height: 100% !important;
   }
@@ -4835,13 +5291,13 @@ body.is-invitation-mode textarea {
     margin: 0 auto 36px auto !important;
   }
 
-  /* 10. Thank You (#thankyou): Cinematic Dark Chocolate closing card */
+  /* 10. Thank You (#thankyou): Sharp Modern Dark Chocolate closing card */
   .invitation-thank-you-section {
     max-width: 1140px;
     margin: 44px auto;
-    border-radius: 44px;
+    border-radius: 4px;
     padding: 80px 44px;
-    border: 1px solid #C5A36A;
+    border: none;
   }
 
   .thankyou-content-card {
@@ -4943,16 +5399,16 @@ body.is-invitation-mode textarea {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #4A322B 0%, #35231F 100%);
+  background: #35231F;
   color: #EDE3D5;
-  border: 1px solid #C5A36A;
-  border-radius: 9999px;
+  border: 1px solid #35231F;
+  border-radius: 3px;
   padding: 12px 28px;
   font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   cursor: pointer;
-  box-shadow: 0 10px 26px rgba(53, 35, 31, 0.28);
+  box-shadow: 0 8px 20px rgba(53, 35, 31, 0.16);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -4963,7 +5419,7 @@ body.is-invitation-mode textarea {
 
 .gallery-open-album-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(53, 35, 31, 0.38), 0 0 16px rgba(197, 163, 106, 0.35);
+  box-shadow: 0 12px 26px rgba(53, 35, 31, 0.24);
 }
 
 .wedding-invitation-app.mobile-pro-theme .gallery-lightbox-backdrop {
@@ -4981,8 +5437,8 @@ body.is-invitation-mode textarea {
 
 .wedding-invitation-app.mobile-pro-theme .lightbox-full-img {
   max-height: 64vh !important;
-  border: 1.5px solid rgba(197, 163, 106, 0.65);
-  border-radius: 12px !important;
+  border: none !important;
+  border-radius: 2px !important;
 }
 
 .wedding-invitation-app.mobile-pro-theme .lightbox-nav-btn {

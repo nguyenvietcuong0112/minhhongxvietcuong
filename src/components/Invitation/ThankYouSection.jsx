@@ -11,12 +11,12 @@ const ThankYouSection = ({ groomName = 'Việt Cường', brideName = 'Minh Hồ
     <section className="invitation-thank-you-section" id="thankyou" data-aos="fade-up">
       <div className="thankyou-bg-wrap">
         <img
-          src={process.env.PUBLIC_URL + '/anh6.jpg'}
+          src={process.env.PUBLIC_URL + '/photos/concep3.jpg'}
           alt="Lời Cảm Ơn"
           className="thankyou-bg-img"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+            e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
           }}
         />
         <div className="thankyou-overlay" />

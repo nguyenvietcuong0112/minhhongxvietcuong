@@ -44,12 +44,12 @@ const CountdownBannerSection = ({ targetDate = '2026-12-26T08:30:00+07:00' }) =>
       {/* Background Image with Dark Tint */}
       <div className="countdown-banner-bg">
         <img
-          src={process.env.PUBLIC_URL + '/anh5.jpg'}
+          src={process.env.PUBLIC_URL + '/photos/concep4.jpg'}
           alt="Đếm ngược ngày cưới"
           className="countdown-bg-img"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = process.env.PUBLIC_URL + '/anh6.jpg';
+            e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01351.jpg';
           }}
         />
         <div className="countdown-bg-overlay" />

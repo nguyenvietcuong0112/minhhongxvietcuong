@@ -25,17 +25,18 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
     ];
   }, []);
 
-  // Champagne & antique gold petals for opening burst
+  // Champagne, antique gold petals & shimmering motes for opening burst
   const burstPetals = useMemo(() => {
-    return Array.from({ length: 18 }).map((_, i) => {
-      const angle = (i / 18) * Math.PI * 2;
-      const dist = 120 + (i % 3) * 65;
+    return Array.from({ length: 28 }).map((_, i) => {
+      const angle = (i / 28) * Math.PI * 2 + (i % 2) * 0.12;
+      const dist = 110 + (i % 4) * 58;
+      const variant = i % 3 === 0 ? 'petal-gold' : i % 3 === 1 ? 'petal-champagne' : 'mote-sparkle';
       return {
         tx: `${Math.round(Math.cos(angle) * dist)}px`,
-        ty: `${Math.round(Math.sin(angle) * dist - 30)}px`,
-        rot: `${(i * 47) % 360}deg`,
-        delay: `${(i % 4) * 45}ms`,
-        isGold: i % 2 === 0,
+        ty: `${Math.round(Math.sin(angle) * dist - 26)}px`,
+        rot: `${(i * 53) % 360}deg`,
+        delay: `${(i % 6) * 42}ms`,
+        variant,
       };
     });
   }, []);
@@ -47,7 +48,7 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
     if (onStartOpening) onStartOpening();
     setTimeout(() => {
       onOpen();
-    }, 1220);
+    }, 1420);
   };
 
   const groom = data?.groom || {};
@@ -59,12 +60,12 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
       <div className="imperial-curtain-panel curtain-left" aria-hidden="true">
         <div className="curtain-bg-photo">
           <img
-            src={process.env.PUBLIC_URL + '/anh6.jpg'}
+            src={process.env.PUBLIC_URL + '/photos/HUY01351.jpg'}
             alt=""
             className="preload-kenburns-img"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+              e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
             }}
           />
           <div className="preload-chocolate-overlay" />
@@ -75,12 +76,12 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
       <div className="imperial-curtain-panel curtain-right" aria-hidden="true">
         <div className="curtain-bg-photo">
           <img
-            src={process.env.PUBLIC_URL + '/anh6.jpg'}
+            src={process.env.PUBLIC_URL + '/photos/HUY01351.jpg'}
             alt=""
             className="preload-kenburns-img"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+              e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
             }}
           />
           <div className="preload-chocolate-overlay" />
@@ -117,14 +118,16 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
         <span className="gold-sparkle sp-5" />
       </div>
 
-      {/* 4. Opening Champagne & Antique Gold Burst */}
+      {/* 4. Opening Champagne Gold Light Veil, Dual Ripples & 28 Petals Burst */}
       {opening && (
         <div className="opening-burst-layer" aria-hidden="true">
+          <div className="opening-light-veil" />
           <div className="opening-golden-ripple" />
+          <div className="opening-golden-ripple secondary" />
           {burstPetals.map((p, idx) => (
             <span
               key={idx}
-              className={`burst-petal ${p.isGold ? 'petal-gold' : 'petal-champagne'}`}
+              className={`burst-petal ${p.variant}`}
               style={{
                 '--tx': p.tx,
                 '--ty': p.ty,
@@ -139,8 +142,11 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
       {/* 5. Centered Ivory Mocha Card Container */}
       <div className="preload-container" onClick={handleOpen}>
         <div className="preload-royal-card" onClick={handleOpen}>
-          {/* Inner clipped layer for sepia botanical corners */}
+          {/* Inner clipped layer for sepia botanical corners, silk sheen & V-flap fold */}
           <div className="preload-card-bg-clip" aria-hidden="true">
+            <div className="preload-envelope-vfold" />
+            <div className="preload-silk-ribbon" />
+            <div className="card-satin-glint" />
             <div className="preload-botanical-corner top-left">
               <img
                 src={process.env.PUBLIC_URL + '/assets/sakura/sakura_top_branch.png'}
@@ -163,6 +169,7 @@ const CoverPreloadSection = ({ data, onStartOpening, onOpen, isOpened, guestName
             className={`preload-royal-wax-seal ${opening ? 'seal-breaking' : ''}`}
             title="Chạm để mở thiệp cưới"
           >
+            <span className="seal-halo-ring" aria-hidden="true" />
             <div className="seal-emblem-wrap" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
                 <circle cx="12.5" cy="17.5" r="7" stroke="#35231F" strokeWidth="1.8" />

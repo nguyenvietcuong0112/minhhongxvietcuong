@@ -290,22 +290,22 @@ const CeremonyStage = ({ data, theme, layoutMode, isSlideshow, onLayoutChange })
               {/* Modern Minimalist Arch holding couple photo with Ken Burns & Light Leak Flare */}
               <div className={`modern-arch-frame ${incomingIdx !== null ? 'transitioning' : ''}`}>
                 <img
-                  src={photos[activeIdx]?.url || process.env.PUBLIC_URL + '/anh1.jpg'}
+                  src={photos[activeIdx]?.url || process.env.PUBLIC_URL + '/photos/HUY01657.jpg'}
                   alt="Việt Cường & Minh Hồng"
                   className={`modern-arch-img base-layer ${getKenBurnsClass(activeIdx)}`}
                   onError={(e) => {
                     e.currentTarget.onerror = null;
-                    e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                    e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
                   }}
                 />
                 {incomingIdx !== null && (
                   <img
-                    src={photos[incomingIdx]?.url || process.env.PUBLIC_URL + '/anh1.jpg'}
+                    src={photos[incomingIdx]?.url || process.env.PUBLIC_URL + '/photos/HUY01657.jpg'}
                     alt="Việt Cường & Minh Hồng"
                     className={`modern-arch-img incoming-layer ${getKenBurnsClass(incomingIdx)}`}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
+                      e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01657.jpg';
                     }}
                   />
                 )}

@@ -214,20 +214,25 @@ const WeddingInvitationView = ({
             <span>26 • 27 THÁNG 12, 2026</span>
           </div>
 
-          {/* Large Editorial Hero Photograph */}
-          <div className="hero-editorial-photo-wrap" data-aos="zoom-in" data-aos-delay="100">
+          {/* Clean Borderless Warm Editorial Hero Photograph */}
+          <div className="hero-editorial-photo-wrap" data-aos="fade-up" data-aos-delay="100">
             <div className="hero-editorial-arch">
-              <img
-                src={process.env.PUBLIC_URL + '/anh6.jpg'}
-                alt="Nguyễn Việt Cường & Lê Minh Hồng"
-                className="hero-editorial-img"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = process.env.PUBLIC_URL + '/anh1.jpg';
-                }}
-              />
-              <div className="hero-editorial-caption">
-                <span>SAVE THE DATE • HÀ NỘI, MÙA ĐÔNG 2026</span>
+              <div className="hero-photo-stage">
+                <img
+                  src={process.env.PUBLIC_URL + '/photos/HUY01657.jpg'}
+                  alt="Nguyễn Việt Cường & Lê Minh Hồng"
+                  className="hero-editorial-img"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = process.env.PUBLIC_URL + '/photos/HUY01786.jpg';
+                  }}
+                />
+                <div className="hero-photo-note-overlay">
+                  <span className="hero-note-date">26 • 27.12.2026</span>
+                  <p className="hero-note-quote">
+                    “Chúng ta đã cùng nhau đi qua nhiều thăng trầm để nhận ra rằng được ở bên nhau là điều quý giá nhất.”
+                  </p>
+                </div>
               </div>
             </div>
           </div>
